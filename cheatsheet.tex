@@ -1,0 +1,470 @@
+% !TEX program  = lualatex
+% Cheat Sheet — alle Umgebungen & Befehle der Lernzettel-Vorlage
+% Kompilieren: latexmk -lualatex cheatsheet.tex  (oder: make cheatsheet)
+% ──────────────────────────────────────────────────────────────────────────────
+\documentclass[a4paper, 11pt, ngerman]{article}
+
+\usepackage[table, dvipsnames]{xcolor}
+
+\input{config/colormeta}
+\input{config/usermeta}
+\input{config/topicmeta}
+\input{preamble/packages}
+\input{preamble/commands}
+\input{preamble/styles}
+
+% Engere Ränder als im Hauptdokument
+\geometry{a4paper, margin=1.4cm, top=1.6cm, bottom=1.6cm,
+          includeheadfoot, headheight=14pt}
+
+% LaTeX-Syntax-Highlighting für tcblisting
+\lstdefinestyle{latexcs}{%
+  language=[LaTeX]TeX,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{accent}\bfseries,
+  commentstyle=\color{primary!45!white}\itshape,
+  texcsstyle=*\color{accent},
+  moretexcs={step,pro,con,sidetables,makelernzetteltitle,
+             docauthor,doccourse,docstudentid,docsemester,doctitle,
+             docsubtitle,docsubject,docdescription,mainfont,sansfont,
+             monofont,contentmargin,parskipval,boxinnersep,definecolor,
+             rowcolor,rowcolors,cellcolor},
+  breaklines=true,
+  frame=none,
+  keepspaces=true,
+  showstringspaces=false,
+  columns=flexible,
+  tabsize=2,
+}
+
+% Basis-Style für alle Cheatsheet-Boxen
+\tcbset{
+  cs/.style={
+    enhanced, breakable,
+    colback=white, colframe=primary!18!white,
+    boxrule=0.7pt, arc=5pt,
+    fonttitle=\sffamily\bfseries\small,
+    colbacktitle=primary, coltitle=white,
+    top=6pt, bottom=6pt, left=7pt, right=7pt,
+    listing options={style=latexcs},
+  },
+}
+
+% Kopf- & Fußzeile des Cheatsheets
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{primary}\textbf{Lernzettel-Template} \textcolor{primary!45!black}{— Cheat Sheet}}
+\fancyhead[R]{\small\sffamily\color{primary!55!black}\today}
+\fancyfoot[C]{\small\color{primary!50!black}\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\color{primary!25!white}\hrule width\headwidth height\headrulewidth}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{document}
+\thispagestyle{empty}
+
+% ── Großer Header ─────────────────────────────────────────────────────────────
+\begin{tcolorbox}[
+  enhanced, arc=6pt, boxrule=0pt,
+  colback=primary, coltext=white,
+  left=16pt, right=16pt, top=13pt, bottom=13pt,
+]
+  {\huge\bfseries\sffamily Lernzettel-Template}%
+  \quad{\normalsize\color{accent!70!white}\sffamily v1.0 · LuaLaTeX + Biber}\\[0.3em]
+  {\large\color{accent!80!white} Cheat Sheet — Alle Umgebungen \& Befehle auf einen Blick}\\[0.25em]
+  {\small\color{white!65!primary}
+    Konfiguration: \texttt{config/colormeta.tex}\enspace|\enspace
+    Kompilieren: \texttt{make build}\enspace|\enspace
+    Dokumentation: \texttt{README.md}
+  }
+\end{tcolorbox}
+
+\vspace{0.55em}
+
+% ── 1 + 2: infobox / warnbox nebeneinander ───────────────────────────────────
+\noindent
+\begin{minipage}[t]{0.487\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{infobox} — Informations-/Definitions-Box},
+  listing above text,
+}
+% Ohne Titel:
+\begin{infobox}
+  Allgemeiner Hinweis oder Info.
+\end{infobox}
+% Mit optionalem Titel:
+\begin{infobox}[Definition: Algorithmus]
+  Eine präzise, endliche Folge von
+  Schritten zur Lösung eines Problems.
+\end{infobox}
+\end{tcblisting}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.487\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{warnbox} — Warnhinweis / Tipp-Box},
+  listing above text,
+}
+% Ohne Titel:
+\begin{warnbox}
+  Wichtiger Hinweis ohne Titel.
+\end{warnbox}
+% Mit optionalem Titel:
+\begin{warnbox}[Achtung: Off-by-one!]
+  Array-Indizes beginnen bei 0,
+  nicht bei 1. Typische Fehlerquelle.
+\end{warnbox}
+\end{tcblisting}
+\end{minipage}
+
+\vspace{0.45em}
+
+% ── 3: process + \step ────────────────────────────────────────────────────────
+\begin{tcblisting}{cs,
+  title={\texttt{process} + \texttt{\textbackslash step\{text\}} — Nummerierte Schrittfolge mit farbigem Rand},
+  listing side text,
+  righthand width=0.41\linewidth,
+}
+\begin{process}
+  \step{Aufgabe lesen und verstehen}
+  \step{Lösungsstrategie entwerfen}
+  \step{Implementieren und testen}
+  \step{Ergebnisse dokumentieren}
+\end{process}
+\end{tcblisting}
+
+\vspace{0.45em}
+
+% ── 4: codebox ────────────────────────────────────────────────────────────────
+\begin{tcblisting}{cs,
+  title={\texttt{codebox} — Monospace-Block, grauer Hintergrund (kein Syntax-Highlighting)},
+  listing side text,
+  righthand width=0.41\linewidth,
+}
+\begin{codebox}
+latexmk -lualatex main.tex\\
+biber main\\
+latexmk -lualatex main.tex
+\end{codebox}
+\end{tcblisting}
+
+\vspace{0.45em}
+
+% ── 5: procon ─────────────────────────────────────────────────────────────────
+\begin{tcblisting}{cs,
+  title={\texttt{procon} + \texttt{\textbackslash pro\{...\}} / \texttt{\textbackslash con\{...\}} — Vor-/Nachteil-Vergleich, zwei Spalten},
+  listing above text,
+}
+\begin{procon}
+  \pro{Klare visuelle Trennung von Vorteilen und Nachteilen}
+  \pro{Beliebig viele Einträge pro Seite möglich}
+  \con{Nur für Stichpunkt-Vergleiche, kein Fließtext}
+  \con{Breite fest bei je 47{,}5\,\% der Textbreite}
+\end{procon}
+\end{tcblisting}
+
+\vspace{0.45em}
+
+% ── 6: stdtable ───────────────────────────────────────────────────────────────
+\begin{tcblisting}{cs,
+  title={\texttt{stdtable\{Spalten\}\{Kopfzeile\}} — Formatierte Tabelle, farbige Kopfzeile, alternierende Zeilen},
+  listing above text,
+}
+\begin{stdtable}{l X r}{Algorithmus & Beschreibung & Komplexität}
+  Quicksort  & Teile-und-Herrsche, in-place          & $O(n \log n)$ \\
+  Bubblesort & Vergleichsbasiert, einfach             & $O(n^2)$      \\
+  Mergesort  & Stabil, rekursiv, extra Speicher       & $O(n \log n)$ \\
+\end{stdtable}
+\end{tcblisting}
+
+\vspace{0.45em}
+
+% ── 7: \sidetables ────────────────────────────────────────────────────────────
+\begin{tcblisting}{cs,
+  title={\texttt{\textbackslash sidetables\{Links\}\{Rechts\}} — Zwei beliebige Inhalte nebeneinander (Tabellen, Listen, …)},
+  listing above text,
+}
+\sidetables{%
+  \begin{stdtable}{l X}{Sprache & Paradigma}
+    Python & Interpretiert, multi-paradigm \\
+    Rust   & Kompiliert, speichersicher    \\
+  \end{stdtable}
+}{%
+  \begin{stdtable}{l X}{Datenstruktur & Zugriff}
+    Array  & $O(1)$ Random-Access \\
+    Liste  & $O(n)$ lineare Suche \\
+  \end{stdtable}
+}
+\end{tcblisting}
+
+% ── 8 + 9 + 10: merksatz / beispiel / aufgabe ────────────────────────────────
+\noindent
+\begin{minipage}[t]{0.318\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{merksatz} — Wichtiger Satz},
+  listing above text,
+}
+% Mit Titel:
+\begin{merksatz}[Satz]
+  $a^2 + b^2 = c^2$
+\end{merksatz}
+% Ohne Titel:
+\begin{merksatz}
+  Immer terminieren!
+\end{merksatz}
+\end{tcblisting}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.318\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{beispiel} — Beispiel-Box},
+  listing above text,
+}
+\begin{beispiel}[Quicksort]
+  Pivot = 3:\\
+  Links: [1, 1]\\
+  Rechts: [4, 5]
+\end{beispiel}
+\end{tcblisting}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.318\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{aufgabe} — Aufgabe (gezählt)},
+  listing above text,
+}
+\begin{aufgabe}[Analyse]
+  Zeitkomplexität von
+  Bubblesort bestimmen.
+\end{aufgabe}
+\begin{aufgabe}
+  Zähler läuft automatisch.
+\end{aufgabe}
+\end{tcblisting}
+\end{minipage}
+
+\vspace{0.45em}
+
+% ── 11: konzeptkarte + \kzweispaltig ─────────────────────────────────────────
+\begin{tcblisting}{cs,
+  title={\texttt{konzeptkarte\{Titel\}} + \texttt{\textbackslash kzweispaltig\{links\}\{rechts\}} — Karte mit Tabelle \& Prozess nebeneinander},
+  listing above text,
+}
+\begin{konzeptkarte}{Mergesort}
+  Stabiler Teile-und-Herrsche-Algorithmus. Garantiert $O(n \log n)$.
+  \kzweispaltig{%
+    \begin{stdtable}{l X}{Eigenschaft & Wert}
+      Stabil  & Ja  \\
+      Speicher & $O(n)$ \\
+    \end{stdtable}
+  }{%
+    \begin{process}
+      \step{Liste halbieren}
+      \step{Rekursiv sortieren}
+      \step{Zusammenmischen}
+    \end{process}
+  }
+\end{konzeptkarte}
+\end{tcblisting}
+
+\vspace{0.45em}
+
+% ── 12 + 13: \icode + syntaxbox ──────────────────────────────────────────────
+\noindent
+\begin{minipage}[t]{0.36\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{\textbackslash icode\{...\}} — Inline-Code},
+  listing above text,
+}
+Die Funktion \icode{sort(arr)}
+hat Komplexität $O(n \log n)$.
+\icode{NullPointerException}
+tritt bei \icode{arr == null}
+auf.
+\end{tcblisting}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.61\linewidth}
+\begin{tcblisting}{cs,
+  title={\texttt{syntaxbox[Sprache]} — Code mit Syntax-Highlighting (Standard: Python)},
+  listing above text,
+}
+\begin{syntaxbox}[Python]
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left  = [x for x in arr if x < pivot]
+    right = [x for x in arr if x > pivot]
+    return quicksort(left) + [pivot] + quicksort(right)
+\end{syntaxbox}
+\end{tcblisting}
+\end{minipage}
+
+\clearpage
+
+% ── 14: Konfiguration ─────────────────────────────────────────────────────────
+\section*{Konfiguration}
+
+\noindent
+\begin{minipage}[t]{0.487\linewidth}
+
+\begin{tcblisting}{cs,
+  title={\texttt{config/usermeta.tex} — Autordaten},
+  listing only,
+}
+% Diese Werte erscheinen auf der Titelseite.
+\newcommand{\docauthor}{Max Mustermann}
+\newcommand{\doccourse}{Informatik B.Sc.}
+\newcommand{\docstudentid}{12345678}
+\newcommand{\docsemester}{SoSe 2025}
+\newcommand{\docdate}{\today}
+\end{tcblisting}
+
+\vspace{0.4em}
+
+\begin{tcblisting}{cs,
+  title={\texttt{config/topicmeta.tex} — Thema \& Titel},
+  listing only,
+}
+\newcommand{\doctitle}{Grundlagen der Algorithmen}
+\newcommand{\docsubtitle}{Zusammenfassung und Lernzettel}
+\newcommand{\docsubject}{Algorithmen und Datenstrukturen}
+\newcommand{\docdescription}{%
+  Prüfungsvorbereitung für Semester 3.%
+}
+\end{tcblisting}
+
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.487\linewidth}
+
+\begin{tcblisting}{cs,
+  title={\texttt{config/colormeta.tex} — Alle Design-Tokens (Auszug)},
+  listing only,
+}
+%% Schriften (kein Install nötig, in TeX Live enthalten)
+\newcommand{\mainfont}{TeX Gyre Pagella}
+\newcommand{\sansfont}{TeX Gyre Heros}
+\newcommand{\monofont}{TeX Gyre Cursor}
+
+%% Abstände
+\newcommand{\contentmargin}{2.5cm}
+\newcommand{\parskipval}{6pt}
+\newcommand{\boxinnersep}{10pt}
+
+%% Farben — NUR hier anpassen, nirgendwo sonst!
+\definecolor{primary}{HTML}{2E4057}    % Dunkelblau
+\definecolor{accent}{HTML}{048A81}     % Petrol/Teal
+\definecolor{infocolor}{HTML}{DDF3F5}
+\definecolor{infoframe}{HTML}{048A81}
+\definecolor{warncolor}{HTML}{FFF4E0}
+\definecolor{warnframe}{HTML}{E07B39}
+% ... weitere Farben (procolor, concolor, etc.)
+\end{tcblisting}
+
+\end{minipage}
+
+\vspace{0.55em}
+
+% ── 9: Farbpalette ────────────────────────────────────────────────────────────
+\section*{Farbpalette (\texttt{colormeta.tex})}
+
+\begin{tcolorbox}[cs, title={Alle definierten Farben — nur \texttt{colormeta.tex} anpassen}]
+\renewcommand{\arraystretch}{2.2}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{} p{3.55cm} p{3.55cm} p{3.55cm} p{3.55cm} @{}}
+  \cellcolor{primary}\textcolor{white}{\texttt{\textbf{primary}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#2E4057 · Dunkelblau}} &
+  \cellcolor{accent}\textcolor{white}{\texttt{\textbf{accent}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#048A81 · Petrol/Teal}} &
+  \cellcolor{infocolor}\textcolor{primary}{\texttt{\textbf{infocolor}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#DDF3F5 · Info-BG}} &
+  \cellcolor{infoframe}\textcolor{white}{\texttt{\textbf{infoframe}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#048A81 · Info-Rand}}
+  \\
+  \cellcolor{warncolor}\textcolor{primary}{\texttt{\textbf{warncolor}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#FFF4E0 · Warn-BG}} &
+  \cellcolor{warnframe}\textcolor{white}{\texttt{\textbf{warnframe}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#E07B39 · Warn-Rand}} &
+  \cellcolor{procolor}\textcolor{primary}{\texttt{\textbf{procolor}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#D6EDDA · Pro-BG}} &
+  \cellcolor{proframe}\textcolor{white}{\texttt{\textbf{proframe}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#1E8A3F · Pro-Rand}}
+  \\
+  \cellcolor{concolor}\textcolor{primary}{\texttt{\textbf{concolor}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#FADDE1 · Con-BG}} &
+  \cellcolor{conframe}\textcolor{white}{\texttt{\textbf{conframe}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#C0392B · Con-Rand}} &
+  \cellcolor{codeblock}\textcolor{primary}{\texttt{\textbf{codeblock}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#F5F5F5 · Code-BG}} &
+  \cellcolor{codeframe}\textcolor{primary}{\texttt{\textbf{codeframe}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#CCCCCC · Code-Rand}}
+  \\
+  \cellcolor{tableheader}\textcolor{white}{\texttt{\textbf{tableheader}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#2E4057 · Tabelle-Kopf}} &
+  \cellcolor{tablerowalt}\textcolor{primary}{\texttt{\textbf{tablerowalt}}}%
+    \newline\textcolor{primary}{\scriptsize\texttt{\#EEF2F7 · Tabelle-Zeile}} &
+  \cellcolor{stepcolor}\textcolor{white}{\texttt{\textbf{stepcolor}}}%
+    \newline\textcolor{white}{\scriptsize\texttt{\#048A81 · Schritt-Badge}} &
+  \cellcolor{white}\textcolor{primary!40!white}{\textit{\small weitere Farben \mbox{in colormeta.tex}}}
+  \\
+\end{tabular}
+\end{tcolorbox}
+
+\vspace{0.55em}
+
+% ── 10: Projektstruktur & Build ────────────────────────────────────────────────
+\section*{Projektstruktur \& Build-System}
+
+\noindent
+\begin{minipage}[t]{0.487\linewidth}
+
+\begin{tcolorbox}[cs, title={Verzeichnisstruktur}]
+\ttfamily\small
+\begin{tabular}{@{}ll@{}}
+  \textbf{config/}       & Design-Tokens, Metadaten \\[2pt]
+  \quad colormeta.tex    & Farben, Schriften, Abstände \\
+  \quad usermeta.tex     & Autor, Kurs, Matrikel \\
+  \quad topicmeta.tex    & Titel, Fach, Beschreibung \\[4pt]
+  \textbf{preamble/}     & Technisches Gerüst \\[2pt]
+  \quad packages.tex     & Alle \texttt{\textbackslash usepackage} \\
+  \quad commands.tex     & Umgebungen \& Befehle \\
+  \quad styles.tex       & Layout, Köpfe, TOC \\[4pt]
+  \textbf{content/}      & Eigene Inhalte \\[2pt]
+  \quad example.tex      & Beispieldatei \\[4pt]
+  \textbf{bibliography/} & Literaturquellen \\[2pt]
+  \quad sources.bib      & BibTeX-Einträge \\
+\end{tabular}
+\end{tcolorbox}
+
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.487\linewidth}
+
+\begin{tcolorbox}[cs, title={Makefile-Befehle}]
+\begin{tabular}{@{}ll@{}}
+  \texttt{make build}     & Einmalig kompilieren \\[4pt]
+  \texttt{make watch}     & Automatisch bei Änderungen \\[4pt]
+  \texttt{make clean}     & Hilfsdateien löschen \\[4pt]
+  \texttt{make distclean} & Alles inkl. PDF löschen \\[4pt]
+  \multicolumn{2}{@{}l}{\itshape Alternativ direkt:} \\[2pt]
+  \multicolumn{2}{@{}l}{\texttt{latexmk -lualatex main.tex}} \\
+\end{tabular}
+\end{tcolorbox}
+
+\vspace{0.4em}
+
+\begin{tcolorbox}[cs, title={Überschriften-Hierarchie}]
+\begin{tabular}{@{}ll@{}}
+  \texttt{\textbackslash section}          & Dunkelblau, Linie \\[4pt]
+  \texttt{\textbackslash subsection}       & Abgeschwächtes Blau \\[4pt]
+  \texttt{\textbackslash subsubsection}    & Teal/Petrol \\[6pt]
+  \multicolumn{2}{@{}l}{\itshape Titelseite generieren:} \\[2pt]
+  \multicolumn{2}{@{}l}{\texttt{\textbackslash makelernzetteltitle}} \\
+\end{tabular}
+\end{tcolorbox}
+
+\end{minipage}
+
+\end{document}

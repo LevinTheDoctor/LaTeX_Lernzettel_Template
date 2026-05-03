@@ -1,0 +1,6 @@
+-- Ergebnisse nach Score sortiert (analog zu ORDER BY = Sortieralgorithmus)
+SELECT student_id, name, score
+FROM   exam_results
+WHERE  score >= 50
+ORDER  BY score DESC, name ASC
+LIMIT  10;
