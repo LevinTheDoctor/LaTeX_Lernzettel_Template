@@ -1,0 +1,55 @@
+%% colormeta.tex — Alle Design-Tokens: Farben, Schriften, Abstände
+%% ══════════════════════════════════════════════════════════════════════════
+%% NUR DIESE DATEI bearbeiten, um das gesamte Dokument umzugestalten.
+%% Keine Farben oder Schriften sind anderswo hart kodiert.
+%% ══════════════════════════════════════════════════════════════════════════
+
+%% ── Schriften (werden von fontspec in styles.tex gesetzt) ─────────────────
+%% Standard: TeX Gyre-Schriften (immer in TeX Live enthalten, keine
+%% Installation erforderlich). Für schönere Alternativen siehe README.md.
+\newcommand{\mainfont}{TeX Gyre Pagella}    % Palatino-Klon, akademisch
+\newcommand{\sansfont}{TeX Gyre Heros}      % Helvetica-Klon, klar
+\newcommand{\monofont}{TeX Gyre Cursor}     % Courier-Klon, funktional
+
+%% Optionale Premium-Schriften (Homebrew/manuell installieren):
+%% \newcommand{\mainfont}{Source Serif 4}
+%% \newcommand{\sansfont}{Source Sans 3}
+%% \newcommand{\monofont}{JetBrains Mono}
+
+%% ── Abstände ──────────────────────────────────────────────────────────────
+\newcommand{\contentmargin}{2.5cm}   % Seitenrand ringsum
+\newcommand{\parskipval}{6pt}        % Abstand zwischen Absätzen
+\newcommand{\boxinnersep}{10pt}      % Innenabstand von Info-/Warnboxen
+
+%% ── Farben ────────────────────────────────────────────────────────────────
+%% Voraussetzung: xcolor ist bereits mit [table,dvipsnames] in main.tex geladen.
+
+%% Brand / Thema
+\definecolor{primary}{HTML}{2E4057}         % Dunkelblau  — Überschriften, Tabellenköpfe
+\definecolor{accent}{HTML}{048A81}          % Petrol/Teal — Links, Akzente
+
+%% Infobox (blau-türkis)
+\definecolor{infocolor}{HTML}{DDF3F5}       % Hintergrund
+\definecolor{infoframe}{HTML}{048A81}       % Rahmen (= accent)
+
+%% Warnbox (amber)
+\definecolor{warncolor}{HTML}{FFF4E0}       % Hintergrund
+\definecolor{warnframe}{HTML}{E07B39}       % Rahmen
+
+%% Pro / Contra
+\definecolor{procolor}{HTML}{D6EDDA}        % Grün-Hintergrund
+\definecolor{proframe}{HTML}{1E8A3F}        % Grün-Rahmen
+\definecolor{concolor}{HTML}{FADDE1}        % Rot-Hintergrund
+\definecolor{conframe}{HTML}{C0392B}        % Rot-Rahmen
+
+%% Codeblock
+\definecolor{codeblock}{HTML}{F5F5F5}       % Hintergrund
+\definecolor{codeframe}{HTML}{CCCCCC}       % Rahmen
+
+%% Tabellen
+\definecolor{tableheader}{HTML}{2E4057}     % Kopfzeilenhintergrund (= primary)
+\definecolor{tableheadertext}{HTML}{FFFFFF} % Kopfzeilentext
+\definecolor{tablerowalt}{HTML}{EEF2F7}     % Alternierend eingefärbte Zeilen
+
+%% Prozess-Schritte
+\definecolor{stepcolor}{HTML}{048A81}       % Schrittnummer-Badge (= accent)

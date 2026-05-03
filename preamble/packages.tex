@@ -1,0 +1,75 @@
+%% packages.tex — Alle \usepackage-Deklarationen
+%% Reihenfolge beachten: xcolor ist bereits in main.tex geladen.
+%% Konfiguration (die colormeta-Makros verwendet) erfolgt in styles.tex.
+%% ──────────────────────────────────────────────────────────────────────────
+
+%% ── Schriften & Kodierung (LuaLaTeX) ──────────────────────────────────────
+\usepackage{fontspec}          % Systemschriften über OpenType/TrueType
+\usepackage{unicode-math}      % Unicode-Mathematikschriften
+
+%% ── Sprache ───────────────────────────────────────────────────────────────
+\usepackage[ngerman]{babel}
+\usepackage{csquotes}          % kontextsensitive Anführungszeichen (für biblatex)
+
+%% ── Seitenlayout ──────────────────────────────────────────────────────────
+\usepackage{geometry}          % Seitenränder; konfiguriert in styles.tex
+\usepackage{parskip}           % Absatzabstand statt Einzug
+\usepackage{setspace}
+
+%% ── Typographie ───────────────────────────────────────────────────────────
+\usepackage{microtype}         % optischer Randausgleich, Unterschneidung
+
+%% ── Mathematik ────────────────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%% ── Grafiken & Gleitumgebungen ────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+%% ── Tabellen ──────────────────────────────────────────────────────────────
+\usepackage{booktabs}          % professionelle Linien (\toprule, \midrule…)
+\usepackage{tabularx}          % auto-breite Spalten (X-Typ)
+\usepackage{array}             % erweiterte Spaltentypen
+\usepackage{multirow}          % Zellen über mehrere Zeilen
+\usepackage{colortbl}          % farbige Tabellenzeilen/-zellen
+
+%% ── Listen ────────────────────────────────────────────────────────────────
+\usepackage{enumitem}          % flexible Listen-Konfiguration
+
+%% ── Boxen & Rahmen ────────────────────────────────────────────────────────
+\usepackage[most]{tcolorbox}   % bunte Boxen (infobox, warnbox, process…)
+
+%% ── Listings / Code ───────────────────────────────────────────────────────
+\usepackage{listings}
+
+%% ── Kopf- & Fußzeile ──────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+
+%% ── Überschriften & TOC ───────────────────────────────────────────────────
+\usepackage{titlesec}          % Überschriftenformatierung
+\usepackage[titles]{tocloft}   % TOC-Formatierung
+
+%% ── Werkzeuge für eigene Befehle ──────────────────────────────────────────
+\usepackage{etoolbox}          % \appto, \preto usw. (für procon-Umgebung)
+\usepackage{xparse}            % \NewDocumentEnvironment (ggf. im Kernel)
+\usepackage{environ}           % \NewEnviron: Body-Kollektion für tabularx-Wrapper
+
+%% ── Bibliographie ─────────────────────────────────────────────────────────
+\usepackage[
+  backend    = biber,
+  style      = authoryear,
+  sortlocale = de_DE,
+  maxnames   = 3,
+  minnames   = 1,
+]{biblatex}
+\addbibresource{bibliography/sources.bib}
+
+%% ── Hyperlinks (muss fast zuletzt geladen werden) ─────────────────────────
+\usepackage{hyperref}          % konfiguriert in styles.tex via \hypersetup
+\usepackage{bookmark}
+
+%% ── Diverses ──────────────────────────────────────────────────────────────
+\usepackage{lipsum}            % Blindtext für Beispiele

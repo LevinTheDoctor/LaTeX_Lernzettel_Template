@@ -1,0 +1,142 @@
+%% styles.tex — Schriften, Seitenlayout, Kopf-/Fußzeile, TOC, Hyperlinks
+%% Alle Farben und Schriften kommen aus config/colormeta.tex.
+%% ──────────────────────────────────────────────────────────────────────────
+
+%% ── Schriften (fontspec) ──────────────────────────────────────────────────
+\setmainfont{\mainfont}[
+  Ligatures = TeX,
+]
+\setsansfont{\sansfont}[
+  Ligatures = TeX,
+]
+\setmonofont{\monofont}[
+  Scale = 0.88,
+]
+
+%% ── Seitenlayout (geometry) ───────────────────────────────────────────────
+\geometry{
+  a4paper,
+  top    = \contentmargin,
+  bottom = \contentmargin,
+  left   = \contentmargin,
+  right  = \contentmargin,
+  headheight = 15pt,
+}
+
+%% ── Absatzformat ─────────────────────────────────────────────────────────
+\setlength{\parskip}{\parskipval}
+\setlength{\parindent}{0pt}
+
+%% ── Grafikpfad ───────────────────────────────────────────────────────────
+\graphicspath{{assets/images/}}
+
+%% ── Überschriften (titlesec) ─────────────────────────────────────────────
+\titleformat{\section}
+  {\Large\bfseries\color{primary}}         % Format
+  {\color{primary}\thesection}             % Label
+  {0.75em}                                  % Abstand Label–Text
+  {}                                        % Vor dem Titel
+  [\color{primary!50!white}\rule{\linewidth}{0.6pt}]  % Unter dem Titel
+
+\titleformat{\subsection}
+  {\large\bfseries\color{primary!80!black}}
+  {\color{accent}\thesubsection}
+  {0.75em}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{accent}}
+  {\thesubsubsection}
+  {0.75em}
+  {}
+
+\titlespacing*{\section}      {0pt}{1.4ex plus .4ex minus .2ex}{0.6ex}
+\titlespacing*{\subsection}   {0pt}{1.2ex plus .3ex minus .2ex}{0.4ex}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus .2ex minus .1ex}{0.3ex}
+
+%% ── Inhaltsverzeichnis (tocloft) ─────────────────────────────────────────
+\renewcommand{\cftsecfont}{\bfseries\color{primary}}
+\renewcommand{\cftsecpagefont}{\bfseries\color{primary}}
+\renewcommand{\cftsubsecfont}{\color{primary!80!black}}
+\renewcommand{\cftsubsecpagefont}{\color{primary!80!black}}
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{1.5em}
+\setlength{\cftbeforesecskip}{2pt}
+
+%% ── Kopf- und Fußzeile (fancyhdr) ────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{primary}\docsubject}
+\fancyhead[R]{\small\color{primary}\docauthor}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+% Auch Kapitelanfangsseiten mit fancyhdr versehen
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\small\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+%% ── Hyperlinks (hyperref) ────────────────────────────────────────────────
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = primary,
+  urlcolor   = accent,
+  citecolor  = accent,
+  pdftitle   = {\doctitle},
+  pdfauthor  = {\docauthor},
+  pdfsubject = {\docsubject},
+}
+
+%% ── Captions ─────────────────────────────────────────────────────────────
+\captionsetup{
+  font       = small,
+  labelfont  = {bf, color=primary},
+  labelsep   = period,
+}
+
+%% ── Titelseite (wird in main.tex mit \makelernzetteltitle aufgerufen) ─────
+\newcommand{\makelernzetteltitle}{%
+  \begin{titlepage}
+    \centering
+    \vspace*{2.5cm}
+
+    % Fach-Badge
+    {\sffamily\small\color{white}%
+      \colorbox{accent}{\hspace{6pt}\docsubject\hspace{6pt}}%
+    }\par
+    \vspace{1.2cm}
+
+    % Haupttitel
+    {\Huge\bfseries\color{primary}\doctitle\par}
+    \vspace{0.5cm}
+    {\large\color{accent}\docsubtitle\par}
+
+    \vspace{0.8cm}
+    % Trennlinie
+    {\color{primary!40!white}\rule{0.6\linewidth}{1.5pt}}\par
+    \vspace{0.5cm}
+
+    % Beschreibung
+    {\normalsize\color{primary!70!black}\docdescription\par}
+
+    \vfill
+
+    % Metadaten-Tabelle
+    \begin{tabular}{@{}r@{\hspace{8pt}}l@{}}
+      \color{primary!60!black}\small Autor            & \docauthor      \\[2pt]
+      \color{primary!60!black}\small Matrikelnummer   & \docstudentid   \\[2pt]
+      \color{primary!60!black}\small Studiengang      & \doccourse      \\[2pt]
+      \color{primary!60!black}\small Semester         & \docsemester    \\[2pt]
+      \color{primary!60!black}\small Datum            & \docdate        \\
+    \end{tabular}
+
+    \vspace{2cm}
+    % Fußleiste
+    {\color{primary!30!white}\rule{\linewidth}{0.6pt}}\par
+    \vspace{0.3cm}
+    {\small\color{primary!50!black}\sffamily Lernzettel-Template · LuaLaTeX}
+  \end{titlepage}%
+  \clearpage
+}

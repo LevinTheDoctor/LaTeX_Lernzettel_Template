@@ -1,0 +1,36 @@
+% !TEX program  = lualatex
+% !TEX encoding = UTF-8 Unicode
+% Kompilieren:  latexmk -lualatex main.tex   (oder: make build)
+% ──────────────────────────────────────────────────────────────────────────
+\documentclass[a4paper, 12pt, ngerman]{article}
+
+% xcolor wird als Erstes geladen, damit colormeta.tex \definecolor nutzen kann.
+\usepackage[table, dvipsnames]{xcolor}
+
+% ── Konfiguration ─────────────────────────────────────────────────────────
+\input{config/colormeta}    % Farben, Schriften, Abstände  ← HIER anpassen
+\input{config/usermeta}     % Autor, Kurs, Matrikelnummer, Semester
+\input{config/topicmeta}    % Titel, Untertitel, Fach, Beschreibung
+
+% ── Pakete & Stile ────────────────────────────────────────────────────────
+\input{preamble/packages}   % alle \usepackage-Deklarationen
+\input{preamble/commands}   % eigene Umgebungen und Befehle
+\input{preamble/styles}     % Schriften, Seitenlayout, Kopf-/Fußzeile, TOC
+
+% ──────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+% Titelseite (generiert aus usermeta + topicmeta)
+\makelernzetteltitle
+
+% Inhaltsverzeichnis
+\tableofcontents
+\clearpage
+
+% ── Inhalt ────────────────────────────────────────────────────────────────
+\input{content/example}
+
+% ── Literaturverzeichnis ──────────────────────────────────────────────────
+\printbibliography[heading=bibintoc, title={Literaturverzeichnis}]
+
+\end{document}

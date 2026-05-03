@@ -1,0 +1,264 @@
+%% commands.tex — Eigene Umgebungen und Befehle
+%% Alle Farben kommen aus config/colormeta.tex; nichts ist hart kodiert.
+%% ──────────────────────────────────────────────────────────────────────────
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 1.  process  +  \step{text}
+%%     Nummerierter Schritt-für-Schritt-Ablauf mit farbigem linken Rand.
+%%
+%%  Verwendung:
+%%    \begin{process}
+%%      \step{Erster Schritt}
+%%      \step{Zweiter Schritt}
+%%    \end{process}
+%% ══════════════════════════════════════════════════════════════════════════
+\newcounter{procstep}
+
+\newenvironment{process}{%
+  \setcounter{procstep}{0}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    boxrule         = 0pt,
+    frame hidden,
+    borderline west = {3pt}{0pt}{stepcolor},
+    colback         = stepcolor!6!white,
+    left            = 10pt,
+    right           = 8pt,
+    top             = 6pt,
+    bottom          = 6pt,
+    arc             = 3pt,
+  ]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newcommand{\step}[1]{%
+  \stepcounter{procstep}%
+  \vspace{4pt}%
+  \noindent
+  \colorbox{stepcolor}{%
+    \color{white}\bfseries\small\hspace{3pt}\theprocstep\hspace{3pt}%
+  }%
+  \hspace{6pt}#1\par
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 2.  infobox[Titel]
+%%     Farbige Infobox mit optionalem fettem Titel.
+%%
+%%  Verwendung:
+%%    \begin{infobox}[Mein Titel] ... \end{infobox}
+%%    \begin{infobox}             ... \end{infobox}   % ohne Titel
+%% ══════════════════════════════════════════════════════════════════════════
+\NewDocumentEnvironment{infobox}{O{}}{%
+  \def\lzinfoboxtitle{#1}%
+  \ifdefempty{\lzinfoboxtitle}{%
+    %% ── Ohne Titel ──
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback  = infocolor,
+      colframe = infoframe,
+      boxrule  = 1pt,
+      arc      = 4pt,
+      left     = \boxinnersep,
+      right    = \boxinnersep,
+      top      = \boxinnersep,
+      bottom   = \boxinnersep,
+    ]%
+  }{%
+    %% ── Mit Titel ──
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback      = infocolor,
+      colframe     = infoframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      left         = \boxinnersep,
+      right        = \boxinnersep,
+      top          = \boxinnersep,
+      bottom       = \boxinnersep,
+      title        = {\textbf{\lzinfoboxtitle}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = infoframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = infoframe,
+        colframe = infoframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }%
+}{%
+  \end{tcolorbox}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 3.  warnbox[Titel]
+%%     Warnbox / Tipp-Box mit optionalem fettem Titel.
+%% ══════════════════════════════════════════════════════════════════════════
+\NewDocumentEnvironment{warnbox}{O{}}{%
+  \def\lzwarnboxtitle{#1}%
+  \ifdefempty{\lzwarnboxtitle}{%
+    %% ── Ohne Titel ──
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback  = warncolor,
+      colframe = warnframe,
+      boxrule  = 1pt,
+      arc      = 4pt,
+      left     = \boxinnersep,
+      right    = \boxinnersep,
+      top      = \boxinnersep,
+      bottom   = \boxinnersep,
+    ]%
+  }{%
+    %% ── Mit Titel ──
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback      = warncolor,
+      colframe     = warnframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      left         = \boxinnersep,
+      right        = \boxinnersep,
+      top          = \boxinnersep,
+      bottom       = \boxinnersep,
+      title        = {\textbf{\lzwarnboxtitle}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = warnframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = warnframe,
+        colframe = warnframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }%
+}{%
+  \end{tcolorbox}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 4.  procon  +  \pro{text}  \con{text}
+%%     Zwei-Spalten-Gegenüberstellung Vorteile / Nachteile.
+%%     Alle \pro{} und \con{} werden gesammelt und am Ende nebeneinander
+%%     als zwei tcolorbox-Minipages gesetzt.
+%%
+%%  Verwendung:
+%%    \begin{procon}
+%%      \pro{Vorteil 1}
+%%      \con{Nachteil 1}
+%%    \end{procon}
+%% ══════════════════════════════════════════════════════════════════════════
+\newenvironment{procon}{%
+  \def\lzproitems{}%
+  \def\lzconitems{}%
+  % \def statt \newcommand: kein Fehler beim mehrfachen Aufruf
+  % ##1 = #1 auf zweiter Makro-Ebene innerhalb von \newenvironment
+  \def\pro##1{\appto\lzproitems{\item ##1}}%
+  \def\con##1{\appto\lzconitems{\item ##1}}%
+}{%
+  \par\smallskip\noindent
+  \begin{minipage}[t]{0.475\linewidth}
+    \begin{tcolorbox}[
+      enhanced,
+      colback      = procolor,
+      colframe     = proframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      title        = {Vorteile},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = proframe,
+      left = 6pt, right = 6pt, top = 4pt, bottom = 4pt,
+    ]
+      \begin{itemize}[leftmargin=*, nosep, topsep=0pt]
+        \lzproitems
+      \end{itemize}
+    \end{tcolorbox}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.475\linewidth}
+    \begin{tcolorbox}[
+      enhanced,
+      colback      = concolor,
+      colframe     = conframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      title        = {Nachteile},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = conframe,
+      left = 6pt, right = 6pt, top = 4pt, bottom = 4pt,
+    ]
+      \begin{itemize}[leftmargin=*, nosep, topsep=0pt]
+        \lzconitems
+      \end{itemize}
+    \end{tcolorbox}
+  \end{minipage}%
+  \par\smallskip
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 5.  codebox
+%%     Monospace-Block mit grauem Hintergrund (für kurze Ausschnitte).
+%%     Für Syntax-Highlighting: listings-Paket nutzen (siehe packages.tex).
+%% ══════════════════════════════════════════════════════════════════════════
+\newenvironment{codebox}{%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    colback  = codeblock,
+    colframe = codeframe,
+    boxrule  = 0.5pt,
+    arc      = 3pt,
+    left     = 8pt,
+    right    = 8pt,
+    top      = 6pt,
+    bottom   = 6pt,
+    fontupper = \ttfamily\small,
+  ]%
+}{%
+  \end{tcolorbox}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 6.  \sidetables{Inhalt links}{Inhalt rechts}
+%%     Zwei beliebige Inhalte (z. B. Tabellen, Listen) nebeneinander.
+%% ══════════════════════════════════════════════════════════════════════════
+\newcommand{\sidetables}[2]{%
+  \par\smallskip\noindent
+  \begin{minipage}[t]{0.475\linewidth}
+    #1
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.475\linewidth}
+    #2
+  \end{minipage}%
+  \par\smallskip
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 7.  stdtable{Spaltendefinition}{Kopfzeile}
+%%     Formatierte Tabelle mit farbiger Kopfzeile und alternierenden Zeilen.
+%%     Spaltentypen: l r c  für Text; X für auto-breite Spalten; p{…} für
+%%     feste Breite. X-Spalten sind durch tabularx möglich, weil \NewEnviron
+%%     (environ-Paket) den Body komplett sammelt, bevor tabularx ihn scannt.
+%%
+%%  Verwendung:
+%%    \begin{stdtable}{l X X}{Algorithmus & Kompl. & Notiz}
+%%      Bubble Sort & $O(n^2)$ & Einfach \\
+%%    \end{stdtable}
+%% ══════════════════════════════════════════════════════════════════════════
+\NewEnviron{stdtable}[2]{%
+  \par\smallskip
+  \rowcolors{2}{tablerowalt}{white}%
+  \begin{center}%
+  \begin{tabularx}{\linewidth}{#1}%
+  \rowcolor{tableheader}%
+  \color{tableheadertext}\bfseries #2\\[\jot]%
+  \BODY
+  \end{tabularx}%
+  \end{center}%
+  \rowcolors{1}{}{}%   Reset: verhindert Übertrag auf nachfolgende Tabellen
+  \par\smallskip
+}

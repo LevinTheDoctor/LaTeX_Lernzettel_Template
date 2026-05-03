@@ -1,0 +1,29 @@
+# ── LaTeX-Build-Artefakte ──────────────────────────────────────────────────
+build/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.synctex(busy)
+*.toc
+*.xdv
+
+# Kompiliertes PDF: einkommentieren, wenn das PDF NICHT im Repo gespeichert
+# werden soll (z. B. bei CI/CD). Standard: PDF wird versioniert.
+# *.pdf
+
+# ── Editor ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# .vscode/ ist Projekt-Konfiguration und wird NICHT ignoriert.

@@ -1,0 +1,65 @@
+{
+  // ── LaTeX Workshop ───────────────────────────────────────────────────────
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (LuaLaTeX + Biber)",
+      "tools": ["latexmk-lualatex"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-lualatex",
+      "command": "latexmk",
+      "args": [
+        "-lualatex",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    }
+  ],
+  // Ausgabe-Verzeichnis (muss mit .latexmkrc übereinstimmen)
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  // Automatisch kompilieren beim Speichern
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  // SyncTeX: Klick im PDF springt zur Quelldatei
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  // PDF-Vorschau im Tab
+  "latex-workshop.view.pdf.viewer": "tab",
+  // Fehler-/Warnungsausgabe
+  "latex-workshop.message.badbox.show": true,
+  "latex-workshop.message.latexlog.exclude": [],
+  // Aufräumen bei erneutem Build (Hilfsfiles im build/-Ordner behalten)
+  "latex-workshop.latex.clean.subfolder.enabled": false,
+
+  // ── LTeX (LanguageTool-Grammatikprüfung) ────────────────────────────────
+  "ltex.language": "de-DE",
+  "ltex.enabled": ["latex", "bibtex"],
+  "ltex.additionalRules.enablePickyRules": true,
+  "ltex.latex.commands": {
+    "\\docauthor{}":    "ignore",
+    "\\docsubject{}":   "ignore",
+    "\\doctitle{}":     "ignore",
+    "\\docsubtitle{}":  "ignore",
+    "\\docdescription{}": "ignore"
+  },
+
+  // ── Editor-Einstellungen für LaTeX-Dateien ───────────────────────────────
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": false,
+    "editor.rulers": [100],
+    "editor.tabSize": 2
+  },
+  "files.associations": {
+    "*.tex": "latex",
+    "*.bib": "bibtex"
+  },
+  // Hilfsdateien in der Sidebar ausblenden
+  "files.exclude": {
+    "build/": true
+  }
+}
