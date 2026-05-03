@@ -262,3 +262,283 @@
   \rowcolors{1}{}{}%   Reset: verhindert Übertrag auf nachfolgende Tabellen
   \par\smallskip
 }
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 8.  merksatz[Titel]
+%%     Wichtiger Satz / Merkeintrag (Indigo).
+%%
+%%  Verwendung:
+%%    \begin{merksatz}[Satz von Pythagoras]
+%%      In einem rechtwinkligen Dreieck gilt: $a^2 + b^2 = c^2$.
+%%    \end{merksatz}
+%% ══════════════════════════════════════════════════════════════════════════
+\NewDocumentEnvironment{merksatz}{O{}}{%
+  \def\lzmerksatztitle{#1}%
+  \ifdefempty{\lzmerksatztitle}{%
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback  = merksatzcolor,
+      colframe = merksatzframe,
+      boxrule  = 1pt,
+      arc      = 4pt,
+      left     = \boxinnersep,
+      right    = \boxinnersep,
+      top      = \boxinnersep,
+      bottom   = \boxinnersep,
+    ]%
+  }{%
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback      = merksatzcolor,
+      colframe     = merksatzframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      left         = \boxinnersep,
+      right        = \boxinnersep,
+      top          = \boxinnersep,
+      bottom       = \boxinnersep,
+      title        = {\textbf{\lzmerksatztitle}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = merksatzframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = merksatzframe,
+        colframe = merksatzframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }%
+}{%
+  \end{tcolorbox}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 9.  beispiel[Titel]
+%%     Beispiel-Box (Smaragdgrün).
+%%
+%%  Verwendung:
+%%    \begin{beispiel}[Quicksort auf [3,1,4,1,5]]
+%%      Pivot = 3, links: [1,1], rechts: [4,5] …
+%%    \end{beispiel}
+%% ══════════════════════════════════════════════════════════════════════════
+\NewDocumentEnvironment{beispiel}{O{}}{%
+  \def\lzbeispieltitle{#1}%
+  \ifdefempty{\lzbeispieltitle}{%
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback  = beispielcolor,
+      colframe = beispielframe,
+      boxrule  = 1pt,
+      arc      = 4pt,
+      left     = \boxinnersep,
+      right    = \boxinnersep,
+      top      = \boxinnersep,
+      bottom   = \boxinnersep,
+      title    = {\textbf{Beispiel}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = beispielframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = beispielframe,
+        colframe = beispielframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }{%
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback      = beispielcolor,
+      colframe     = beispielframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      left         = \boxinnersep,
+      right        = \boxinnersep,
+      top          = \boxinnersep,
+      bottom       = \boxinnersep,
+      title        = {\textbf{Beispiel: \lzbeispieltitle}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = beispielframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = beispielframe,
+        colframe = beispielframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }%
+}{%
+  \end{tcolorbox}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 10.  aufgabe[Titel]
+%%      Aufgaben-Box mit automatischer Nummerierung (Goldgelb).
+%%      Zähler zurücksetzen: \resetaufgaben
+%%
+%%  Verwendung:
+%%    \begin{aufgabe}[Laufzeitanalyse]
+%%      Bestimmen Sie die Zeitkomplexität von Bubblesort.
+%%    \end{aufgabe}
+%% ══════════════════════════════════════════════════════════════════════════
+\newcounter{aufgabectr}
+\newcommand{\resetaufgaben}{\setcounter{aufgabectr}{0}}
+
+\NewDocumentEnvironment{aufgabe}{O{}}{%
+  \stepcounter{aufgabectr}%
+  \def\lzaufgabetitle{#1}%
+  \ifdefempty{\lzaufgabetitle}{%
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback      = aufgabecolor,
+      colframe     = aufgabeframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      left         = \boxinnersep,
+      right        = \boxinnersep,
+      top          = \boxinnersep,
+      bottom       = \boxinnersep,
+      title        = {\textbf{Aufgabe~\theaufgabectr}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = aufgabeframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = aufgabeframe,
+        colframe = aufgabeframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }{%
+    \begin{tcolorbox}[
+      enhanced, breakable,
+      colback      = aufgabecolor,
+      colframe     = aufgabeframe,
+      boxrule      = 1pt,
+      arc          = 4pt,
+      left         = \boxinnersep,
+      right        = \boxinnersep,
+      top          = \boxinnersep,
+      bottom       = \boxinnersep,
+      title        = {\textbf{Aufgabe~\theaufgabectr: \lzaufgabetitle}},
+      fonttitle    = \bfseries\color{white},
+      colbacktitle = aufgabeframe,
+      attach boxed title to top left = {yshift=-2mm, xshift=4mm},
+      boxed title style = {
+        colback  = aufgabeframe,
+        colframe = aufgabeframe,
+        arc = 3pt, top = 2pt, bottom = 2pt,
+      },
+    ]%
+  }%
+}{%
+  \end{tcolorbox}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 11.  konzeptkarte{Titel}  +  \kzweispaltig{links}{rechts}
+%%      Strukturierte Übersichtskarte. Innen können alle anderen Umgebungen
+%%      und \kzweispaltig für ein Zwei-Spalten-Layout verwendet werden.
+%%
+%%  Verwendung:
+%%    \begin{konzeptkarte}{Quicksort}
+%%      Kurze Beschreibung des Algorithmus.
+%%      \kzweispaltig{
+%%        \begin{stdtable}{l X}{Eigenschaft & Wert}
+%%          Stabil & Nein \\
+%%        \end{stdtable}
+%%      }{
+%%        \begin{process}
+%%          \step{Pivot wählen}
+%%          \step{Partitionieren}
+%%        \end{process}
+%%      }
+%%    \end{konzeptkarte}
+%% ══════════════════════════════════════════════════════════════════════════
+\newenvironment{konzeptkarte}[1]{%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable,
+    title        = {\sffamily\bfseries\large #1},
+    colback      = konzeptcolor,
+    colframe     = primary!35!white,
+    colbacktitle = primary,
+    coltitle     = white,
+    boxrule      = 0.8pt,
+    arc          = 5pt,
+    left         = 10pt,
+    right        = 10pt,
+    top          = 8pt,
+    bottom       = 8pt,
+    fonttitle    = \sffamily\bfseries,
+  ]%
+}{%
+  \end{tcolorbox}%
+}
+
+\newcommand{\kzweispaltig}[2]{%
+  \par\smallskip\noindent
+  \begin{minipage}[t]{0.475\linewidth}
+    #1
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.475\linewidth}
+    #2
+  \end{minipage}%
+  \par\smallskip
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 12.  \icode{text}
+%%      Inline-Code mit grauem Hintergrund. Für Sonderzeichen (\_ usw.)
+%%      müssen diese wie in normalem LaTeX-Text escaped werden.
+%%
+%%  Verwendung:
+%%    Die Funktion \icode{quicksort(arr)} gibt ein sortiertes Array zurück.
+%% ══════════════════════════════════════════════════════════════════════════
+\newcommand{\icode}[1]{%
+  \mbox{\colorbox{codeblock}{\texttt{\small\color{primary!85!black}\strut#1}}}%
+}
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 13.  syntaxbox[Sprache]
+%%      Code-Block mit Syntax-Highlighting. Standard: Python.
+%%      Unterstützte Sprachen: Python, Java, C, C++, SQL, bash, …
+%%      (alle lstlisting-Sprachen, siehe listings-Dokumentation)
+%%
+%%  Verwendung:
+%%    \begin{syntaxbox}[Java]
+%%      public int factorial(int n) {
+%%          return n <= 1 ? 1 : n * factorial(n - 1);
+%%      }
+%%    \end{syntaxbox}
+%% ══════════════════════════════════════════════════════════════════════════
+\tcbuselibrary{listings}
+
+\lstdefinestyle{lzsyntax}{%
+  basicstyle        = \ttfamily\small,
+  keywordstyle      = \color{accent}\bfseries,
+  commentstyle      = \color{primary!55!white}\itshape,
+  stringstyle       = \color{proframe},
+  numberstyle       = \tiny\color{primary!40!white},
+  numbers           = none,
+  breaklines        = true,
+  showstringspaces  = false,
+  tabsize           = 2,
+  frame             = none,
+  keepspaces        = true,
+  columns           = fullflexible,
+}
+
+\newtcblisting{syntaxbox}[1][Python]{%
+  enhanced,
+  breakable,
+  colback  = codeblock,
+  colframe = codeframe,
+  boxrule  = 0.5pt,
+  arc      = 3pt,
+  left     = 8pt,
+  right    = 8pt,
+  top      = 6pt,
+  bottom   = 6pt,
+  listing only,
+  listing options = {style=lzsyntax, language=#1},
+}

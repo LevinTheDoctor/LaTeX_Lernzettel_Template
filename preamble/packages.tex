@@ -21,7 +21,8 @@
 
 %% ── Mathematik ────────────────────────────────────────────────────────────
 \usepackage{amsmath}
-\usepackage{amssymb}
+%% amssymb wird NICHT geladen: unicode-math (LuaLaTeX) stellt alle Symbole bereit
+%% und würde sonst Konflikte (\eth, \smallsetminus … already defined) verursachen.
 
 %% ── Grafiken & Gleitumgebungen ────────────────────────────────────────────
 \usepackage{graphicx}
