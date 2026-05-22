@@ -1,0 +1,52 @@
+\section{Virtualisierung}
+Virtualisierung ist ein schon lange bestehendes Konzept. Bei Virtualisierung
+wird auf einem physischen Computer durch Software eine andere, isolierte
+Umgebung abstrahiert. Bekannt ist das Konzept beispielsweise durch Oracle
+VirtualBox. Allerdings ist Virtualisierung als die Abstraktion von
+Hardware Ressourcen durch Software auch der Grundstein für Cloudtechnologie.
+Durch Virtualisierung wird Ressource Pooling überhaupt erst ermöglicht, sonst
+könnten keine voneinander getrennten Umgebungen auf einem Server existieren.
+\subsection{Wie nutzt eine Cloud Virtualisierung ?}
+\subsubsection{Virtuelle Maschinen (Virtual Machine)}
+Bei einer VM, kurz für Virtuelle Maschine, wird eine eigenständige,
+isolierte Instanz auf einem physischen System abstrahiert. Dadurch kann man
+beispielsweise auf einem Windows-PC ein Linux-Betriebssystem innerhalb einer
+VM ausführen. In der Cloud wird dies für Ressource Pooling genutzt, also das
+Aufteilen eines physischen Servers in mehrere kleinere, unabhängige Instanzen.
+So werden Infrastructure as a Service (IaaS) und dynamische Skalierung
+überhaupt erst ermöglicht.
+\subsubsection{Virtuelles Netzwerk}
+Durch ein virtuelles Netzwerk wird die Kommunikation zwischen VMs sowie
+mit externen Systemen überhaupt erst ermöglicht. Durch Peering, also das
+direkte Verbinden zweier virtueller Netzwerke miteinander, können Services
+untereinander kommunizieren, ohne den Umweg über das öffentliche Internet
+nehmen zu müssen. Durch VPNs, kurz für Virtual Private Network, wird zudem
+eine verschlüsselte Direktverbindung zu On-Premises-Rechenzentren ermöglicht,
+um sicher mit Cloud-Services zu kommunizieren.
+\subsubsection{Speichervirtualisierung}
+Bei der Speichervirtualisierung werden mehrere physische Speichermedien durch
+Software zu einem einzigen logischen Speicherpool zusammengefasst und
+abstrahiert. Das ermöglicht beispielsweise Services wie Google Drive, iCloud oder im Enterprise Kontext Azure Managed Disks.
+
+\subsection{Wie Funktioniert Virtualisierung}
+\subsubsection{Hypervisor}
+Ein Hypervisor ist die Software die Arbeitspeicher, Rechenleistung und Speicher in Pools zusammenfasst. Dadurch können auf eine Physichen Maschine viele VMs erstellt werden. Der Hypervisor beötigt inige Komponenten auf Betriebssystemebene, zum Beispiel einen Speichermanager, Prozessplaner, Input/Output-Stack (I/O), Gerätetreiber, Sicherheitsmanager, Netzwerk-Stack. Der Hypervisor stellt den einzelnen virtuellen Maschinen die zugewiesenen Ressourcen zur Verfügung und verwaltet die Planung der VM-Ressourcen im Verhältnis zu den physischen Ressourcen. Die physische Hardware übernimmt nach wie vor die Ausführung, das heißt die CPU führt nach wie vor CPU-Befehle aus, wie sie beispielsweise von den VMs angefordert werden, während der Hypervisor die Planung übernimmt.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|p{5cm}|p{5cm}|}
+        \hline
+        \textbf{Merkmal} & \textbf{Typ 1 (Bare-Metal)} & \textbf{Typ 2 (Gehostet)} \\
+        \hline
+        Ausführung & Direkt auf der Hardware & Auf einem Host-Betriebssystem \\
+        \hline
+        Host-OS & Keins, ersetzt das OS & Benötigt ein Host-OS \\
+        \hline
+        Ressourcenzuweisung & Direkt durch den Hypervisor & Über das Host-OS \\
+        \hline
+        Beispiele & VMware ESXi, KVM & Oracle VirtualBox, VMware Workstation \\
+        \hline
+    \end{tabular}
+    \caption{Vergleich Hypervisor Typ 1 und Typ 2}
+    \label{tab:hypervisor}
+\end{table}
