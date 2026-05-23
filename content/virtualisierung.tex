@@ -28,9 +28,10 @@ Bei der Speichervirtualisierung werden mehrere physische Speichermedien durch
 Software zu einem einzigen logischen Speicherpool zusammengefasst und
 abstrahiert. Das ermöglicht beispielsweise Services wie Google Drive, iCloud oder im Enterprise Kontext Azure Managed Disks.
 
+\newpage
 \subsection{Wie Funktioniert Virtualisierung}
 \subsubsection{Hypervisor}
-Ein Hypervisor ist die Software die Arbeitspeicher, Rechenleistung und Speicher in Pools zusammenfasst. Dadurch können auf eine Physichen Maschine viele VMs erstellt werden. Der Hypervisor beötigt inige Komponenten auf Betriebssystemebene, zum Beispiel einen Speichermanager, Prozessplaner, Input/Output-Stack (I/O), Gerätetreiber, Sicherheitsmanager, Netzwerk-Stack. Der Hypervisor stellt den einzelnen virtuellen Maschinen die zugewiesenen Ressourcen zur Verfügung und verwaltet die Planung der VM-Ressourcen im Verhältnis zu den physischen Ressourcen. Die physische Hardware übernimmt nach wie vor die Ausführung, das heißt die CPU führt nach wie vor CPU-Befehle aus, wie sie beispielsweise von den VMs angefordert werden, während der Hypervisor die Planung übernimmt.
+Ein Hypervisor ist die Software die Arbeitspeicher, Rechenleistung und Speicher in Pools zusammenfasst. Dadurch können auf eine Physichen Maschine viele VMs erstellt werden. Der Hypervisor stellt den einzelnen virtuellen Maschinen die zugewiesenen Ressourcen zur Verfügung und verwaltet die Planung der VM-Ressourcen im Verhältnis zu den physischen Ressourcen. Die physische Hardware übernimmt nach wie vor die Ausführung, das heißt die CPU führt nach wie vor CPU-Befehle aus, wie sie beispielsweise von den VMs angefordert werden, während der Hypervisor die Planung übernimmt.
 
 \begin{table}[h]
     \centering

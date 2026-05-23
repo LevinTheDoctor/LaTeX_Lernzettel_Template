@@ -1,0 +1,72 @@
+\section{Servicemodelle}
+
+\subsection{Infrastructure as a Service (IaaS)}
+Bei IaaS wird dem Nutzer ausschließlich die Infrastruktur bereitgestellt.
+Ein typisches Beispiel sind virtuelle Maschinen. Der Nutzer ist selbst für
+das Betriebssystem und alle darauf installierten Anwendungen verantwortlich.
+Load Balancer und ähnliche Dienste sind nicht vorkonfiguriert und müssen
+manuell eingerichtet werden.
+
+\textbf{Flexibilität:} Hoch, man ist bei der Nutzung vollständig frei.\\
+\textbf{Verantwortung:} Hoch, nur die physische Hardware muss nicht selbst
+verwaltet werden.\\
+\textbf{Typische Anwendungsfälle:} Entwicklungs-Workloads und Hosten von
+Legacy-Systemen.
+
+\subsection{Platform as a Service (PaaS)}
+Bei PaaS bewegt man sich in Richtung Managed Services. Ein Beispiel wäre
+eine verwaltete SQL-Datenbank in Azure. Viele Aspekte wie Load Balancer und
+Skalierung werden bereits vom Anbieter übernommen, was die Entwicklung
+deutlich vereinfacht.
+
+\textbf{Flexibilität:} Hoch, allerdings mit deutlich weniger
+Konfigurationsaufwand als bei IaaS.\\
+\textbf{Verantwortung:} Mittel, viele Dienste werden bereits vom Provider
+verwaltet.\\
+\textbf{Typische Anwendungsfälle:} Hosten von Webanwendungen, verwaltete
+Datenbanken in der Cloud.
+
+\subsection{Software as a Service (SaaS)}
+Bei SaaS erhält der Nutzer ein fertiges Produkt, das nur noch konfiguriert
+werden muss. Eigener Code kann nicht eingebunden werden, alles funktioniert
+über Customizing.
+
+\textbf{Flexibilität:} Gering, alles skaliert automatisch, eigene Eingriffe
+sind kaum möglich.\\
+\textbf{Verantwortung:} Gering, der Nutzer ist nur für die eigenen Daten
+verantwortlich.\\
+\textbf{Typische Anwendungsfälle:} Produkte wie Microsoft 365.
+\newpage
+\subsection{Shared Responsibility Model}
+Das Shared Responsibility Model zeigt auf, wo die Verantwortlichkeiten bei
+Cloud-Modellen liegen und wie viel vom Nutzer bzw. Unternehmen selbst
+gemanagt werden muss im Vergleich zu dem, was der Cloud-Provider übernimmt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/images/SharedResponbility}
+    \caption{Shared Responsibility Model}
+\end{figure}
+
+\subsubsection{Sicherheitsaufgaben von Kunde und Provider}
+Der Kunde ist hauptsächlich für die Sicherheit der Client-Geräte
+verantwortlich, also beispielsweise dafür, dass Mitarbeiter sichere
+Passwörter verwenden. Zusätzlich können RBAC und Conditional Access
+aktiviert werden, sodass Endnutzer automatisch mehr Sicherheit erhalten.
+Authentifizierung, die beispielsweise SSO ermöglicht, wird vom Cloud-Provider
+bereitgestellt. Der Provider ist seinerseits vollständig für die Sicherheit
+im Rechenzentrum und seiner eigenen Services zuständig. Für die Sicherheit
+der eigenen Daten ist der Kunde verantwortlich, muss dafür aber oft nur
+wenige Konfigurationen vornehmen, beispielsweise Disaster Recovery durch
+Zonenredundanz.
+
+\subsubsection{Warum verändern sich die Verantwortlichkeiten?}
+Die verschiedenen Servicemodelle haben unterschiedliche Anwendungsfälle.
+IaaS wird genutzt, wenn möglichst viel selbst konfiguriert werden soll,
+beispielsweise für das Hosten von Legacy-Systemen oder Entwicklungs-Workloads.
+Die Kosten für den Compute werden dabei oft im Voraus bezahlt, beispielsweise
+über Azure Reservations. PaaS wird für eigene Cloud-Native-Anwendungen
+genutzt, hat aber grundlegende Dinge bereits vorkonfiguriert, sodass keine
+VM manuell eingerichtet werden muss. SaaS sind vollständig abgeschlossene
+Softwareprodukte, die einfach über die Cloud laufen, wie beispielsweise
+Microsoft 365.
