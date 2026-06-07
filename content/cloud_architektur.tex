@@ -1,11 +1,11 @@
 \section{Cloud Architektur}
 \subsection{Cloud Native}
-Cloud Native ist das erste mal 2013 angesprochen worden, von Netflix auf einen AWS reinvent talk. Es gibt keine Klare Defention für Cloud Native Architektur. Grundsatzlich soll Cloud Native aber dabei helfen Web Anwendung zu entwicklen die Skalierbar und Hochverfügbar sind. Gleichzeitg soll durch Cloud Native Agil entwickelt werden also eine Schnellst mögliche feature anpassung mit möglichst kleine Risiko. Dabei helfen Micoservice statt einer Monolithischen Architektur, Container, Dev Ops, CI/CD Pipilines. Auch Viele Lösungen wie Komponenten, Logging, Tracing sind Stadertsiert. 
+Der Begriff Cloud Native wurde 2013 von Matt Stine geprägt und unter anderem durch Netflix auf einem AWS re:Invent Talk bekannt gemacht. Es gibt keine einheitliche Definition für Cloud-Native-Architektur. Grundsätzlich soll Cloud Native dabei helfen, Webanwendungen zu entwickeln, die skalierbar und hochverfügbar sind. Gleichzeitig soll durch Cloud Native agil entwickelt werden, also eine schnellstmögliche Feature-Anpassung mit möglichst kleinem Risiko. Dabei helfen Microservices statt einer monolithischen Architektur, Container, DevOps sowie CI/CD-Pipelines. Viele Lösungen wie Komponenten, Logging und Tracing sind dabei standardisiert.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{CloudNativeMap.png}
-    \caption{Kubernetes Features}
+    \caption{Cloud Native Landscape (CNCF)}
 \end{figure}
 
 \subsubsection{DevOps}
@@ -30,7 +30,7 @@ deployed und skaliert werden. Gegenteil: \textit{Monolith}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{CloudNativeBesipel.png}
-    \caption{Kubernetes Features}
+    \caption{Microservices vs.\ Monolith}
 \end{figure}
 
 \subsection{Architektur-Grundlagen}
@@ -68,7 +68,7 @@ wirkt sich auf Folgeprojekte aus (z.\,B. Lizenzen).
           spezifische Cloud-Provider-Komponenten
     \item \textbf{Lösungssicht:} Cloud-Service-Architektur,
           User Flow, ER-Diagramm
-    \item \textbf{Sicherheitssicht:} Zugansverwaltung,
+    \item \textbf{Sicherheitssicht:} Zugangsverwaltung,
           Compliance-Anforderungen, Firewall
 \end{itemize}
 
@@ -113,7 +113,7 @@ Architektur bei Planung und Durchführung zu erklären.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{TOGAF.png}
-    \caption{Kubernetes Features}
+    \caption{TOGAF ADM-Zyklus}
 \end{figure}
 
 Der ADM-Zyklus beschreibt, wie eine Unternehmensarchitektur schrittweise
@@ -158,7 +158,7 @@ die genaue Komponentenstruktur.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{c4.png}
-    \caption{Kubernetes Features}
+    \caption{C4-Modell -- vier Abstraktionsebenen}
 \end{figure}
 
 Die vier Ebenen bauen aufeinander auf:
@@ -176,3 +176,48 @@ Die vier Ebenen bauen aufeinander auf:
 Ein großer Vorteil des C4-Modells ist die \textbf{Werkzeugfreiheit}.
 Es funktioniert mit PlantUML, draw.io oder sogar auf einem Whiteboard,
 solange die vier Ebenen klar getrennt bleiben.
+
+\subsection{Load Balancer}
+Die Hauptaufgabe eines Load Balancers ist der Lastenausgleich. Wenn viele Nutzer Anfragen an eine Anwendung stellen, werden diese auf mehrere Server verteilt. Dadurch werden Über- und Unterlastung von Ressourcen vermieden. Die meisten PaaS-Angebote in der Cloud kommen mit einem vorkonfigurierten Load Balancer. Bei einem Load Balancer skaliert man horizontal (mehr Instanzen, nicht stärkere Hardware).
+
+Weitere Funktionen eines Load Balancers:
+\begin{itemize}
+    \item \textbf{Health Checks:} Erkennt ausgefallene Instanzen und leitet Traffic automatisch um
+    \item \textbf{SSL-Terminierung:} Verschlüsselung wird zentral am Load Balancer beendet
+    \item \textbf{Session Persistence (Sticky Sessions):} Nutzer werden immer zum selben Server geleitet
+    \item \textbf{Ressource-Cluster:} Zusammenfassung mehrerer Instanzen zu einem logischen Pool
+    \item \textbf{Netzwerkisolierung:} Backend-Server sind nicht direkt aus dem Internet erreichbar
+\end{itemize}
+
+\subsection{Cloud Bursting}
+Wenn die On-Premises-Ressourcen ausgelastet sind, werden zusätzliche Workloads dynamisch in die Cloud ausgelagert. Sobald die Last sinkt, kehren die Workloads wieder auf die eigene Infrastruktur zurück. So zahlt man Cloud-Ressourcen nur bei tatsächlichem Bedarf.
+
+\subsection{Disaster Recovery}
+Disaster Recovery (DR) bezeichnet Strategien und Maßnahmen, mit denen eine Anwendung oder ein System nach einem schwerwiegenden Ausfall (z.\,B. Rechenzentrumsausfall, Datenverlust, Cyberangriff) wiederhergestellt werden kann.
+
+\subsubsection*{Schlüsselkennzahlen}
+\begin{itemize}
+    \item \textbf{RTO (Recovery Time Objective):} Maximale tolerierbare Ausfallzeit -- wie lange darf die Wiederherstellung dauern?
+    \item \textbf{RPO (Recovery Point Objective):} Maximaler tolerierbarer Datenverlust -- wie alt darf das letzte Backup sein?
+\end{itemize}
+Ein niedriges RTO/RPO bedeutet höhere Kosten, da mehr Redundanz und häufigere Replikation nötig sind.
+
+\subsubsection*{DR-Strategien (nach Kosten/Geschwindigkeit)}
+\begin{itemize}
+    \item \textbf{Backup \& Restore:} Günstigste Variante; Daten werden regelmäßig gesichert und im Ernstfall wiederhergestellt. Hohes RTO/RPO.
+    \item \textbf{Pilot Light:} Minimale Kerninfrastruktur läuft dauerhaft in der DR-Region; bei Bedarf wird sie hochskaliert.
+    \item \textbf{Warm Standby:} Vollständige, aber kleiner dimensionierte Kopie des Systems läuft parallel; wird im Ernstfall hochskaliert.
+    \item \textbf{Active/Active (Multi-Site):} Zwei oder mehr vollständige Systeme laufen gleichzeitig aktiv; kein Failover nötig, maximale Verfügbarkeit. Teuerste Variante.
+\end{itemize}
+
+\subsubsection*{Azure Storage-Redundanzoptionen}
+Azure bietet verschiedene Redundanzstufen für Speicher, die sich nach geografischer Verteilung und Replikationsart unterscheiden:
+
+\begin{itemize}
+    \item \textbf{LRS} (Locally Redundant Storage): 3 synchrone Kopien innerhalb \emph{eines} Rechenzentrums in einer Region. Günstigste Option, schützt nur vor Hardware-Ausfall.
+    \item \textbf{ZRS} (Zone-Redundant Storage): 3 synchrone Kopien in 3 verschiedenen \emph{Verfügbarkeitszonen} innerhalb einer Region. Schützt vor dem Ausfall einer Zone.
+    \item \textbf{GRS} (Geo-Redundant Storage): LRS in der primären Region \emph{plus} asynchrone Replikation in eine sekundäre, geografisch getrennte Partnerregion (dort ebenfalls als LRS gespeichert). Insgesamt 6 Kopien. Schützt vor einem regionalen Ausfall; Lesezugriff auf die Sekundärregion nur nach einem Failover.
+    \item \textbf{RA-GRS} (Read-Access GRS): Wie GRS, aber mit dauerhaftem Lesezugriff auf die Sekundärregion ohne Failover.
+    \item \textbf{GZRS} (Geo-Zone-Redundant Storage): ZRS in der primären Region \emph{plus} asynchrone Replikation in eine sekundäre Region (dort als LRS). Höchste Redundanz -- schützt vor Zonen- \emph{und} Regionsausfall.
+    \item \textbf{RA-GZRS} (Read-Access GZRS): Wie GZRS, aber mit dauerhaftem Lesezugriff auf die Sekundärregion.
+\end{itemize}

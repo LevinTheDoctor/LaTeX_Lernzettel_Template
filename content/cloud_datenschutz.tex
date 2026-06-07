@@ -1,0 +1,59 @@
+\section{Cloud und Datenschutz}
+
+\subsection{Data Sovereignty}
+Regionale Datenschutzvorgaben verlangen, dass Daten physisch in
+bestimmten Gebieten gespeichert werden. Cloud-Anbieter nutzen zwar
+geografisch verteilte Replikation für hohe Verfügbarkeit, jedoch kann
+diese verteilte Speicherung gegen lokale Vorschriften verstoßen.
+Eine Daten-Souveränitäts-Architektur stellt sicher, dass geschützte
+Daten regelkonform abgelegt werden. Replikationsmechanismen müssen
+daher Compliance-fähig konfigurierbar sein, und Daten-Governance
+koordiniert die Speicherung in den jeweils vorgeschriebenen Regionen.
+
+\subsection{Sovereign Cloud}
+Eine Sovereign Cloud schützt personenbezogene Daten, geistiges
+Eigentum, Software und Finanzdaten unter staatlicher oder regionaler
+Kontrolle. Sie besteht aus drei Souveränitätsebenen:
+\begin{itemize}
+    \item \textbf{Daten-Souveränität:} Schlüsselkontrolle und Speicherort
+    \item \textbf{Betriebs-Souveränität:} Verfügbarkeit und Regionalität
+    \item \textbf{Digitale Souveränität:} Zugriffs-Policies und Transparenz
+\end{itemize}
+
+Technisch wird das umgesetzt durch Verschlüsselung,
+\textit{Keep-Your-Own-Key} und Confidential Computing.
+Der Betrieb erfolgt entweder über öffentliche Cloud mit regionalen
+Rechenzentren (z.\,B. Frankfurt) oder über Hybrid-Plattformen wie
+OpenShift. Compliance wird durch \textit{Policy-as-Code} und
+kontinuierliche Überwachung sichergestellt.\\[4pt]
+\textbf{Risikobasierter Ansatz:} Strenge Regeln gelten nur für
+kritische Workloads. Nicht-sensible Daten dürfen EU-weit fließen,
+kritische Daten (Gesundheit, Behörden, Finanzen) müssen im jeweiligen
+Land bleiben, nachweisbar.
+
+\subsubsection{Warum Sovereign Cloud? – Rechtlicher Hintergrund}
+
+\textbf{DSGVO (Datenschutz-Grundverordnung):}
+Die DSGVO ist eine EU-Verordnung (seit 2018), die den Umgang mit
+personenbezogenen Daten regelt. Sie gilt für alle Unternehmen, die
+Daten von EU-Bürgern verarbeiten, unabhängig davon, wo das Unternehmen
+selbst sitzt. Kernanforderungen sind Zweckbindung, Datensparsamkeit,
+nachweisbare Einwilligung und das Recht auf Löschung. Ergänzt wird
+sie in Deutschland durch das \textbf{BDSG} (Bundesdatenschutzgesetz).
+
+\textbf{US CLOUD Act (Clarifying Lawful Overseas Use of Data Act):}
+Ein US-amerikanisches Gesetz (seit 2018), das US-Behörden erlaubt,
+von amerikanischen Cloud-Anbietern (z.\,B. AWS, Azure, Google Cloud)
+Herausgabe von Daten zu verlangen, auch wenn diese Daten physisch
+in der EU liegen. Das untergräbt den DSGVO-Schutz, denn selbst ein
+deutsches Rechenzentrum von Microsoft unterliegt dem CLOUD Act,
+solange Microsoft ein US-Unternehmen ist.
+
+\textbf{FISA 702 (Foreign Intelligence Surveillance Act):}
+Ermöglicht US-Geheimdiensten den Zugriff auf Kommunikationsdaten
+ausländischer Personen, die über US-amerikanische Dienste laufen,
+ohne richterliche Einzelgenehmigung.\\[4pt]
+Die Sovereign Cloud soll genau diese Zugriffsmöglichkeiten
+durch technische und organisatorische Maßnahmen verhindern,
+zum Beispiel durch europäische Betreiber ohne US-Mutterkonzern
+oder durch Verschlüsselung, bei der nur der Kunde den Schlüssel hält.
