@@ -1,6 +1,22 @@
--- Ergebnisse nach Score sortiert (analog zu ORDER BY = Sortieralgorithmus)
-SELECT student_id, name, score
-FROM   exam_results
-WHERE  score >= 50
-ORDER  BY score DESC, name ASC
-LIMIT  10;
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_dev
+    restart: unless-stopped
+
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --bind-address=0.0.0.0
+
+    ports:
+      - "3307:3306"
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Levin-Dev-SQL
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:

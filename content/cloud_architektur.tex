@@ -1,2 +1,178 @@
 \section{Cloud Architektur}
-\subsection{}
+\subsection{Cloud Native}
+Cloud Native ist das erste mal 2013 angesprochen worden, von Netflix auf einen AWS reinvent talk. Es gibt keine Klare Defention für Cloud Native Architektur. Grundsatzlich soll Cloud Native aber dabei helfen Web Anwendung zu entwicklen die Skalierbar und Hochverfügbar sind. Gleichzeitg soll durch Cloud Native Agil entwickelt werden also eine Schnellst mögliche feature anpassung mit möglichst kleine Risiko. Dabei helfen Micoservice statt einer Monolithischen Architektur, Container, Dev Ops, CI/CD Pipilines. Auch Viele Lösungen wie Komponenten, Logging, Tracing sind Stadertsiert. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{CloudNativeMap.png}
+    \caption{Kubernetes Features}
+\end{figure}
+
+\subsubsection{DevOps}
+Kombination aus \textit{Development} und \textit{Operations}.
+Entwicklung und Betrieb arbeiten zusammen statt getrennt.
+Kern-Ideen: Automatisierung von Builds, Tests und Deployments,
+schnelle Feedbackschleifen (kurze Release-Zyklen) und gemeinsame
+Verantwortung für Code und Infrastruktur.
+
+\subsubsection{CI/CD -- Continuous Integration / Continuous Delivery}
+\textbf{CI:} Jeder Code-Push wird automatisch gebaut und getestet,
+Fehler werden sofort sichtbar.
+\textbf{CD:} Nach erfolgreichem CI wird der Build automatisch
+in eine Umgebung ausgeliefert (Staging oder Produktion).
+
+\subsubsection{Microservices}
+Architekturstil, bei dem eine Anwendung in viele kleine, unabhängige
+Dienste aufgeteilt wird. Jeder Service hat eine klar abgegrenzte Aufgabe,
+kommuniziert über APIs (REST oder Message Queues) und kann separat
+deployed und skaliert werden. Gegenteil: \textit{Monolith}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{CloudNativeBesipel.png}
+    \caption{Kubernetes Features}
+\end{figure}
+
+\subsection{Architektur-Grundlagen}
+
+\subsubsection{Warum wichtig?}
+Pläne beeinflussen spätere Entscheidungen. Viele Änderungsanfragen
+sind vermeidbar, sonst entstehen technische Schulden. Framework-Änderungen
+allein lösen keine Grundprobleme, und eingeschränkte Komponentenwahl
+wirkt sich auf Folgeprojekte aus (z.\,B. Lizenzen).
+
+\subsubsection{Technische Schulden}
+\textbf{Definition:} Konsequenzen bei schlechter Umsetzung.\\[4pt]
+\textbf{Arten:}
+\begin{itemize}
+    \item Bewusste Schulden (strategische Entscheidungen)
+    \item Unbeabsichtigte Schulden durch mangelnde Dokumentation,
+          fehlende Automatisierung, fehlende Coding Standards
+          oder Missachtung von Code-Hinweisen
+\end{itemize}
+
+\subsubsection{Ziele einer Lösungs-Architektur}
+\begin{itemize}
+    \item Skalierbarkeit, Resilienz, Sicherheit, Compliance
+    \item Globaler Kundendienst mit gleicher Performance
+    \item Wartbarkeit über Jahrzehnte
+\end{itemize}
+
+\subsubsection{Architektur-Perspektiven}
+\begin{itemize}
+    \item \textbf{Geschäftssicht:} Ziele, Vision, Stakeholder,
+          Geschäftsanforderungen, Erfolgsmetriken
+    \item \textbf{Prozesssicht:} Abläufe von Kunde zu Server,
+          z.\,B. als Sequenzdiagramm oder BPMN
+    \item \textbf{Konzeptionelle Sicht:} Architektur ohne
+          spezifische Cloud-Provider-Komponenten
+    \item \textbf{Lösungssicht:} Cloud-Service-Architektur,
+          User Flow, ER-Diagramm
+    \item \textbf{Sicherheitssicht:} Zugansverwaltung,
+          Compliance-Anforderungen, Firewall
+\end{itemize}
+
+\newpage
+
+\subsubsection{Architektur-Frameworks: Governance}
+Dienen der unternehmensweiten Steuerung, Compliance-Nachweisen
+und Risikokontrolle über vordefinierte Prinzipien, Gremien und Reviews.
+Beispiele: TOGAF, ISO/IEC/IEEE 42010:2022, Zachman-Framework.\\[4pt]
+\textbf{TOGAF} (The Open Group Architecture Framework): Framework zur
+Entwicklung und Verwaltung von Unternehmensarchitekturen (People,
+Processes, Technology) mit vier Domänen:
+\begin{itemize}
+    \item Geschäftsarchitektur
+    \item Informationssystemarchitektur (Anwendungs- und Datenarchitektur)
+    \item Technologiearchitektur
+\end{itemize}
+
+\subsubsection{Architektur-Frameworks: Praxisorientiert}
+Stellen schnelle, verständliche Diagramme für Entwickler, DevOps und
+Produktteams bereit. Zielen eher auf einzelne Lösungen und Applikationen
+ab. Beispiele: C4-Modell, 4+1-Modell, PlantUML.\\[4pt]
+\textbf{C4-Modell:} Unterstützt Software-Entwicklungsteams, ihre
+Architektur bei Planung und Durchführung zu erklären.
+4 Ebenen: Software System, Container, Component, Code.\\[4pt]
+\textbf{Software Architecture Diagramming Maturity Model:}
+\begin{itemize}
+    \item \textbf{Level 1 -- Initial:} Keine Architekturdiagramme
+    \item \textbf{Level 2 -- Ad hoc:} Diagramme mit ad-hoc-Abstraktionen
+          in einem allgemeinen Diagramm-Tool
+    \item \textbf{Level 3 -- Defined:} Diagramme mit definierten
+          Abstraktionen und Notation, allgemeines Tool
+    \item \textbf{Level 4 -- Modelled:} Definierte Abstraktionen in
+          einem Modellierungs-Tool, manuell erstellt
+    \item \textbf{Level 5 -- Optimising:} Modellelemente werden
+          teamübergreifend geteilt, als querybare Datensätze genutzt
+          und automatisch aus Sourcecode bzw. Deployment-Umgebung
+          generiert
+\end{itemize}
+
+\subsection{TOGAF -- Architecture Development Method (ADM)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{TOGAF.png}
+    \caption{Kubernetes Features}
+\end{figure}
+
+Der ADM-Zyklus beschreibt, wie eine Unternehmensarchitektur schrittweise
+entwickelt wird. Im Zentrum stehen immer die \textbf{Requirements} (Anforderungen),
+auf die jede Phase kontinuierlich einzahlt.
+
+\begin{itemize}
+    \item \textbf{Preliminary:} Framework und Prinzipien festlegen
+          (Vorbereitung, noch kein offizieller Buchstabe)
+    \item \textbf{A -- Architecture Vision:} Ziele, Scope und
+          Stakeholder-Erwartungen definieren
+    \item \textbf{B -- Business Architecture:} Geschäftsprozesse
+          und -strukturen modellieren
+    \item \textbf{C -- Information System Architecture:}
+          Anwendungs- und Datenarchitektur beschreiben
+    \item \textbf{D -- Technology Architecture:} Infrastruktur,
+          Plattformen und Technologien festlegen
+    \item \textbf{E -- Opportunities \& Solutions:} Lücken zwischen
+          Ist- und Soll-Zustand identifizieren, Lösungsoptionen bewerten
+    \item \textbf{F -- Migration Planning:} Roadmap und Reihenfolge
+          der Umsetzung planen
+    \item \textbf{G -- Implementation Governance:} Umsetzung
+          begleiten und sicherstellen, dass Architekturvorgaben
+          eingehalten werden
+    \item \textbf{H -- Architecture Change Management:} Änderungen
+          am laufenden System kontrolliert einführen und den
+          Zyklus bei Bedarf neu starten
+\end{itemize}
+
+Der Zyklus ist \textbf{iterativ}, d.\,h. nach Phase H kann der Prozess
+wieder bei A (oder sogar Preliminary) beginnen, falls sich Anforderungen
+grundlegend ändern.
+
+\subsection{C4}
+
+Das C4-Modell ist ein praxisorientiertes Framework zur Visualisierung
+von Software-Architektur. Der Name steht für die vier Abstraktionsebenen:
+\textbf{Context, Container, Component und Code}. Die Idee dahinter ist,
+dass verschiedene Zielgruppen unterschiedliche Detailtiefe brauchen,
+ein Manager braucht nur den groben Überblick, ein Entwickler hingegen
+die genaue Komponentenstruktur.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c4.png}
+    \caption{Kubernetes Features}
+\end{figure}
+
+Die vier Ebenen bauen aufeinander auf:
+\begin{itemize}
+    \item \textbf{System Context:} Zeigt das System als Ganzes
+          und seine Beziehungen zu Nutzern und externen Systemen
+    \item \textbf{Container:} Aufschlüsselung in deploybare Einheiten
+          wie Web-Apps, Datenbanken oder Microservices
+    \item \textbf{Component:} Interne Struktur eines Containers,
+          z.\,B. einzelne Module oder Services
+    \item \textbf{Code:} Klassendiagramme oder ähnliches auf
+          Code-Ebene (wird selten gezeichnet, da IDEs das übernehmen)
+\end{itemize}
+
+Ein großer Vorteil des C4-Modells ist die \textbf{Werkzeugfreiheit}.
+Es funktioniert mit PlantUML, draw.io oder sogar auf einem Whiteboard,
+solange die vier Ebenen klar getrennt bleiben.
