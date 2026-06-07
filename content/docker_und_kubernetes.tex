@@ -1,0 +1,64 @@
+\subsection{Docker und Kubernetes}
+
+\subsection{Docker}
+Docker ist eine Containerisierungs-Platform. Sie erlaubt es, Anwendungen zusammen mit allem, was sie zum Laufen brauchen, in sogenannte Container zu verpacken. Vor Container gabe es oft den Spruch "Works on my Machine" da ein entwickler andere abhänigkeiten installiert hatte als der Andere Kollege. Das Problem ist durch Dcoker Gelöst da man alle abhänigkeeiten mitgibt.
+
+\subsubsection{Image}
+Ein Imagte ist die Blueprint also die Vorlage für einen Container. Es wird alles enthalten, was zum Ausführen eines Containers erforderlich ist. Ein Image kann in eine Docker Compose Referenziert werden. in dieser werden auch noch einstellungen vorgennomen wie envioment Variabeln.
+
+Bespiel eine Docker Compose mit der MySQL ausgefürt wird:
+
+\begin{syntaxbox}[YAML]
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_dev
+    restart: unless-stopped
+
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --bind-address=0.0.0.0
+
+    ports:
+      - "3307:3306"
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Levin-Dev-SQL
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:
+\end{syntaxbox}
+
+\subsubsection{Container}
+Ausführbare Pakete mit Anwendungscode, Laufzeit, Bibliotheken und Abhängikeiten. Sie sind zustandslos und unveränderlich. Bei Coed Anderung müssen sie neu Erstellt werden. 
+
+\subsubsection{Container Regsitrie}
+Eine Container Registrei ist der Ort an dem Images gespeichert werden. Es gibt Öffentliche Registries wie besipeilsweise ein Docker Hub aber auch jeder Cloud anbieter beitet die Möglichkeite eine einge Unternhemens Interine Contianer Regisitrie zu Hosten.
+
+\subsection{Kubernetes}
+Kubenters oder auch K8 wurde von Google Entwicklet. Kubenrets ist eine Platform um Container zu Ocrestirenen. Es  Verwaltet Container (nicht nur von Docker). Durch kubenretse sins Hochvefügbarkeit, Skalibarkeit und Disaster Recovery möglich. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/images/KubernetesFeatures}
+    \caption{Kubernetes Features}
+\end{figure}
+
+\subsubsection{Pods}
+Ein Pod ist die Kleinste einheit in Kubernetes. Ein Pod kann aus einen oder mehren Container besthen. Alle Continaer in eine Pod haben geteilte Ressourcen wi Speicher, Netzwerk. Bespiwlseweise kann eine App in eine App Pod zusammen gefasst werden.
+
+\subsubsection{Node}
+Ein Node ist ein Server bzw Rechenr eines Clusters
+
+\subsubsection{Cluster}
+Ein Cluster ist eine sammlung von Node, die Gemiensam Container und Pods ausführen.
+
+\subsubsection{Instanzen}
+Eine einzelnen laufende kopie einer Ressource.
+
+\subsection{Kubenrets Funktion}
+Ein Kubenetes Cluste benötigt eine Master Node. Diese wird zu Copnmtroll Plane der die Container auf den Worker Nodes verwwaltet. Wenn ein Node ausfällt hat Kubenrets die Self healiing funktion und fürt den Container auf einen anderen Node aus. Ein CLuste hat einen Virtuelles NEtzwek damit die Nodes unterinader kommniziren können.
