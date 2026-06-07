@@ -12,7 +12,16 @@ manuell eingerichtet werden.
 verwaltet werden.\\
 \textbf{Typische Anwendungsfälle:} Entwicklungs-Workloads und Hosten von
 Legacy-Systemen.
-
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\linewidth}{|X|X|X|}
+        \hline
+        \textbf{Public Cloud} & \textbf{Private Cloud} & \textbf{Hybrid Cloud} \\
+        \hline
+        IaaS in der Public Cloud wird oft genutzt, um virtuelle Server bereitzustellen, insbesondere für Startups. Zusätzlich ist IaaS in der Public Cloud kostengünstig und skalierbar. & Große Unternehmen können IaaS auch in ihrer Private Cloud nutzen, um maximale Kontrolle über Computing-Ressourcen zu haben. & Die meiste Rechenleistung befindet sich in der Private Cloud, nur bei Spitzenlasten wird auf die Public Cloud gewechselt. Auch Cloud Bursting genannt. \\
+        \hline
+    \end{tabularx}
+\end{table}
 \subsection{Platform as a Service (PaaS)}
 Bei PaaS bewegt man sich in Richtung Managed Services. Ein Beispiel wäre
 eine verwaltete SQL-Datenbank in Azure. Viele Aspekte wie Load Balancer und
@@ -25,7 +34,16 @@ Konfigurationsaufwand als bei IaaS.\\
 verwaltet.\\
 \textbf{Typische Anwendungsfälle:} Hosten von Webanwendungen, verwaltete
 Datenbanken in der Cloud.
-
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\linewidth}{|X|X|X|}
+        \hline
+        \textbf{Public Cloud} & \textbf{Private Cloud} & \textbf{Hybrid Cloud} \\
+        \hline
+        PaaS wird in der Public Cloud genutzt, um Anwendungen von Entwicklern bereitzustellen. Beispielsweise soll eine Webanwendung für das ganze Unternehmen zur Verfügung gestellt werden – dies wird in Azure beispielsweise über einen Azure App Service getan. & PaaS-Plattformen können auch in einem unternehmenseigenen Rechenzentrum eingerichtet werden, sodass Entwicklungsteams in einer sicheren Umgebung testen können. & Entwicklungsteams testen in einer privaten PaaS-Umgebung und deployen die Anwendung dann in eine öffentliche PaaS-Umgebung. \\
+        \hline
+    \end{tabularx}
+\end{table}
 \subsection{Software as a Service (SaaS)}
 Bei SaaS erhält der Nutzer ein fertiges Produkt, das nur noch konfiguriert
 werden muss. Eigener Code kann nicht eingebunden werden, alles funktioniert
@@ -36,6 +54,16 @@ sind kaum möglich.\\
 \textbf{Verantwortung:} Gering, der Nutzer ist nur für die eigenen Daten
 verantwortlich.\\
 \textbf{Typische Anwendungsfälle:} Produkte wie Microsoft 365.
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\linewidth}{|X|X|X|}
+        \hline
+        \textbf{Public Cloud} & \textbf{Private Cloud} & \textbf{Hybrid Cloud} \\
+        \hline
+        SaaS-Produkte wie Microsoft 365, Gmail oder Salesforce sind am weitesten verbreitet. Eine Anwendung läuft komplett in der Public-Cloud-Infrastruktur eines Anbieters. Die Anwendungen werden über das Internet bereitgestellt. & SaaS-Produkte können bei Unternehmen mit hohen Sicherheitsanforderungen in der eigenen Cloud-Infrastruktur gehostet werden. Beispielsweise können auch KI-Modelle wie Claude oder Gemini bei einem Unternehmen selbst gehostet werden. & Dies ist eine häufige Kombination in Unternehmen: Sensible Daten liegen On-Premises in der Private Cloud, beispielsweise auch ein ERP-System. Daneben werden aber auch SaaS-Anwendungen wie Teams oder Gmail genutzt. \\
+        \hline
+    \end{tabularx}
+\end{table}
 \newpage
 \subsection{Shared Responsibility Model}
 Das Shared Responsibility Model zeigt auf, wo die Verantwortlichkeiten bei
