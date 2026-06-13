@@ -1,0 +1,33 @@
+\section{Cloud und Kosten}
+\subsection{Kostenfaktoren}
+\begin{itemize}
+    \item \textbf{Rechenkapazität}
+    \item \textbf{Rechendauer}
+    \item \textbf{Storage (Speicherkapazität)}
+    \item \textbf{Netzwerk}
+    \item \textbf{Lizenzen für Software in der Cloud, insbesondere SaaS}
+    \item \textbf{Subscriptions}
+\end{itemize}
+\subsubsection{Ingress und Egress}
+\begin{itemize}
+    \item \textbf{Egress}: Kosten, um Daten aus der Cloud zu bewegen.
+    \item \textbf{Ingress}: Kosten, um Daten in die Cloud zu bringen, oft günstiger.
+\end{itemize}
+\subsection{Wie zahlt man in der Cloud}
+\subsubsection{Pay per Use}
+Auch als On Demand bekannt. Beim Pay-per-Use-Modell wird nutzungsabhängig abgerechnet. Dadurch hat man maximale Flexibilität, im Gegensatz dazu kann das Pay-per-Use-Modell aber sehr teuer werden.
+\subsubsection{Reservierung}
+Reservierungen sind Verträge mit Cloud-Anbietern für vorhersehbare Workloads. Bei diesen Verträgen bindet man sich für eine bestimmte Zeit an einen Cloud-Anbieter und erhält so einen günstigeren Bindungspreis. Bei Azure gibt es Azure Reservations, diese gelten für bis zu 3 Jahre.
+\subsubsection{Spot Instances}
+Spot-Preise kommen insbesondere bei Serverless zum Einsatz, also immer dort, wo selten genutzte Workloads anfallen. Beispielsweise für FaaS.
+\subsubsection{Savings Plans}
+Nutzungscommitment mit festen stündlichen Preisen über 1--3 Jahre, flexibel über Services und Regionen. Es gibt aber eine feste Nutzung.
+\subsubsection{Volumenrabatte}
+Preisnachlass ab höheren Mengen.
+\subsection{Cloud-Preisentwicklung}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{PreisEntwicklung.png}
+    \caption{Entwicklung von Cloud- und On-Prem-Preisen}
+\end{figure}
+Bei On-Prem hat man hohe CapEx-Kosten, dies sind Investitionskosten. Durch die hohen Ausgaben hat man weniger Geld zur Verfügung und somit Opportunitätskosten, da man dieses Geld sonst in andere Dinge hätte investieren können. Bei der Cloud hat man hingegen OpEx-Kosten. Man gibt also immer wieder Geld aus, aber nicht viel auf einmal. Über die lange Zeit ist die Cloud von den Kosten her teurer, aber dafür hat man mehr Chancen, weil man nicht so viel vorab investieren musste.
