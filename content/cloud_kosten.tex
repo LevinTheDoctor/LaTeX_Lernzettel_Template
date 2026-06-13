@@ -31,3 +31,31 @@ Preisnachlass ab höheren Mengen.
     \caption{Entwicklung von Cloud- und On-Prem-Preisen}
 \end{figure}
 Bei On-Prem hat man hohe CapEx-Kosten, dies sind Investitionskosten. Durch die hohen Ausgaben hat man weniger Geld zur Verfügung und somit Opportunitätskosten, da man dieses Geld sonst in andere Dinge hätte investieren können. Bei der Cloud hat man hingegen OpEx-Kosten. Man gibt also immer wieder Geld aus, aber nicht viel auf einmal. Über die lange Zeit ist die Cloud von den Kosten her teurer, aber dafür hat man mehr Chancen, weil man nicht so viel vorab investieren musste.
+\subsection{Kosteneinsparung in der Cloud}
+\begin{itemize}
+    \item \textbf{Right-Sizing}: Bedarfsgerechte Ressourcenzuweisung
+    \item \textbf{Decommissioning}: Stilllegung bei wenig / keiner Aktivität
+    \item \textbf{Default Off}: nur bei Bedarf aktivieren
+    \item \textbf{Snoozing}: Ressourcen laufen nur zu Arbeitszeiten
+    \item \textbf{Lizenz-Management}
+    \item \textbf{Spot Instanzen}
+    \item \textbf{Reservierungen}
+    \item \textbf{Automatische Skalierung}
+    \item \textbf{Platform Migration}
+    \item \textbf{Veränderung der Architektur}
+\end{itemize}
+\subsection{FinOps}
+FinOps ist ein Framework, bei dem Finance und Engineering Hand in Hand greifen und das das Ziel hat, die OpEx-Kosten, die durch die Cloud entstehen, zu optimieren. FinOps hat die Verantwortung für die variablen Kosten der Cloud. Das Ziel ist eine datengetriebene Kostenentscheidung; diese Definition stammt von der FinOps Foundation.
+In der Cloud sind die Kosten oft schwer nachzuvollziehen und schwer vorherzusehen, dabei soll FinOps helfen. FinOps versucht, aus Telemetriedaten und Analysen, Transparenz-Tools der Cloud-Anbieter und Governance eine möglichst günstige Cloud zu erreichen. Man versucht, Kostenanomalien zu erklären, Vorhersagen zu analysieren und Über- und Unterkapazitäten zu vermeiden.
+IT, Business und Finanzen werden an einen Tisch gebracht, um Cloud-Kosten zu optimieren und einen Weg zu finden, bei dem die Operations-Fähigkeit optimal ist und die Kosten gesenkt werden.
+Der FinOps-Prozess läuft in drei iterativen Phasen. Diese Phasen laufen nicht nacheinander ab, sondern sollen agil auf Veränderungen reagieren.
+\begin{itemize}
+    \item \textbf{Inform}: Schaffung von Transparenz und Verfolgung von Kosten. Welche Teams verursachen welche Kosten, wie ist der Bedarf.
+    \item \textbf{Optimize}: Ermittlung von ungenutzten oder überlasteten Ressourcen
+    \item \textbf{Operate}: Implementierung der neuen Vorgaben.
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{FinOpsLifeCycle.png}
+    \caption{FinOps Lifecycle}
+\end{figure}
