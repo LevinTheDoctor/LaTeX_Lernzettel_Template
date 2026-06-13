@@ -28,25 +28,32 @@
 \clearpage
 
 % ── Inhalt ────────────────────────────────────────────────────────────────
-\input{content/grundbegriffe}
-\input{content/cloud_begriffe}
-\input{content/cloud_nach_nist}
+% Block 1 – Grundlagen: Was ist Cloud?
+\input{content/grundbegriffe}          % Cloud, Compute, Storage
+\input{content/virtualisierung.tex}    % technischer Grundstein (ermöglicht Resource Pooling)
+\input{content/cloud_nach_nist}        % formale NIST-Definition (5 Eigenschaften)
+\input{content/cloud_begriffe}         % Akteure: Consumer, Provider, Auditor …
 
-\input{content/virtualisierung.tex}
-\input{content/cloudliefermodelle.tex}
-\input{content/Service_Modell.tex}
-\input{content/cloud_services.tex}
+% Block 2 – Cloud-Eigenschaften
+\input{content/cloud_eigenschaften}    % Skalierung, Elastizität, Hochverfügbarkeit/SLA
+
+% Block 3 – Infrastruktur: Wo läuft Cloud?
+\input{content/regionen_und_zonen}     % Region & Verfügbarkeitszonen
 \input{content/rechenzentrum.tex}
-
 \input{content/ISP.tex}
+\input{content/hyperscale.tex}         % Anbietervergleich (nutzt Regionen/Zonen)
 
-\input{content/hyperscale.tex}
+% Block 4 – Bereitstellung & Services
+\input{content/cloudliefermodelle.tex} % Public/Private/Hybrid
+\input{content/Service_Modell.tex}     % IaaS/PaaS/SaaS + Shared Responsibility
+\input{content/cloud_services.tex}     % Serverless, FaaS
+
+% Block 5 – Anwendungen bauen
 \input{content/docker_und_kubernetes.tex}
-
 \input{content/cloud_architektur.tex}
 
-\input{content/cloud_kosten.tex}
-
+% Block 6 – Wirtschaft & Recht
+\input{content/cloud_kosten.tex}       % CapEx/OpEx, Preismodelle, FinOps
 \input{content/cloud_datenschutz.tex}
 % ── Literaturverzeichnis ──────────────────────────────────────────────────
 \printbibliography[heading=bibintoc, title={Literaturverzeichnis}]
