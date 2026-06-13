@@ -27,6 +27,14 @@ Dienste aufgeteilt wird. Jeder Service hat eine klar abgegrenzte Aufgabe,
 kommuniziert über APIs (REST oder Message Queues) und kann separat
 deployed und skaliert werden. Gegenteil: \textit{Monolith}.
 
+\subsubsection{Monolith}
+Eine monolithische Architektur bedeutet, dass alle Elemente einer Software in einer 
+zusammenhängenden Codebasis liegen. Die grafische Benutzeroberfläche, die Geschäftslogik 
+und der Datenzugriff sind eng miteinander verbunden. Dies führt dazu, dass die Codebasis 
+stark anwächst, wodurch Fehler schwerer nachvollziehbar werden. Bereits eine kleine 
+Änderung erfordert, dass die gesamte Anwendung neu deployt wird. Die beteiligten Teams 
+sind häufig groß und müssen bereichsübergreifend zusammenarbeiten.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{CloudNativeBesipel.png}
@@ -221,3 +229,6 @@ Azure bietet verschiedene Redundanzstufen für Speicher, die sich nach geografis
     \item \textbf{GZRS} (Geo-Zone-Redundant Storage): ZRS in der primären Region \emph{plus} asynchrone Replikation in eine sekundäre Region (dort als LRS). Höchste Redundanz -- schützt vor Zonen- \emph{und} Regionsausfall.
     \item \textbf{RA-GZRS} (Read-Access GZRS): Wie GZRS, aber mit dauerhaftem Lesezugriff auf die Sekundärregion.
 \end{itemize}
+
+\subsection{Service Discovery}
+Service Discovery bedeutet die automatische Erkennung von Diensten in einem Netzwerk. Services registrieren sich selbst, sodass andere Services sie automatisch finden, ohne dass IP-Adressen oder Ports hart kodiert werden müssen. Durch Service Discovery kann man leicht Services anbinden. Gerade in Multi-Cloud-Umgebungen, bei denen ein virtuelles Netzwerk zwischen privater und öffentlicher Cloud hergestellt wird, ist die automatische Erkennung von Services besonders wichtig.

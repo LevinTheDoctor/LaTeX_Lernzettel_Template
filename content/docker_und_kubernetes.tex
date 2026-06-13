@@ -60,5 +60,11 @@ Ein Cluster ist eine sammlung von Node, die Gemiensam Container und Pods ausfüh
 \subsubsection{Instanzen}
 Eine einzelnen laufende kopie einer Ressource.
 
+\subsubsection{Deployments}
+Vergleichbar mit Docker Compose. Ein Deployment enthält mehrere Container und ist sozusagen ein Bauplan für einen Pod. Allerdings wird auch angegeben, wie viele Pods existieren sollen.
+
+\subsubsection{Services}
+Ein Service ist ein Satz von Pods, die eine stabile Netzwerkverbindung haben und Sachen wie einen Load Balancer konfiguriert haben. Sie stellen auch eine IP und einen Port bereit. Vergleichbar mit einen LXC Container in Proxmox
+
 \subsection{Kubenrets Funktion}
 Ein Kubenetes Cluste benötigt eine Master Node. Diese wird zu Copnmtroll Plane der die Container auf den Worker Nodes verwwaltet. Wenn ein Node ausfällt hat Kubenrets die Self healiing funktion und fürt den Container auf einen anderen Node aus. Ein CLuste hat einen Virtuelles NEtzwek damit die Nodes unterinader kommniziren können.
