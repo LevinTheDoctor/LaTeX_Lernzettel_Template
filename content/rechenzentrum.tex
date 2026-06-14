@@ -23,3 +23,74 @@ Moderne Rechenzentren müssen viele Anforderungen erfüllen.
   \includegraphics[width=\textwidth]{assets/images/AufrechtErhaltungRechenzetrum}
   \caption{Aufrechterhaltung eines unterbrechungsfreien und sicheren Rechenzentrumsbetriebs}
 \end{figure}
+
+\subsection{Netzwerk-Architektur}
+% LEKTORAT (sprachlich): Die beiden folgenden Beschreibungen waren stark
+% fehlerhaft und wurden vollständig überarbeitet; Inhalt und Aussage bleiben
+% erhalten. ASCII-Umschriften in der Tabelle (ue/ae/oe) zu echten Umlauten
+% vereinheitlicht.
+Ein Rechenzentrum benötigt eine ausreichend schnelle und verlässliche
+Netzwerkverbindung – sowohl zwischen den einzelnen Komponenten als auch nach
+außen zum Internet. Dafür gibt es verschiedene Architekturen, u.\,a.\ 3-Tier,
+Fat Tree, DCell, Leaf-Spine und Wireless.
+\subsubsection{Traditional 3-Tier Architecture}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/images/3TierArchitectrue}
+  \caption{Traditional 3-Tier Architecture}
+\end{figure}
+Die 3-Tier-Architektur ist die klassische Rechenzentrums-Topologie mit drei
+Ebenen (Core, Aggregation und Access). Heute ist sie seltener anzutreffen, da
+sie sich nur schwer erweitern lässt und anfällig für Ausfälle ist: Fällt ein
+zentraler Switch aus, kann die Kommunikation großflächig fehlschlagen. Zudem
+ist der Datenverkehr vergleichsweise langsam, weil Pakete zwischen zwei Servern
+oft den Umweg über die höheren Ebenen – hin und zurück – nehmen müssen.
+\subsubsection{Leaf-Spine Architecture}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/images/LeafSpine}
+  \caption{Leaf-Spine Architecture}
+\end{figure}
+Die Leaf-Spine-Architektur ist der moderne Standard. Jeder Leaf-Switch ist mit
+jedem Spine-Switch verbunden (vollständig vermascht), wodurch sich die
+Architektur einfach horizontal skalieren lässt. Der Verkabelungs- und
+Verwaltungsaufwand ist dadurch zwar höher, dafür ist das Senden von
+Datenpaketen sehr schnell, da zwischen zwei beliebigen Servern stets ein
+kurzer, gleich langer Pfad existiert.
+
+\subsubsection{Vergleich 3-Tier Architecture und Leaf-Spine Architecture}
+\begin{table}[H]
+  \caption{Vergleich Traditional 3-Tier und Leaf-Spine}\label{tab:tier-leafspine}
+  \begin{tabularx}{\textwidth}{|l|X|X|}  % Spalte 1 fest linksbuendig, Spalte 2+3 fuellen Rest gleichmaessig
+    \hline
+    \textbf{Aspekt} & \textbf{Traditional 3-Tier} & \textbf{Leaf-Spine} \\
+    \hline
+    \textbf{Struktur} & 3 Ebenen: Core, Aggregation, Access & 2 Ebenen: Spine, Leaf (flachere Hierarchie) \\
+    \hline
+    \textbf{Wege Server$\leftrightarrow$Server} & Länger, Traffic muss meist über die Core-Ebene & Kürzer, jeder Leaf-Switch ist mit jedem Spine-Switch verbunden \\
+    \hline
+    \textbf{Skalierbarkeit} & Begrenzter, da die Core-Ebene schnell zum Flaschenhals wird & Einfach skalierbar (weitere Leaf-/Spine-Switches hinzufügen) \\
+    \hline
+    \textbf{Bandbreite} & Geringer & Höher (mehr parallele Pfade) \\
+    \hline
+    \textbf{Redundanz} & Geringer & Hoch (mehrere Pfade zwischen jedem Leaf- und Spine-Switch) \\
+    \hline
+    \textbf{Kosten/Wartung} & Mehr Geräte/Ebenen, wartungsanfälliger & Tendenziell weniger Geräte nötig, weniger wartungsanfällig \\
+    \hline
+    % LEKTORAT (Ergänzung): Zeile "Typischer Einsatz" hinzugefügt, um zu zeigen,
+    % wo welche Architektur eingesetzt wird (Kern der Aufgabe).
+    \textbf{Typischer Einsatz} & Ältere, kleinere Rechenzentren; überwiegend Nord-Süd-Verkehr (Client$\rightarrow$Server); Legacy-Umgebungen & Moderne, große Rechenzentren, Cloud \& Hyperscaler; viel Ost-West-Verkehr (Server$\leftrightarrow$Server); virtualisierte und verteilte Workloads \\
+    \hline
+  \end{tabularx}
+
+  \footnotesize Quelle: Eigene Darstellung
+\end{table}
+
+\noindent\textbf{Faustregel:} Welche Architektur sinnvoll ist, hängt vor allem
+vom dominierenden Verkehrsmuster ab. Klassische Anwendungen erzeugen vor allem
+\emph{Nord-Süd-Verkehr} (von außen zum Server und zurück) – dafür genügt die
+3-Tier-Architektur. Moderne, virtualisierte und verteilte Workloads
+(Microservices, Big Data, KI-Training) erzeugen dagegen viel
+\emph{Ost-West-Verkehr} zwischen den Servern; hier spielt Leaf-Spine seine
+kurzen, gleich langen Pfade aus. Deshalb setzen Hyperscaler und
+Cloud-Rechenzentren nahezu durchgängig auf Leaf-Spine.
