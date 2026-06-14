@@ -1,12 +1,12 @@
 \section{Docker und Kubernetes}
 
 \subsection{Docker}
-Docker ist eine Containerisierungs-Platform. Sie erlaubt es, Anwendungen zusammen mit allem, was sie zum Laufen brauchen, in sogenannte Container zu verpacken. Vor Container gabe es oft den Spruch "Works on my Machine" da ein entwickler andere abhänigkeiten installiert hatte als der Andere Kollege. Das Problem ist durch Dcoker Gelöst da man alle abhänigkeeiten mitgibt.
+Docker ist eine Containerisierungs-Platform. Sie erlaubt es, Anwendungen zusammen mit allem, was sie zum Laufen brauchen, in sogenannte Container zu verpacken. Vor Containern gab es oft den Spruch "Works on my Machine", da ein Entwickler andere Abhängigkeiten installiert hatte als der andere Kollege. Das Problem ist durch Docker gelöst, da man alle Abhängigkeiten mitgibt.
 
 \subsubsection{Image}
-Ein Imagte ist die Blueprint also die Vorlage für einen Container. Es wird alles enthalten, was zum Ausführen eines Containers erforderlich ist. Ein Image kann in eine Docker Compose Referenziert werden. in dieser werden auch noch einstellungen vorgennomen wie envioment Variabeln.
+Ein Image ist der Blueprint, also die Vorlage für einen Container. Es enthält alles, was zum Ausführen eines Containers erforderlich ist. Ein Image kann in einer Docker Compose referenziert werden. In dieser werden auch noch Einstellungen vorgenommen wie Environment-Variablen.
 
-Bespiel eine Docker Compose mit der MySQL ausgefürt wird:
+Beispiel einer Docker Compose, mit der MySQL ausgeführt wird:
 
 \begin{syntaxbox}[YAML]
 services:
@@ -34,13 +34,13 @@ volumes:
 \end{syntaxbox}
 
 \subsubsection{Container}
-Ausführbare Pakete mit Anwendungscode, Laufzeit, Bibliotheken und Abhängikeiten. Sie sind zustandslos und unveränderlich. Bei Coed Anderung müssen sie neu Erstellt werden. 
+Ausführbare Pakete mit Anwendungscode, Laufzeit, Bibliotheken und Abhängigkeiten. Sie sind zustandslos und unveränderlich. Bei Code-Änderungen müssen sie neu erstellt werden.
 
-\subsubsection{Container Regsitrie}
-Eine Container Registrei ist der Ort an dem Images gespeichert werden. Es gibt Öffentliche Registries wie besipeilsweise ein Docker Hub aber auch jeder Cloud anbieter beitet die Möglichkeite eine einge Unternhemens Interine Contianer Regisitrie zu Hosten.
+\subsubsection{Container Registry}
+Eine Container Registry ist der Ort, an dem Images gespeichert werden. Es gibt öffentliche Registries wie beispielsweise Docker Hub, aber auch jeder Cloud-Anbieter bietet die Möglichkeit, eine eigene unternehmensinterne Container Registry zu hosten.
 
 \subsection{Kubernetes}
-Kubenters oder auch K8 wurde von Google Entwicklet. Kubenrets ist eine Platform um Container zu Ocrestirenen. Es  Verwaltet Container (nicht nur von Docker). Durch kubenretse sins Hochvefügbarkeit, Skalibarkeit und Disaster Recovery möglich. 
+Kubernetes oder auch K8s wurde von Google entwickelt. Kubernetes ist eine Platform, um Container zu orchestrieren. Es verwaltet Container (nicht nur von Docker). Durch Kubernetes sind Hochverfügbarkeit, Skalierbarkeit und Disaster Recovery möglich.
 
 \begin{figure}[H]
     \centering
@@ -49,22 +49,22 @@ Kubenters oder auch K8 wurde von Google Entwicklet. Kubenrets ist eine Platform 
 \end{figure}
 
 \subsubsection{Pods}
-Ein Pod ist die Kleinste einheit in Kubernetes. Ein Pod kann aus einen oder mehren Container besthen. Alle Continaer in eine Pod haben geteilte Ressourcen wi Speicher, Netzwerk. Bespiwlseweise kann eine App in eine App Pod zusammen gefasst werden.
+Ein Pod ist die kleinste Einheit in Kubernetes. Ein Pod kann aus einem oder mehreren Containern bestehen. Alle Container in einem Pod haben geteilte Ressourcen wie Speicher und Netzwerk. Beispielsweise kann eine App in einem App-Pod zusammengefasst werden.
 
 \subsubsection{Node}
-Ein Node ist ein Server bzw Rechenr eines Clusters
+Ein Node ist ein Server bzw. Rechner eines Clusters.
 
 \subsubsection{Cluster}
-Ein Cluster ist eine sammlung von Node, die Gemiensam Container und Pods ausführen.
+Ein Cluster ist eine Sammlung von Nodes, die gemeinsam Container und Pods ausführen.
 
 \subsubsection{Instanzen}
-Eine einzelnen laufende kopie einer Ressource.
+Eine einzelne laufende Kopie einer Ressource.
 
 \subsubsection{Deployments}
 Vergleichbar mit Docker Compose. Ein Deployment enthält mehrere Container und ist sozusagen ein Bauplan für einen Pod. Allerdings wird auch angegeben, wie viele Pods existieren sollen.
 
 \subsubsection{Services}
-Ein Service ist ein Satz von Pods, die eine stabile Netzwerkverbindung haben und Sachen wie einen Load Balancer konfiguriert haben. Sie stellen auch eine IP und einen Port bereit. Vergleichbar mit einen LXC Container in Proxmox
+Ein Service ist die stabile Netzwerk-Abstraktion vor einer Menge von Pods, die den Traffic an diese Pods weiterleitet. Er stellt eine stabile IP und einen Port bereit und kann Funktionen wie einen Load Balancer konfiguriert haben, sodass die dahinterliegenden Pods erreichbar bleiben, auch wenn sie sich ändern.
 
-\subsection{Kubenrets Funktion}
-Ein Kubenetes Cluste benötigt eine Master Node. Diese wird zu Copnmtroll Plane der die Container auf den Worker Nodes verwwaltet. Wenn ein Node ausfällt hat Kubenrets die Self healiing funktion und fürt den Container auf einen anderen Node aus. Ein CLuste hat einen Virtuelles NEtzwek damit die Nodes unterinader kommniziren können.
+\subsection{Kubernetes Funktion}
+Ein Kubernetes Cluster benötigt eine Master Node. Diese wird zur Control Plane, die die Container auf den Worker Nodes verwaltet. Wenn ein Node ausfällt, hat Kubernetes die Self-Healing-Funktion und führt den Container auf einem anderen Node aus. Ein Cluster hat ein virtuelles Netzwerk, damit die Nodes untereinander kommunizieren können.
