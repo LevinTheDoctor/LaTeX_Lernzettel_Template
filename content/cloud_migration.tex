@@ -1,0 +1,30 @@
+\section{Cloud und Migration}
+Unter Migration versteht man den Vorgang, bei dem ein bestehendes System -- etwa Daten, Anwendungen oder ganze IT-Infrastrukturen -- aus seiner bisherigen Umgebung in eine neue Zielumgebung überführt wird. Im Kontext der Cloud bedeutet das in der Regel, dass lokal betriebene Ressourcen (On-Premises) zu einem Cloud-Anbieter verlagert werden.
+
+Ein anschauliches Beispiel: Bislang nutzt ein Unternehmen Office-Software wie Word und speichert seine Daten lokal, etwa auf einem On-Premises-NAS. Bei der Migration in die Cloud steigt man stattdessen auf Microsoft~365 um. Dadurch nutzt man nicht nur den Cloud-Storage von Microsoft, sondern erhält zusätzlich Dienste wie Teams oder Tools wie Power Automate und viele weitere M365-Features.
+
+Man erkennt also: Eine Migration kann durchaus sinnvoll sein. Allerdings bringt sie auch einen nicht zu unterschätzenden Nachteil mit sich, nämlich die laufenden Kosten und die Bindung an Subscriptions (Abo-Modelle). Gerade bei M365 fallen fortlaufend Kosten an; durch Alternativen wie OpenOffice oder LibreOffice könnte man viel Geld sparen. Dafür bräuchte man jedoch einen eigenen Server mit Storage, hätte kein Teams und nur ein On-Premises Active Directory -- sofern man überhaupt Windows nutzt. Durch M365 erhält man dagegen ein Active Directory in der Cloud (Entra ID) und kann Benutzerrechte auch auf anderen Betriebssystemen durchsetzen.
+
+\subsection{Use Cases für Cloud Migration}
+Oben wurde nur ein einzelnes Beispiel genannt, was durch Cloud-Migration möglich ist. In realen Umgebungen gibt es jedoch mehrere wichtige Use Cases für eine Cloud-Migration. Diese werden häufig als die \enquote{6~R\,s} der Migration zusammengefasst.
+
+\subsubsection{Rehosting — Lift \& Shift}
+Der Name Rehosting beziehungsweise Lift~\&~Shift oder auch As-is-Migration sagt bereits alles aus, was man wissen muss: Eine alte Anwendung wird mit minimalen Änderungen -- meist nur Anpassungen an den Umgebungsvariablen -- in der Cloud gehostet. Beispielsweise wird ein altes ERP-System vom eigenen Server genommen und in der Cloud in einer VM betrieben. Lift~\&~Shift sollte eigentlich keine dauerhafte Lösung sein, sondern eine Übergangslösung. Wer wirklich in die Cloud migrieren will, sollte keine monolithische Legacy-Anwendung weiterverwenden, sondern auf eine Microservice-Architektur setzen.
+
+\subsubsection{Replatforming — Lift, Tinker \& Shift}
+Replatforming ist im Grunde ein Lift~\&~Shift, bei dem man die Anwendung jedoch an die Cloud anpasst und dabei auch PaaS-Angebote nutzt -- beispielsweise eine Managed-PostgreSQL-Datenbank und Kubernetes (K8s). Man überführt also eine On-Premises-Anwendung mit gezielten Änderungen hin zu einer Cloud-nativen Anwendung, ohne sie jedoch komplett neu zu schreiben.
+
+\subsubsection{Repurchasing}
+Auch als \enquote{Drop and Shop} bekannt; das oben genannte Beispiel erklärt es recht gut. Man nutzt eine lizenzierte Software und kauft statt der On-Premises-Lizenzen eine Lizenz für das entsprechende Cloud-Angebot -- meist sogar beim selben Anbieter. Häufig wechselt man dabei von einem klassischen Lizenzkauf zu einem SaaS-Abo-Modell.
+
+\subsubsection{Refactoring}
+Refactoring ist wie Replatforming, nur noch deutlich umfangreicher: Man passt eine Anwendung vollständig an die Cloud an und baut eine monolithische Software in eine serviceorientierte Architektur (Microservices) um. Dieser Ansatz ist am aufwendigsten und teuersten, schöpft das Potenzial der Cloud (Skalierbarkeit, Elastizität) dafür aber am besten aus.
+
+\subsubsection{Relocate}
+Bei Relocate werden VM-Workloads in die Cloud verschoben, ohne die Anwendung selbst anzupassen. Im Unterschied zu Rehosting geschieht dies oft auf Infrastrukturebene, etwa durch das Verschieben ganzer VMware-Umgebungen, ohne jede Anwendung einzeln neu aufzusetzen.
+
+\subsubsection{Retiring}
+Eine Anwendung wird nicht mehr verwendet, verbraucht aber noch Ressourcen. Im Zuge der Migration wird sie identifiziert und abgeschaltet, was Kosten spart.
+
+\subsubsection{Retaining}
+Legacy-Apps, die vorerst nicht migriert werden -- etwa weil sich eine Migration (noch) nicht lohnt oder technische bzw. rechtliche Hürden bestehen. Sie verbleiben bewusst On-Premises.
