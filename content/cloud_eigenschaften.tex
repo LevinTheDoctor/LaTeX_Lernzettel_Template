@@ -1,13 +1,31 @@
 \section{Cloud-Eigenschaften}
 \subsection{Skalierung – Scalability}
-Skalierung im Cloud Kontext bedeutet Rechenleistung, Speicher und Netzwerkbandbreite dynamisch an sich ändernde Workloads anzupassen. Es wird in zwei Arten unterteilt.
+Skalierung bedeutet im Cloud-Kontext, Rechenleistung, Speicher und
+Netzwerkbandbreite dynamisch an sich ändernde Workloads anzupassen. Man
+unterscheidet zwei Arten.
 \subsubsection{Horizontale Skalierung}
-Bei horizontaler Skalierung wird ein Workload auf mehreren Servern ausgeführt bzw ausgeweitet.
+Bei horizontaler Skalierung wird ein Workload auf mehrere Server verteilt
+(Scale-out). Man fügt also weitere Instanzen hinzu, statt eine einzelne
+leistungsfähiger zu machen.
 \subsubsection{Vertikale Skalierung}
-Ein bestehender Server wird aufgerüstet durch beispielsweise mehr RAM.
+Bei vertikaler Skalierung wird ein bestehender Server aufgerüstet (Scale-up),
+etwa durch mehr RAM oder CPU.
 \subsection{Elastizität – Elasticity}
-Elastizität im Cloud Kontext bedeutet das eine Anwendung automatisch skaliert werden kann.
+% LEKTORAT (Redundanz/Didaktik): Elastizität war zuvor fast wortgleich wie bei
+% NIST (Rapid Elasticity) definiert. Hier nun mit Fokus auf die Abgrenzung zur
+% Skalierung, um die Dopplung aufzulösen.
+Elastizität ist die \emph{automatische} Skalierung: Das System passt seine
+Ressourcen selbstständig und nahezu in Echtzeit an die aktuelle Last an – es
+skaliert bei Bedarf hoch und anschließend wieder herunter. Skalierbarkeit
+beschreibt also die grundsätzliche Fähigkeit, die Kapazität zu verändern;
+Elastizität beschreibt, dass dies automatisch und bedarfsgerecht geschieht
+(siehe auch \enquote{Rapid Elasticity} im Kapitel \enquote{Cloud nach NIST}).
 \subsection{Hochverfügbarkeit – Availability}
-Hochverfügbarkeit bedeutet das eine in der Cloud gehostete Anwendung immer erreichbar ist. Wie viele Ausfälle im Jahr prozentual passieren dürfen ist in einem SLA (Service Level Agreement) festgehalten.
+Hochverfügbarkeit bedeutet, dass eine in der Cloud gehostete Anwendung
+möglichst durchgängig erreichbar ist. Wie viele Ausfälle pro Jahr (prozentual)
+zulässig sind, wird in einem SLA (Service Level Agreement) festgehalten.
 \subsubsection{SLA – Service Level Agreement}
-In einem SLA ist Uptime, meist als Nines also z.B. 5 Nines --> 99,999, Reaktion und Lösungszeit, Leistungsparameter, Ausstiegsstrategien und Datenportabilität sowie Sicherheit und Compliance geregelt.
+In einem SLA werden unter anderem geregelt: die Uptime (meist als
+\enquote{Nines} angegeben, z.\,B. \enquote{five nines} = 99,999\,\%), Reaktions-
+und Lösungszeiten, Leistungsparameter, Ausstiegsstrategien und
+Datenportabilität sowie Sicherheit und Compliance.

@@ -1,8 +1,8 @@
 \section{Cloud und Kosten}
 \subsection{CapEx – Capital Expenditure}
-CapEx oder auch Kapitalausgaben sind eine einmalige Investition. Im Cloud Kontext sind das oft der Kauf von Servern. Ein CapEx Ausgabe ist über mehrere Jahre abschreibbar. Das Problem bei einem einmaligen Serverkauf sind die hohen Kosten und das ein Server eine begrenzte Zeit hat in welcher er performant ist. Man kann ab einem gewissen Zeitpunkt nur noch schwierig Hardware nachrüsten.
+CapEx (Kapitalausgaben) sind einmalige Investitionen. Im Cloud-Kontext ist das oft der Kauf von Servern. Eine CapEx-Ausgabe lässt sich über mehrere Jahre abschreiben. Problematisch an einem einmaligen Serverkauf sind die hohen Anschaffungskosten und die Tatsache, dass ein Server nur eine begrenzte Zeit lang performant ist. Ab einem gewissen Zeitpunkt lässt sich die Hardware zudem nur noch schwer nachrüsten.
 \subsection{OpEx – Operational Expenditure}
-OpEx sind laufende Kosten so wie Cloud Abonnements. OpEx wird direkt verbucht.
+OpEx sind laufende Kosten wie etwa Cloud-Abonnements. OpEx wird direkt verbucht.
 \subsection{Kostenfaktoren}
 \begin{itemize}
     \item \textbf{Rechenkapazität}
@@ -23,7 +23,13 @@ Auch als On Demand bekannt. Beim Pay-per-Use-Modell wird nutzungsabhängig abger
 \subsubsection{Reservierung}
 Reservierungen sind Verträge mit Cloud-Anbietern für vorhersehbare Workloads. Bei diesen Verträgen bindet man sich für eine bestimmte Zeit an einen Cloud-Anbieter und erhält so einen günstigeren Bindungspreis. Bei Azure gibt es Azure Reservations, diese gelten für bis zu 3 Jahre.
 \subsubsection{Spot Instances}
-Spot-Preise kommen insbesondere bei Serverless zum Einsatz, also immer dort, wo selten genutzte Workloads anfallen. Beispielsweise für FaaS.
+% LEKTORAT (fachlich, Korrektur): Vorher hieß es, Spot-Preise kämen
+% "insbesondere bei Serverless / FaaS" zum Einsatz. Das ist nicht korrekt:
+% Spot Instances sind ungenutzte Rechenkapazität des Anbieters, stark
+% rabattiert, aber jederzeit kündbar. Sie eignen sich für unterbrechbare,
+% fehlertolerante Workloads – nicht speziell für FaaS, das ein eigenes
+% Pay-per-Invocation-Modell hat.
+Spot Instances nutzen die aktuell ungenutzte Rechenkapazität eines Cloud-Anbieters. Sie sind dadurch stark rabattiert, können vom Anbieter aber jederzeit zurückgezogen werden. Sie eignen sich deshalb für unterbrechbare, fehlertolerante Workloads wie Batch-Verarbeitung, CI-Builds, Rendering oder ML-Training -- nicht jedoch für durchgängig verfügbare Dienste.
 \subsubsection{Savings Plans}
 Nutzungscommitment mit festen stündlichen Preisen über 1--3 Jahre, flexibel über Services und Regionen. Es gibt aber eine feste Nutzung.
 \subsubsection{Volumenrabatte}
@@ -34,7 +40,7 @@ Preisnachlass ab höheren Mengen.
     \includegraphics[width=\textwidth]{PreisEntwicklung.png}
     \caption{Entwicklung von Cloud- und On-Prem-Preisen}
 \end{figure}
-Bei On-Prem hat man hohe CapEx-Kosten, dies sind Investitionskosten. Durch die hohen Ausgaben hat man weniger Geld zur Verfügung und somit Opportunitätskosten, da man dieses Geld sonst in andere Dinge hätte investieren können. Bei der Cloud hat man hingegen OpEx-Kosten. Man gibt also immer wieder Geld aus, aber nicht viel auf einmal. Über die lange Zeit ist die Cloud von den Kosten her teurer, aber dafür hat man mehr Chancen, weil man nicht so viel vorab investieren musste.
+Bei On-Prem hat man hohe CapEx-Kosten, dies sind Investitionskosten. Durch die hohen Ausgaben hat man weniger Geld zur Verfügung und somit Opportunitätskosten, da man dieses Geld sonst in andere Dinge hätte investieren können. Bei der Cloud hat man hingegen OpEx-Kosten. Man gibt also immer wieder Geld aus, aber nicht viel auf einmal. Über einen langen Zeitraum kann die Cloud in der Summe teurer sein, dafür hat man aber mehr unternehmerische Chancen, weil man nicht so viel vorab investieren muss.
 \subsection{Kosteneinsparung in der Cloud}
 \begin{itemize}
     \item \textbf{Right-Sizing}: Bedarfsgerechte Ressourcenzuweisung

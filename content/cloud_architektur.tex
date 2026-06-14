@@ -25,7 +25,7 @@ in eine Umgebung ausgeliefert (Staging oder Produktion).
 Architekturstil, bei dem eine Anwendung in viele kleine, unabhängige
 Dienste aufgeteilt wird. Jeder Service hat eine klar abgegrenzte Aufgabe,
 kommuniziert über APIs (REST oder Message Queues) und kann separat
-deployed und skaliert werden. Gegenteil: \textit{Monolith}.
+deployt und skaliert werden. Gegenteil: \textit{Monolith}.
 
 \subsubsection{Monolith}
 Eine monolithische Architektur bedeutet, dass alle Elemente einer Software in einer 
@@ -88,11 +88,15 @@ und Risikokontrolle über vordefinierte Prinzipien, Gremien und Reviews.
 Beispiele: TOGAF, ISO/IEC/IEEE 42010:2022, Zachman-Framework.\\[4pt]
 \textbf{TOGAF} (The Open Group Architecture Framework): Framework zur
 Entwicklung und Verwaltung von Unternehmensarchitekturen (People,
-Processes, Technology) mit vier Domänen:
+Processes, Technology) mit vier Architektur-Domänen:
+% LEKTORAT (fachlich): Vorher als "vier Domänen" angekündigt, aber nur drei
+% gelistet. TOGAF unterscheidet vier Domänen; die Informationssystem-
+% architektur zerfällt in Anwendungs- und Datenarchitektur.
 \begin{itemize}
-    \item Geschäftsarchitektur
-    \item Informationssystemarchitektur (Anwendungs- und Datenarchitektur)
-    \item Technologiearchitektur
+    \item Geschäftsarchitektur (Business)
+    \item Datenarchitektur (Data)
+    \item Anwendungsarchitektur (Application)
+    \item Technologiearchitektur (Technology)
 \end{itemize}
 
 \subsubsection{Architektur-Frameworks: Praxisorientiert}

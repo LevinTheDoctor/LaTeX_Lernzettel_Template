@@ -6,7 +6,10 @@ Ein anschauliches Beispiel: Bislang nutzt ein Unternehmen Office-Software wie Wo
 Man erkennt also: Eine Migration kann durchaus sinnvoll sein. Allerdings bringt sie auch einen nicht zu unterschätzenden Nachteil mit sich, nämlich die laufenden Kosten und die Bindung an Subscriptions (Abo-Modelle). Gerade bei M365 fallen fortlaufend Kosten an; durch Alternativen wie OpenOffice oder LibreOffice könnte man viel Geld sparen. Dafür bräuchte man jedoch einen eigenen Server mit Storage, hätte kein Teams und nur ein On-Premises Active Directory -- sofern man überhaupt Windows nutzt. Durch M365 erhält man dagegen ein Active Directory in der Cloud (Entra ID) und kann Benutzerrechte auch auf anderen Betriebssystemen durchsetzen.
 
 \subsection{Use Cases für Cloud Migration}
-Oben wurde nur ein einzelnes Beispiel genannt, was durch Cloud-Migration möglich ist. In realen Umgebungen gibt es jedoch mehrere wichtige Use Cases für eine Cloud-Migration. Diese werden häufig als die \enquote{6~R\,s} der Migration zusammengefasst.
+Oben wurde nur ein einzelnes Beispiel genannt, was durch Cloud-Migration möglich ist. In realen Umgebungen gibt es jedoch mehrere wichtige Use Cases für eine Cloud-Migration. % LEKTORAT (fachlich): Überschrift sagte "6 R\,s", die Liste enthält jedoch
+% sieben Punkte. Ursprünglich sind es sechs R\,s (Gartner/AWS); Relocate kam
+% später als siebtes hinzu. Formulierung entsprechend angepasst.
+Diese werden häufig als die \enquote{R\,s} der Migration zusammengefasst -- ursprünglich sechs (Rehost, Replatform, Repurchase, Refactor, Retire, Retain), häufig ergänzt um Relocate.
 
 \subsubsection{Rehosting — Lift \& Shift}
 Der Name Rehosting beziehungsweise Lift~\&~Shift oder auch As-is-Migration sagt bereits alles aus, was man wissen muss: Eine alte Anwendung wird mit minimalen Änderungen -- meist nur Anpassungen an den Umgebungsvariablen -- in der Cloud gehostet. Beispielsweise wird ein altes ERP-System vom eigenen Server genommen und in der Cloud in einer VM betrieben. Lift~\&~Shift sollte eigentlich keine dauerhafte Lösung sein, sondern eine Übergangslösung. Wer wirklich in die Cloud migrieren will, sollte keine monolithische Legacy-Anwendung weiterverwenden, sondern auf eine Microservice-Architektur setzen.
