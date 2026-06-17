@@ -86,6 +86,15 @@ kurzer, gleich langer Pfad existiert.
   \footnotesize Quelle: Eigene Darstellung
 \end{table}
 
+\subsubsection{Ost-West- und Nord-Süd-Verkehr}
+\begin{description}
+  \item[Ost-West-Verkehr (East-West)] Datenverkehr zwischen den Servern
+    \emph{innerhalb} eines Rechenzentrums. Er ist besonders in großen
+    Rechenzentren und beim Einsatz von Microservices wichtig.
+  \item[Nord-Süd-Verkehr (North-South)] Datenverkehr, der \emph{von außen} zu
+    einem Rechenzentrum (und zurück) fließt.
+\end{description}
+
 \noindent\textbf{Faustregel:} Welche Architektur sinnvoll ist, hängt vor allem
 vom dominierenden Verkehrsmuster ab. Klassische Anwendungen erzeugen vor allem
 \emph{Nord-Süd-Verkehr} (von außen zum Server und zurück) – dafür genügt die

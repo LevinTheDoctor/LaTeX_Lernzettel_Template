@@ -555,3 +555,35 @@
   listing only,
   listing options = {style=lzsyntax, language=#1},
 }
+
+%% ══════════════════════════════════════════════════════════════════════════
+%% 14.  \subsubsubsection{Titel}  /  \subsubsubsection*{Titel}
+%%      Vierte Gliederungsebene unterhalb von \subsubsection.
+%%      article kennt diese Ebene nicht, deshalb als eigener Befehl umgesetzt
+%%      (kein Eingriff in LaTeX-Sectioning, daher robust).
+%%
+%%      \subsubsubsection{…}   nummeriert  (z. B. 5.4.3.1)
+%%      \subsubsubsection*{…}  ohne Nummer
+%%
+%%      Erscheint NICHT im Inhaltsverzeichnis (bewusst, um es schlank zu halten).
+%% ══════════════════════════════════════════════════════════════════════════
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand{\thesubsubsubsection}{\thesubsubsection.\arabic{subsubsubsection}}
+
+\makeatletter
+\newcommand{\subsubsubsection}{\@ifstar\lz@ssss@star\lz@ssss}
+
+\newcommand{\lz@ssss}[1]{%
+  \par\addvspace{0.9ex plus .2ex minus .1ex}%
+  \refstepcounter{subsubsubsection}%
+  {\normalsize\bfseries\itshape\color{primary!80!black}%
+    \thesubsubsubsection\hspace{0.6em}#1\par}%
+  \nopagebreak\addvspace{0.25ex}%
+}
+
+\newcommand{\lz@ssss@star}[1]{%
+  \par\addvspace{0.9ex plus .2ex minus .1ex}%
+  {\normalsize\bfseries\itshape\color{primary!80!black}#1\par}%
+  \nopagebreak\addvspace{0.25ex}%
+}
+\makeatother

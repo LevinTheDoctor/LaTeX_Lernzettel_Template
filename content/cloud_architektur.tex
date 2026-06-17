@@ -1,6 +1,11 @@
 \section{Cloud Architektur}
 \subsection{Cloud Native}
 Der Begriff Cloud Native wurde 2013 von Matt Stine geprägt und unter anderem durch Netflix auf einem AWS re:Invent Talk bekannt gemacht. Es gibt keine einheitliche Definition für Cloud-Native-Architektur. Grundsätzlich soll Cloud Native dabei helfen, Webanwendungen zu entwickeln, die skalierbar und hochverfügbar sind. Gleichzeitig soll durch Cloud Native agil entwickelt werden, also eine schnellstmögliche Feature-Anpassung mit möglichst kleinem Risiko. Dabei helfen Microservices statt einer monolithischen Architektur, Container, DevOps sowie CI/CD-Pipelines. Viele Lösungen wie Komponenten, Logging und Tracing sind dabei standardisiert.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{CloudNativeSaulen.png}
+    \caption{Die 4 Saulen von Cloud Native}
+\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -121,7 +126,8 @@ Architektur bei Planung und Durchführung zu erklären.
           generiert
 \end{itemize}
 
-\subsection{TOGAF -- Architecture Development Method (ADM)}
+\subsection{Architektur Framework}
+\subsubsection{TOGAF -- Architecture Development Method (ADM)}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{TOGAF.png}
@@ -159,7 +165,7 @@ Der Zyklus ist \textbf{iterativ}, d.\,h. nach Phase H kann der Prozess
 wieder bei A (oder sogar Preliminary) beginnen, falls sich Anforderungen
 grundlegend ändern.
 
-\subsection{C4}
+\subsubsection{C4}
 
 Das C4-Modell ist ein praxisorientiertes Framework zur Visualisierung
 von Software-Architektur. Der Name steht für die vier Abstraktionsebenen:
@@ -189,7 +195,9 @@ Ein großer Vorteil des C4-Modells ist die \textbf{Werkzeugfreiheit}.
 Es funktioniert mit PlantUML, draw.io oder sogar auf einem Whiteboard,
 solange die vier Ebenen klar getrennt bleiben.
 
-\subsection{Load Balancer}
+\subsection{Architektur Patterns}
+
+\subsubsection{Load Balancer}
 Die Hauptaufgabe eines Load Balancers ist der Lastenausgleich. Wenn viele Nutzer Anfragen an eine Anwendung stellen, werden diese auf mehrere Server verteilt. Dadurch werden Über- und Unterlastung von Ressourcen vermieden. Die meisten PaaS-Angebote in der Cloud kommen mit einem vorkonfigurierten Load Balancer. Bei einem Load Balancer skaliert man horizontal (mehr Instanzen, nicht stärkere Hardware).
 
 Weitere Funktionen eines Load Balancers:
@@ -201,20 +209,49 @@ Weitere Funktionen eines Load Balancers:
     \item \textbf{Netzwerkisolierung:} Backend-Server sind nicht direkt aus dem Internet erreichbar
 \end{itemize}
 
-\subsection{Cloud Bursting}
+\subsubsection{CDN - Content Delivery Network}
+Ein Content Delivery Network ist ein weltweit verteiltes Netz aus Cache-Servern,
+das Inhalte möglichst nah am Endnutzer ausliefert. Während ein Load Balancer den
+Traffic \emph{innerhalb} einer Region verteilt, verkürzt ein CDN die \textbf{Latenz}
+geografisch, indem es Inhalte an vielen Standorten zwischenspeichert. Dadurch wird
+gleichzeitig der \textbf{Origin-Server} (Ursprungsserver) entlastet, da wiederholte
+Anfragen direkt aus dem Cache beantwortet werden.
+
+Zentrale Begriffe:
+\begin{itemize}
+    \item \textbf{Edge Location / PoP (Point of Presence):} Standort eines
+          CDN-Cache-Servers nah am Nutzer. Liegt noch \emph{unterhalb} der Region
+          (vgl. Kapitel \enquote{Regionen und Verfügbarkeitszonen}) und damit
+          deutlich näher am Endgerät.
+    \item \textbf{Origin:} Der Ursprungsserver, auf dem die Inhalte tatsächlich
+          liegen (z.\,B. ein Object Storage oder eine Web-App).
+    \item \textbf{Cache-Hit / Cache-Miss:} Bei einem Hit liefert die Edge Location
+          den Inhalt direkt aus; bei einem Miss holt sie ihn zuerst vom Origin und
+          legt ihn dann lokal ab.
+    \item \textbf{TTL (Time to Live):} Legt fest, wie lange ein Inhalt im Cache
+          gültig bleibt, bevor er erneut vom Origin geladen wird.
+\end{itemize}
+
+CDNs eignen sich vor allem für \textbf{statische Inhalte} (Bilder, Videos,
+CSS/JS, Downloads). Für \textbf{dynamische Inhalte} ist der Nutzen geringer, da
+diese pro Anfrage individuell erzeugt werden. Beispiele für CDN-Dienste sind
+\textit{Azure Front Door / Azure CDN}, \textit{Amazon CloudFront} und
+\textit{Cloudflare}.
+
+\subsubsection{Cloud Bursting}
 Wenn die On-Premises-Ressourcen ausgelastet sind, werden zusätzliche Workloads dynamisch in die Cloud ausgelagert. Sobald die Last sinkt, kehren die Workloads wieder auf die eigene Infrastruktur zurück. So zahlt man Cloud-Ressourcen nur bei tatsächlichem Bedarf.
 
-\subsection{Disaster Recovery}
+\subsubsection{Disaster Recovery}
 Disaster Recovery (DR) bezeichnet Strategien und Maßnahmen, mit denen eine Anwendung oder ein System nach einem schwerwiegenden Ausfall (z.\,B. Rechenzentrumsausfall, Datenverlust, Cyberangriff) wiederhergestellt werden kann.
 
-\subsubsection*{Schlüsselkennzahlen}
+\subsubsubsection{Schlüsselkennzahlen}
 \begin{itemize}
     \item \textbf{RTO (Recovery Time Objective):} Maximale tolerierbare Ausfallzeit -- wie lange darf die Wiederherstellung dauern?
     \item \textbf{RPO (Recovery Point Objective):} Maximaler tolerierbarer Datenverlust -- wie alt darf das letzte Backup sein?
 \end{itemize}
 Ein niedriges RTO/RPO bedeutet höhere Kosten, da mehr Redundanz und häufigere Replikation nötig sind.
 
-\subsubsection*{DR-Strategien (nach Kosten/Geschwindigkeit)}
+\subsubsubsection{DR-Strategien (nach Kosten/Geschwindigkeit)}
 \begin{itemize}
     \item \textbf{Backup \& Restore:} Günstigste Variante; Daten werden regelmäßig gesichert und im Ernstfall wiederhergestellt. Hohes RTO/RPO.
     \item \textbf{Pilot Light:} Minimale Kerninfrastruktur läuft dauerhaft in der DR-Region; bei Bedarf wird sie hochskaliert.
@@ -234,6 +271,119 @@ Azure bietet verschiedene Redundanzstufen für Speicher, die sich nach geografis
     \item \textbf{RA-GZRS} (Read-Access GZRS): Wie GZRS, aber mit dauerhaftem Lesezugriff auf die Sekundärregion.
 \end{itemize}
 
-\subsection{Service Discovery}
+\subsubsection{Service Discovery}
 Service Discovery bedeutet die automatische Erkennung von Diensten in einem Netzwerk. Services registrieren sich selbst, sodass andere Services sie automatisch finden, ohne dass IP-Adressen oder Ports hart kodiert werden müssen. Durch Service Discovery kann man leicht Services anbinden. Gerade in Multi-Cloud-Umgebungen, bei denen ein virtuelles Netzwerk zwischen privater und öffentlicher Cloud hergestellt wird, ist die automatische Erkennung von Services besonders wichtig.
 
+\subsubsection{VPC – Virtual Private Cloud}
+Eine Virtual Private Cloud (VPC) ist ein logisch isoliertes Netzwerksegment
+innerhalb einer öffentlichen Cloud-Infrastruktur. Obwohl die physische Hardware
+mit anderen Kunden geteilt wird, verhält sich eine VPC wie ein eigenes privates
+Netzwerk: mit eigenen IP-Bereichen, Subnetzen, Routing-Regeln und Firewalls.
+Der Zugriff von außen wird über klar definierte Gateways und Security Groups
+kontrolliert.
+
+\subsubsection{Allocating -- Ressourcenzuweisung und Kostenzuordnung}
+Allocating bezeichnet die gezielte Zuweisung von Cloud-Ressourcen zu bestimmten
+Projekten, Abteilungen oder Workloads. Ziel ist es, den Ressourcenverbrauch
+nachvollziehbar zu machen und Kosten verursachergerecht zuzuordnen.
+In der Praxis wird dies über sogenannte Tags (Key-Value-Pair)
+realisiert, die jeder Ressource beim Erstellen mitgegeben werden
+Cloud-Portale wie das Azure Cost Management nutzen diese Tags, um automatisierte
+Kostenberichte und Budgetalarmierungen zu erstellen.
+\subsubsection{Provisioning -- Dynamische Bereitstellung}
+Provisioning beschreibt den Prozess, Cloud-Ressourcen bereitzustellen und in
+einen nutzbaren Zustand zu versetzen. Es gibt dabei drei grundlegende Ansätze:
+
+\begin{itemize}
+    % Manuelles Provisioning
+    \item \textbf{Manuelles Provisioning:} Ressourcen werden direkt über
+    Cloud-Portale wie \texttt{portal.azure.com} oder die AWS-Management-Console
+    angelegt. Dieser Ansatz ist einfach, aber fehleranfällig und schlecht
+    reproduzierbar.
+
+    % IaC
+    \item \textbf{IaC (Infrastructure as Code):} Ressourcen werden
+    deklarativ als Code beschrieben und versioniert. Beispiele sind
+    \textit{Bicep} und \textit{ARM-Templates} für Azure sowie
+    \textit{Terraform} als Cloud-agnostische Alternative. Der Vorteil liegt in
+    der Reproduzierbarkeit und der Integration in CICD-Pipelines.
+
+    % Self-Service
+    \item \textbf{Self-Service-Provisioning:} Entwickler können aus einem
+    vordefinierten Katalog genehmigter Ressourcen selbst auswählen und diese
+    eigenständig bereitstellen. Damit werden Wartezeiten auf das Ops-Team
+    reduziert, während Governance-Regeln trotzdem eingehalten werden.
+\end{itemize}
+
+\subsubsection{Virtual Server Clustering}
+Beim Virtual Server Clustering werden mehrere virtuelle Maschinen zu einer
+logischen Einheit zusammengefasst, die gemeinsam Anfragen verarbeiten.
+Ziel ist die Steigerung von Verfügbarkeit und Ausfallsicherheit.
+
+Man unterscheidet dabei zwei grundlegende Betriebsmodi:
+
+\begin{itemize}
+    % Active-Passive
+    \item \textbf{Active-Passive-Cluster:} Ein Knoten ist aktiv und verarbeitet
+    Anfragen, ein zweiter Knoten steht im Standby. Bei einem Ausfall übernimmt
+    der Standby-Knoten automatisch (\textit{Failover}).
+
+    % Active-Active
+    \item \textbf{Active-Active-Cluster:} Alle Knoten verarbeiten gleichzeitig
+    Anfragen. Ein vorgelagerter \textit{Load Balancer} verteilt den eingehenden
+    Traffic gleichmäßig. Fällt ein Knoten aus, übernehmen die restlichen
+    Knoten dessen Last.
+\end{itemize}
+
+In modernen Cloud-Umgebungen werden Cluster häufig über
+\textit{Virtual Machine Scale Sets} (Azure) oder
+\textit{Auto Scaling Groups} (AWS) automatisch verwaltet.
+
+\subsubsection{Zero Downtime}
+Das Ziel von Zero-Downtime-Deployments ist es, neue Softwareversionen
+auszuliefern, ohne dass Endnutzer eine Unterbrechung wahrnehmen. Typische
+Strategien sind:
+
+\begin{itemize}
+    % Blue-Green
+    \item \textbf{Blue-Green-Deployment:} Es existieren zwei identische
+    Produktionsumgebungen (Blau und Grün). Während Blau produktiv läuft, wird
+    die neue Version in Grün deployt und getestet. Anschließend wird der
+    Traffic per Load Balancer auf Grün umgeschaltet. Bei Problemen ist ein
+    sofortiges Zurückschalten möglich (\textit{Rollback}).
+
+    % Rolling Update
+    \item \textbf{Rolling Update:} Instanzen einer Anwendung werden
+    schrittweise ausgetauscht. Zu jedem Zeitpunkt laufen alte und neue
+    Versionen parallel, bis alle Instanzen aktualisiert sind. Kubernetes nutzt
+    dieses Verfahren standardmäßig.
+
+    % Canary Release
+    \item \textbf{Canary Release:} Die neue Version wird zunächst nur an einen
+    kleinen Prozentsatz der Nutzer ausgeliefert. Verhält sie sich stabil, wird
+    der Rollout schrittweise auf alle Nutzer ausgeweitet.
+\end{itemize}
+
+
+\subsubsection{VM Migration}
+VM Migration bezeichnet das Verschieben einer virtuellen Maschine von einem
+Host oder Standort zu einem anderen. Man unterscheidet zwei Hauptvarianten:
+
+\begin{itemize}
+    % Live Migration
+    \item \textbf{Live Migration (Hot Migration):} Die VM wird im
+    laufenden Betrieb auf einen anderen physischen Host verschoben. Der
+    Arbeitsspeicher wird dabei inkrementell übertragen, sodass die Ausfallzeit
+    gegen null geht. VMware bezeichnet dieses Verfahren als \textit{vMotion},
+    Hyper-V als \textit{Live Migration}.
+
+    % Cold Migration
+    \item \textbf{Cold Migration:} Die VM wird heruntergefahren,
+    verschoben und anschließend neu gestartet. Sie ist einfacher umzusetzen,
+    verursacht aber eine messbare Downtime.
+\end{itemize}
+
+Im Cloud-Kontext wird VM Migration auch für die Verlagerung von
+On-Premises-Workloads in die Cloud genutzt (\textit{Lift and Shift}).
+Azure stellt dafür den Dienst \textit{Azure Migrate} bereit, der Abhängigkeiten
+analysiert und den Migrationsprozess begleitet.
