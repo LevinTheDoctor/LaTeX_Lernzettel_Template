@@ -1,0 +1,198 @@
+\section{Architektur-Patterns}
+
+\subsection{Load Balancer}
+Die Hauptaufgabe eines \textbf{Load Balancers} ist der \emph{Lastenausgleich}. Wenn viele Nutzer Anfragen an eine Anwendung stellen, werden diese auf mehrere Server verteilt. Dadurch werden Über- und Unterlastung von Ressourcen vermieden. Die meisten PaaS-Angebote in der Cloud kommen mit einem vorkonfigurierten Load Balancer. Bei einem Load Balancer skaliert man \emph{horizontal} (mehr Instanzen, nicht stärkere Hardware).
+
+Weitere Funktionen eines Load Balancers:
+\begin{itemize}
+    \item \textbf{Health Checks:} Erkennt ausgefallene Instanzen und leitet Traffic automatisch um
+    \item \textbf{SSL-Terminierung:} Verschlüsselung wird zentral am Load Balancer beendet
+    \item \textbf{Session Persistence (Sticky Sessions):} Nutzer werden immer zum selben Server geleitet
+    \item \textbf{Ressource-Cluster:} Zusammenfassung mehrerer Instanzen zu einem logischen Pool
+    \item \textbf{Netzwerkisolierung:} Backend-Server sind nicht direkt aus dem Internet erreichbar
+\end{itemize}
+
+\subsection{CDN - Content Delivery Network}
+Ein Content Delivery Network ist ein weltweit verteiltes Netz aus Cache-Servern,
+das Inhalte möglichst nah am Endnutzer ausliefert. Während ein Load Balancer den
+Traffic \emph{innerhalb} einer Region verteilt, verkürzt ein CDN die \textbf{Latenz}
+geografisch, indem es Inhalte an vielen Standorten zwischenspeichert. Dadurch wird
+gleichzeitig der \textbf{Origin-Server} (Ursprungsserver) entlastet, da wiederholte
+Anfragen direkt aus dem Cache beantwortet werden.
+
+Zentrale Begriffe:
+\begin{itemize}
+    \item \textbf{Edge Location / PoP (Point of Presence):} Standort eines
+          CDN-Cache-Servers nah am Nutzer. Liegt noch \emph{unterhalb} der Region
+          (vgl. Kapitel \enquote{Regionen und Verfügbarkeitszonen}) und damit
+          deutlich näher am Endgerät.
+    \item \textbf{Origin:} Der Ursprungsserver, auf dem die Inhalte tatsächlich
+          liegen (z.\,B. ein Object Storage oder eine Web-App).
+    \item \textbf{Cache-Hit / Cache-Miss:} Bei einem Hit liefert die Edge Location
+          den Inhalt direkt aus; bei einem Miss holt sie ihn zuerst vom Origin und
+          legt ihn dann lokal ab.
+    \item \textbf{TTL (Time to Live):} Legt fest, wie lange ein Inhalt im Cache
+          gültig bleibt, bevor er erneut vom Origin geladen wird.
+\end{itemize}
+
+CDNs eignen sich vor allem für \textbf{statische Inhalte} (Bilder, Videos,
+CSS/JS, Downloads). Für \textbf{dynamische Inhalte} ist der Nutzen geringer, da
+diese pro Anfrage individuell erzeugt werden. Beispiele für CDN-Dienste sind
+\textit{Azure Front Door / Azure CDN}, \textit{Amazon CloudFront} und
+\textit{Cloudflare}.
+
+\subsection{Cloud Bursting}
+Wenn die \textit{On-Premises}-Ressourcen ausgelastet sind, werden zusätzliche Workloads \emph{dynamisch} in die Cloud ausgelagert. Sobald die Last sinkt, kehren die Workloads wieder auf die eigene Infrastruktur zurück. So zahlt man Cloud-Ressourcen \emph{nur bei tatsächlichem Bedarf}.
+
+\subsection{Disaster Recovery}
+\textbf{Disaster Recovery (DR)} bezeichnet Strategien und Maßnahmen, mit denen eine Anwendung oder ein System nach einem \emph{schwerwiegenden Ausfall} (z.\,B. Rechenzentrumsausfall, Datenverlust, Cyberangriff) wiederhergestellt werden kann.
+
+\subsubsection{Schlüsselkennzahlen}
+\begin{itemize}
+    \item \textbf{RTO (Recovery Time Objective):} Maximale tolerierbare Ausfallzeit -- wie lange darf die Wiederherstellung dauern?
+    \item \textbf{RPO (Recovery Point Objective):} Maximaler tolerierbarer Datenverlust -- wie alt darf das letzte Backup sein?
+\end{itemize}
+Ein niedriges RTO/RPO bedeutet höhere Kosten, da mehr Redundanz und häufigere Replikation nötig sind.
+
+\subsubsection{DR-Strategien (nach Kosten/Geschwindigkeit)}
+\begin{itemize}
+    \item \textbf{Backup \& Restore:} Günstigste Variante; Daten werden regelmäßig gesichert und im Ernstfall wiederhergestellt. Hohes RTO/RPO.
+    \item \textbf{Pilot Light:} Minimale Kerninfrastruktur läuft dauerhaft in der DR-Region; bei Bedarf wird sie hochskaliert.
+    \item \textbf{Warm Standby:} Vollständige, aber kleiner dimensionierte Kopie des Systems läuft parallel; wird im Ernstfall hochskaliert.
+    \item \textbf{Active/Active (Multi-Site):} Zwei oder mehr vollständige Systeme laufen gleichzeitig aktiv; kein Failover nötig, maximale Verfügbarkeit. Teuerste Variante.
+\end{itemize}
+
+\subsection*{Azure Storage-Redundanzoptionen}
+Azure bietet verschiedene Redundanzstufen für Speicher, die sich nach geografischer Verteilung und Replikationsart unterscheiden:
+
+\begin{itemize}
+    \item \textbf{LRS} (Locally Redundant Storage): 3 synchrone Kopien innerhalb \emph{eines} Rechenzentrums in einer Region. Günstigste Option, schützt nur vor Hardware-Ausfall.
+    \item \textbf{ZRS} (Zone-Redundant Storage): 3 synchrone Kopien in 3 verschiedenen \emph{Verfügbarkeitszonen} innerhalb einer Region. Schützt vor dem Ausfall einer Zone.
+    \item \textbf{GRS} (Geo-Redundant Storage): LRS in der primären Region \emph{plus} asynchrone Replikation in eine sekundäre, geografisch getrennte Partnerregion (dort ebenfalls als LRS gespeichert). Insgesamt 6 Kopien. Schützt vor einem regionalen Ausfall; Lesezugriff auf die Sekundärregion nur nach einem Failover.
+    \item \textbf{RA-GRS} (Read-Access GRS): Wie GRS, aber mit dauerhaftem Lesezugriff auf die Sekundärregion ohne Failover.
+    \item \textbf{GZRS} (Geo-Zone-Redundant Storage): ZRS in der primären Region \emph{plus} asynchrone Replikation in eine sekundäre Region (dort als LRS). Höchste Redundanz -- schützt vor Zonen- \emph{und} Regionsausfall.
+    \item \textbf{RA-GZRS} (Read-Access GZRS): Wie GZRS, aber mit dauerhaftem Lesezugriff auf die Sekundärregion.
+\end{itemize}
+
+\subsection{Service Discovery}
+\textbf{Service Discovery} bedeutet die \emph{automatische Erkennung von Diensten} in einem Netzwerk. Services \emph{registrieren sich selbst}, sodass andere Services sie automatisch finden, ohne dass IP-Adressen oder Ports hart kodiert werden müssen. Durch Service Discovery kann man leicht Services anbinden. Gerade in \textit{Multi-Cloud-Umgebungen}, bei denen ein virtuelles Netzwerk zwischen privater und öffentlicher Cloud hergestellt wird, ist die automatische Erkennung von Services besonders wichtig.
+
+\subsection{VPC – Virtual Private Cloud}
+Eine \textbf{Virtual Private Cloud (VPC)} ist ein \emph{logisch isoliertes} Netzwerksegment
+innerhalb einer öffentlichen Cloud-Infrastruktur. Obwohl die physische Hardware
+mit anderen Kunden geteilt wird, verhält sich eine VPC wie ein eigenes privates
+Netzwerk: mit eigenen IP-Bereichen, Subnetzen, Routing-Regeln und Firewalls.
+Der Zugriff von außen wird über klar definierte Gateways und \textit{Security Groups}
+kontrolliert.
+
+\subsection{Allocating -- Ressourcenzuweisung und Kostenzuordnung}
+\textbf{Allocating} bezeichnet die gezielte Zuweisung von Cloud-Ressourcen zu bestimmten
+Projekten, Abteilungen oder Workloads. Ziel ist es, den Ressourcenverbrauch
+nachvollziehbar zu machen und Kosten \emph{verursachergerecht} zuzuordnen.
+In der Praxis wird dies über sogenannte \textit{Tags} (Key-Value-Pair)
+realisiert, die jeder Ressource beim Erstellen mitgegeben werden
+Cloud-Portale wie das \textit{Azure Cost Management} nutzen diese Tags, um automatisierte
+Kostenberichte und Budgetalarmierungen zu erstellen.
+\subsection{Provisioning -- Dynamische Bereitstellung}
+\textbf{Provisioning} beschreibt den Prozess, Cloud-Ressourcen bereitzustellen und in
+einen nutzbaren Zustand zu versetzen. Es gibt dabei \emph{drei grundlegende Ansätze}:
+
+\begin{itemize}
+    % Manuelles Provisioning
+    \item \textbf{Manuelles Provisioning:} Ressourcen werden direkt über
+    Cloud-Portale wie \texttt{portal.azure.com} oder die AWS-Management-Console
+    angelegt. Dieser Ansatz ist einfach, aber fehleranfällig und schlecht
+    reproduzierbar.
+
+    % IaC
+    \item \textbf{IaC (Infrastructure as Code):} Ressourcen werden
+    deklarativ als Code beschrieben und versioniert. Beispiele sind
+    \textit{Bicep} und \textit{ARM-Templates} für Azure sowie
+    \textit{Terraform} als Cloud-agnostische Alternative. Der Vorteil liegt in
+    der Reproduzierbarkeit und der Integration in CICD-Pipelines.
+
+    % Self-Service
+    \item \textbf{Self-Service-Provisioning:} Entwickler können aus einem
+    vordefinierten Katalog genehmigter Ressourcen selbst auswählen und diese
+    eigenständig bereitstellen. Damit werden Wartezeiten auf das Ops-Team
+    reduziert, während Governance-Regeln trotzdem eingehalten werden.
+\end{itemize}
+
+\subsection{Virtual Server Clustering}
+Beim Virtual Server Clustering werden mehrere virtuelle Maschinen zu einer
+logischen Einheit zusammengefasst, die gemeinsam Anfragen verarbeiten.
+Ziel ist die Steigerung von Verfügbarkeit und Ausfallsicherheit.
+
+Man unterscheidet dabei zwei grundlegende Betriebsmodi:
+
+\begin{itemize}
+    % Active-Passive
+    \item \textbf{Active-Passive-Cluster:} Ein Knoten ist aktiv und verarbeitet
+    Anfragen, ein zweiter Knoten steht im Standby. Bei einem Ausfall übernimmt
+    der Standby-Knoten automatisch (\textit{Failover}).
+
+    % Active-Active
+    \item \textbf{Active-Active-Cluster:} Alle Knoten verarbeiten gleichzeitig
+    Anfragen. Ein vorgelagerter \textit{Load Balancer} verteilt den eingehenden
+    Traffic gleichmäßig. Fällt ein Knoten aus, übernehmen die restlichen
+    Knoten dessen Last.
+\end{itemize}
+
+In modernen Cloud-Umgebungen werden Cluster häufig über
+\textit{Virtual Machine Scale Sets} (Azure) oder
+\textit{Auto Scaling Groups} (AWS) automatisch verwaltet.
+
+\subsection{Zero Downtime}
+Das Ziel von Zero-Downtime-Deployments ist es, neue Softwareversionen
+auszuliefern, ohne dass Endnutzer eine Unterbrechung wahrnehmen. Typische
+Strategien sind:
+
+\begin{itemize}
+    % Blue-Green
+    \item \textbf{Blue-Green-Deployment:} Es existieren zwei identische
+    Produktionsumgebungen (Blau und Grün). Während Blau produktiv läuft, wird
+    die neue Version in Grün deployt und getestet. Anschließend wird der
+    Traffic per Load Balancer auf Grün umgeschaltet. Bei Problemen ist ein
+    sofortiges Zurückschalten möglich (\textit{Rollback}).
+
+    % Rolling Update
+    \item \textbf{Rolling Update:} Instanzen einer Anwendung werden
+    schrittweise ausgetauscht. Zu jedem Zeitpunkt laufen alte und neue
+    Versionen parallel, bis alle Instanzen aktualisiert sind. Kubernetes nutzt
+    dieses Verfahren standardmäßig.
+
+    % Canary Release
+    \item \textbf{Canary Release:} Die neue Version wird zunächst nur an einen
+    kleinen Prozentsatz der Nutzer ausgeliefert. Verhält sie sich stabil, wird
+    der Rollout schrittweise auf alle Nutzer ausgeweitet.
+\end{itemize}
+
+
+\subsection{VM Migration}
+VM Migration bezeichnet das Verschieben einer virtuellen Maschine von einem
+Host oder Standort zu einem anderen. Man unterscheidet zwei Hauptvarianten:
+
+\begin{itemize}
+    % Live Migration
+    \item \textbf{Live Migration (Hot Migration):} Die VM wird im
+    laufenden Betrieb auf einen anderen physischen Host verschoben. Der
+    Arbeitsspeicher wird dabei inkrementell übertragen, sodass die Ausfallzeit
+    gegen null geht. VMware bezeichnet dieses Verfahren als \textit{vMotion},
+    Hyper-V als \textit{Live Migration}.
+
+    % Cold Migration
+    \item \textbf{Cold Migration:} Die VM wird heruntergefahren,
+    verschoben und anschließend neu gestartet. Sie ist einfacher umzusetzen,
+    verursacht aber eine messbare Downtime.
+
+    \item \textbf{Warm Migration:} Eine Mischform aus beiden Verfahren.
+    Im \textit{Precopy-Modus} wird der Großteil der Daten bereits bei
+    laufender VM kopiert. Erst die verbleibenden Restdaten werden in einer
+    kurzen \textit{Cutover-Phase} nach dem Stoppen der VM übertragen. Dadurch
+    ergibt sich eine deutlich reduzierte Downtime gegenüber der Cold Migration.
+\end{itemize}
+
+Im Cloud-Kontext wird VM Migration auch für die Verlagerung von
+On-Premises-Workloads in die Cloud genutzt (\textit{Lift and Shift}).
+Azure stellt dafür den Dienst \textit{Azure Migrate} bereit, der Abhängigkeiten
+analysiert und den Migrationsprozess begleitet.

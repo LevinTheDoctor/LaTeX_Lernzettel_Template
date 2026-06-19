@@ -1,8 +1,8 @@
 \section{Cloud und Kosten}
 \subsection{CapEx – Capital Expenditure}
-CapEx (Kapitalausgaben) sind einmalige Investitionen. Im Cloud-Kontext ist das oft der Kauf von Servern. Eine CapEx-Ausgabe lässt sich über mehrere Jahre abschreiben. Problematisch an einem einmaligen Serverkauf sind die hohen Anschaffungskosten und die Tatsache, dass ein Server nur eine begrenzte Zeit lang performant ist. Ab einem gewissen Zeitpunkt lässt sich die Hardware zudem nur noch schwer nachrüsten.
+\textbf{CapEx} (Kapitalausgaben) sind \emph{einmalige Investitionen}. Im Cloud-Kontext ist das oft der Kauf von Servern. Eine CapEx-Ausgabe lässt sich über mehrere Jahre abschreiben. Problematisch an einem einmaligen Serverkauf sind die hohen Anschaffungskosten und die Tatsache, dass ein Server nur eine begrenzte Zeit lang performant ist. Ab einem gewissen Zeitpunkt lässt sich die Hardware zudem nur noch schwer nachrüsten.
 \subsection{OpEx – Operational Expenditure}
-OpEx sind laufende Kosten wie etwa Cloud-Abonnements. OpEx wird direkt verbucht.
+\textbf{OpEx} sind \emph{laufende Kosten} wie etwa Cloud-Abonnements. OpEx wird direkt verbucht.
 \subsection{Kostenfaktoren}
 \begin{itemize}
     \item \textbf{Rechenkapazität}
@@ -19,9 +19,9 @@ OpEx sind laufende Kosten wie etwa Cloud-Abonnements. OpEx wird direkt verbucht.
 \end{itemize}
 \subsection{Wie zahlt man in der Cloud}
 \subsubsection{Pay per Use}
-Auch als On Demand bekannt. Beim Pay-per-Use-Modell wird nutzungsabhängig abgerechnet. Dadurch hat man maximale Flexibilität, im Gegensatz dazu kann das Pay-per-Use-Modell aber sehr teuer werden.
+Auch als \textit{On Demand} bekannt. Beim Pay-per-Use-Modell wird \emph{nutzungsabhängig} abgerechnet. Dadurch hat man maximale Flexibilität, im Gegensatz dazu kann das Pay-per-Use-Modell aber sehr teuer werden.
 \subsubsection{Reservierung}
-Reservierungen sind Verträge mit Cloud-Anbietern für vorhersehbare Workloads. Bei diesen Verträgen bindet man sich für eine bestimmte Zeit an einen Cloud-Anbieter und erhält so einen günstigeren Bindungspreis. Bei Azure gibt es Azure Reservations, diese gelten für bis zu 3 Jahre.
+\textbf{Reservierungen} sind Verträge mit Cloud-Anbietern für vorhersehbare Workloads. Bei diesen Verträgen bindet man sich für eine bestimmte Zeit an einen Cloud-Anbieter und erhält so einen günstigeren Bindungspreis. Bei Azure gibt es \textit{Azure Reservations}, diese gelten für bis zu 3 Jahre.
 \subsubsection{Spot Instances}
 % LEKTORAT (fachlich, Korrektur): Vorher hieß es, Spot-Preise kämen
 % "insbesondere bei Serverless / FaaS" zum Einsatz. Das ist nicht korrekt:
@@ -29,7 +29,7 @@ Reservierungen sind Verträge mit Cloud-Anbietern für vorhersehbare Workloads. 
 % rabattiert, aber jederzeit kündbar. Sie eignen sich für unterbrechbare,
 % fehlertolerante Workloads – nicht speziell für FaaS, das ein eigenes
 % Pay-per-Invocation-Modell hat.
-Spot Instances nutzen die aktuell ungenutzte Rechenkapazität eines Cloud-Anbieters. Sie sind dadurch stark rabattiert, können vom Anbieter aber jederzeit zurückgezogen werden. Sie eignen sich deshalb für unterbrechbare, fehlertolerante Workloads wie Batch-Verarbeitung, CI-Builds, Rendering oder ML-Training -- nicht jedoch für durchgängig verfügbare Dienste.
+\textbf{Spot Instances} nutzen die aktuell ungenutzte Rechenkapazität eines Cloud-Anbieters. Sie sind dadurch stark rabattiert, können vom Anbieter aber jederzeit zurückgezogen werden. Sie eignen sich deshalb für unterbrechbare, fehlertolerante Workloads wie Batch-Verarbeitung, CI-Builds, Rendering oder ML-Training -- nicht jedoch für durchgängig verfügbare Dienste.
 \subsubsection{Savings Plans}
 Nutzungscommitment mit festen stündlichen Preisen über 1--3 Jahre, flexibel über Services und Regionen. Es gibt aber eine feste Nutzung.
 \subsubsection{Volumenrabatte}
@@ -55,7 +55,7 @@ Bei On-Prem hat man hohe CapEx-Kosten, dies sind Investitionskosten. Durch die h
     \item \textbf{Veränderung der Architektur}
 \end{itemize}
 \subsection{FinOps}
-FinOps ist ein Framework, bei dem Finance und Engineering Hand in Hand greifen und das das Ziel hat, die OpEx-Kosten, die durch die Cloud entstehen, zu optimieren. FinOps hat die Verantwortung für die variablen Kosten der Cloud. Das Ziel ist eine datengetriebene Kostenentscheidung; diese Definition stammt von der FinOps Foundation.
+\textbf{FinOps} ist ein Framework, bei dem \textit{Finance} und \textit{Engineering} Hand in Hand greifen und das das Ziel hat, die OpEx-Kosten, die durch die Cloud entstehen, zu optimieren. FinOps hat die Verantwortung für die variablen Kosten der Cloud. Das Ziel ist eine datengetriebene Kostenentscheidung; diese Definition stammt von der FinOps Foundation.
 In der Cloud sind die Kosten oft schwer nachzuvollziehen und schwer vorherzusehen, dabei soll FinOps helfen. FinOps versucht, aus Telemetriedaten und Analysen, Transparenz-Tools der Cloud-Anbieter und Governance eine möglichst günstige Cloud zu erreichen. Man versucht, Kostenanomalien zu erklären, Vorhersagen zu analysieren und Über- und Unterkapazitäten zu vermeiden.
 IT, Business und Finanzen werden an einen Tisch gebracht, um Cloud-Kosten zu optimieren und einen Weg zu finden, bei dem die Operations-Fähigkeit optimal ist und die Kosten gesenkt werden.
 Der FinOps-Prozess läuft in drei iterativen Phasen. Diese Phasen laufen nicht nacheinander ab, sondern sollen agil auf Veränderungen reagieren.

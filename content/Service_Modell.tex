@@ -1,10 +1,10 @@
 \section{Servicemodelle}
 
 \subsection{Infrastructure as a Service (IaaS)}
-Bei IaaS wird dem Nutzer ausschließlich die Infrastruktur bereitgestellt.
+Bei \textbf{IaaS} wird dem Nutzer \emph{ausschließlich die Infrastruktur} bereitgestellt.
 Ein typisches Beispiel sind virtuelle Maschinen. Der Nutzer ist selbst für
 das Betriebssystem und alle darauf installierten Anwendungen verantwortlich.
-Load Balancer und ähnliche Dienste sind nicht vorkonfiguriert und müssen
+\textit{Load Balancer} und ähnliche Dienste sind nicht vorkonfiguriert und müssen
 manuell eingerichtet werden.
 
 \textbf{Flexibilität:} Hoch, man ist bei der Nutzung vollständig frei.\\
@@ -23,7 +23,7 @@ Legacy-Systemen.
     \end{tabularx}
 \end{table}
 \subsection{Platform as a Service (PaaS)}
-Bei PaaS bewegt man sich in Richtung Managed Services. Ein Beispiel wäre
+Bei \textbf{PaaS} bewegt man sich in Richtung \textit{Managed Services}. Ein Beispiel wäre
 eine verwaltete SQL-Datenbank in Azure. Viele Aspekte wie Load Balancer und
 Skalierung werden bereits vom Anbieter übernommen, was die Entwicklung
 deutlich vereinfacht.
@@ -45,9 +45,9 @@ Datenbanken in der Cloud.
     \end{tabularx}
 \end{table}
 \subsection{Software as a Service (SaaS)}
-Bei SaaS erhält der Nutzer ein fertiges Produkt, das nur noch konfiguriert
+Bei \textbf{SaaS} erhält der Nutzer ein \emph{fertiges Produkt}, das nur noch konfiguriert
 werden muss. Eigener Code kann nicht eingebunden werden, alles funktioniert
-über Customizing.
+über \textit{Customizing}.
 
 \textbf{Flexibilität:} Gering, alles skaliert automatisch, eigene Eingriffe
 sind kaum möglich.\\
@@ -66,7 +66,7 @@ verantwortlich.\\
 \end{table}
 \newpage
 \subsection{Shared Responsibility Model}
-Das Shared Responsibility Model zeigt auf, wo die Verantwortlichkeiten bei
+Das \textbf{Shared Responsibility Model} zeigt auf, wo die Verantwortlichkeiten bei
 Cloud-Modellen liegen und wie viel vom Nutzer bzw. Unternehmen selbst
 gemanagt werden muss im Vergleich zu dem, was der Cloud-Provider übernimmt.
 
@@ -79,9 +79,9 @@ gemanagt werden muss im Vergleich zu dem, was der Cloud-Provider übernimmt.
 \subsubsection{Sicherheitsaufgaben von Kunde und Provider}
 Der Kunde ist hauptsächlich für die Sicherheit der Client-Geräte
 verantwortlich, also beispielsweise dafür, dass Mitarbeiter sichere
-Passwörter verwenden. Zusätzlich können RBAC und Conditional Access
+Passwörter verwenden. Zusätzlich können \textit{RBAC} und \textit{Conditional Access}
 aktiviert werden, sodass Endnutzer automatisch mehr Sicherheit erhalten.
-Authentifizierung, die beispielsweise SSO ermöglicht, wird vom Cloud-Provider
+Authentifizierung, die beispielsweise \textit{SSO} ermöglicht, wird vom Cloud-Provider
 bereitgestellt. Der Provider ist seinerseits vollständig für die Sicherheit
 im Rechenzentrum und seiner eigenen Services zuständig. Für die Sicherheit
 der eigenen Daten ist der Kunde verantwortlich, muss dafür aber oft nur
@@ -93,7 +93,7 @@ Die verschiedenen Servicemodelle haben unterschiedliche Anwendungsfälle.
 IaaS wird genutzt, wenn möglichst viel selbst konfiguriert werden soll,
 beispielsweise für das Hosten von Legacy-Systemen oder Entwicklungs-Workloads.
 Die Kosten für den Compute werden dabei oft im Voraus bezahlt, beispielsweise
-über Azure Reservations. PaaS wird für eigene Cloud-Native-Anwendungen
+über \textit{Azure Reservations}. PaaS wird für eigene Cloud-Native-Anwendungen
 genutzt, hat aber grundlegende Dinge bereits vorkonfiguriert, sodass keine
 VM manuell eingerichtet werden muss. SaaS sind vollständig abgeschlossene
 Softwareprodukte, die einfach über die Cloud laufen, wie beispielsweise

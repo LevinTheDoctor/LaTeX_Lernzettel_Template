@@ -1,0 +1,271 @@
+\clearpage
+\section{Glossar}
+
+Kompaktes Nachschlagewerk der wichtigsten Begriffe aus diesem Lernzettel.
+Jeder Eintrag ist bewusst kurz gehalten -- als Gedächtnisstütze für die Klausur,
+nicht als Ersatz für die ausführlichen Kapitel.
+
+% ── Formatierung der Begriffsliste ────────────────────────────────────────
+% Begriff fett in Akzentfarbe, Erklärung im Fließtext dahinter.
+\newlist{glossar}{description}{1}
+\setlist[glossar]{
+  style       = unboxed,
+  leftmargin  = 0pt,
+  itemsep     = 4pt,
+  parsep      = 0pt,
+  font        = {\normalfont\bfseries\color{primary}},
+}
+
+\begin{glossar}
+
+  \item[Allocating] Zuweisung bereits bereitgestellter Ressourcen zu konkreten
+        Workloads inkl.\ Kostenzuordnung (Tagging) auf Teams oder Projekte.
+
+  \item[Availability (Hochverfügbarkeit)] Anteil der Zeit, in dem ein Dienst
+        funktionsfähig ist, meist in „Neunen“ angegeben (z.\,B.\ 99,99\,\%);
+        vertraglich im \emph{SLA} zugesichert.
+
+  \item[Big Data] Verarbeitung sehr großer, schnell wachsender und vielfältiger
+        Datenmengen, für die klassische Systeme nicht mehr ausreichen
+        (Volume, Velocity, Variety).
+
+  \item[Broad Network Access] NIST-Eigenschaft: Cloud-Dienste sind über das Netz
+        standardisiert und geräteunabhängig (Laptop, Smartphone, \dots) erreichbar.
+
+  \item[CapEx (Capital Expenditure)] Investitionsausgaben für eigene Hardware/
+        Infrastruktur, die als Anlagevermögen über Jahre abgeschrieben wird.
+
+  \item[CDN (Content Delivery Network)] Verteiltes Netz aus Edge-Servern, das
+        Inhalte nahe beim Nutzer zwischenspeichert und so Latenz und Last senkt.
+
+  \item[CI/CD] Continuous Integration / Continuous Delivery: automatisiertes
+        Bauen, Testen und Ausliefern von Software in kurzen, häufigen Zyklen.
+
+  \item[Cloud Auditor] Akteur (NIST), der Cloud-Dienste unabhängig auf Sicherheit,
+        Datenschutz und Performance prüft.
+
+  \item[Cloud Broker] Vermittler, der Cloud-Dienste mehrerer Provider bündelt,
+        anpasst oder weiterverkauft.
+
+  \item[Cloud Bursting] Hybrides Muster: Lastspitzen werden temporär aus der
+        Private Cloud in die Public Cloud ausgelagert.
+
+  \item[Cloud Carrier] Anbieter der Netzanbindung (Konnektivität), der Consumer
+        und Provider verbindet -- typischerweise der \emph{ISP}.
+
+  \item[Cloud Consumer] Nutzer bzw.\ Kunde, der Cloud-Dienste bezieht und verwendet.
+
+  \item[Cloud Native] Entwurfsansatz für Anwendungen, die gezielt für die Cloud
+        gebaut sind: Microservices, Container, Automatisierung, Elastizität.
+
+  \item[Cloud Provider] Anbieter, der Cloud-Ressourcen und -Dienste bereitstellt
+        und betreibt (z.\,B.\ AWS, Azure, GCP).
+
+  \item[Cluster] Verbund mehrerer Rechner (Nodes), die zusammenarbeiten und
+        nach außen wie ein System wirken (Ausfallsicherheit, Lastverteilung).
+
+  \item[Compute] Rechenleistung der Cloud (CPU/RAM) -- bereitgestellt als VMs,
+        Container oder Functions.
+
+  \item[Container] Leichtgewichtige, isolierte Laufzeitumgebung, die eine
+        Anwendung mit allen Abhängigkeiten kapselt; teilt sich den Kernel des Hosts.
+
+  \item[Container Registry] Zentraler Speicher für Container-Images (z.\,B.\
+        Docker Hub), aus dem Images verteilt und abgerufen werden.
+
+  \item[Data Sovereignty (Datensouveränität)] Grundsatz, dass Daten den Gesetzen
+        des Landes unterliegen, in dem sie gespeichert/verarbeitet werden.
+
+  \item[DevOps] Kultur und Praxis, die Entwicklung (Dev) und Betrieb (Ops) eng
+        verzahnt -- mit Automatisierung, CI/CD und gemeinsamer Verantwortung.
+
+  \item[Disaster Recovery] Wiederherstellung von Systemen und Daten nach einem
+        Ausfall/Katastrophenfall (gemessen über RTO und RPO).
+
+  \item[Docker] Verbreitete Plattform zum Bauen, Verteilen und Ausführen von
+        Containern auf Basis von Images.
+
+  \item[Egress] Ausgehender Datenverkehr aus der Cloud heraus -- bei Providern
+        häufig kostenpflichtig (vgl.\ \emph{Ingress}).
+
+  \item[Elastizität (Elasticity)] Automatisches, schnelles Hoch- und
+        Herunterskalieren von Ressourcen entlang der tatsächlichen Last.
+
+  \item[FaaS (Function as a Service)] Serverless-Modell, bei dem einzelne
+        Funktionen ereignisgesteuert ausgeführt und sekundengenau abgerechnet werden.
+
+  \item[FinOps] Disziplin zur Steuerung und Optimierung von Cloud-Kosten als
+        gemeinsame Verantwortung von Technik, Finanzen und Business.
+
+  \item[Governance] Regeln, Rollen und Kontrollen, die Cloud-Nutzung steuern
+        (Sicherheit, Compliance, Kosten, Standards).
+
+  \item[Horizontale Skalierung] Leistung erhöhen durch \emph{mehr} Instanzen
+        (Scale-out) statt durch stärkere einzelne Maschinen.
+
+  \item[Hybrid Cloud] Kombination aus Private und Public Cloud, die als Verbund
+        zusammenarbeiten (ermöglicht z.\,B.\ Cloud Bursting).
+
+  \item[Hypervisor] Software-Schicht, die physische Hardware in mehrere
+        virtuelle Maschinen aufteilt und verwaltet (Typ\,1: bare-metal, Typ\,2: hosted).
+
+  \item[Hyperscaler] Sehr großer Cloud-Anbieter mit global verteilten
+        Rechenzentren und enormer Skalierung (AWS, Microsoft Azure, Google Cloud).
+
+  \item[IaaS (Infrastructure as a Service)] Bereitstellung virtualisierter
+        Infrastruktur (Rechenleistung, Speicher, Netz); Kunde verwaltet OS und Anwendung.
+
+  \item[Image] Unveränderliche Vorlage, aus der Container (oder VMs) gestartet
+        werden -- enthält Anwendung samt Abhängigkeiten.
+
+  \item[Ingress] Eingehender Datenverkehr in die Cloud hinein; meist kostenlos.
+        In Kubernetes zugleich die Regelschicht für externen Zugriff auf Services.
+
+  \item[Instanz] Konkrete, laufende Ausprägung einer Ressource, z.\,B.\ eine
+        gestartete virtuelle Maschine.
+
+  \item[ISP (Internet Service Provider)] Anbieter des Internetzugangs; stellt die
+        Netzanbindung bereit und übernimmt damit die Rolle des \emph{Cloud Carrier}.
+
+  \item[Kubernetes] Orchestrierungsplattform, die containerisierte Anwendungen
+        automatisch verteilt, skaliert, überwacht und neu startet.
+
+  \item[Leaf-Spine-Architektur] Modernes, flaches Rechenzentrums-Netz, in dem
+        jeder Leaf-Switch mit jedem Spine-Switch verbunden ist (gut für Ost-West-Verkehr).
+
+  \item[Load Balancer] Komponente, die eingehende Anfragen auf mehrere Instanzen
+        verteilt -- für Lastausgleich und Ausfallsicherheit.
+
+  \item[Measured Service] NIST-Eigenschaft: Ressourcennutzung wird gemessen,
+        überwacht und transparent abgerechnet (Grundlage für \emph{Pay per Use}).
+
+  \item[Microservices] Architektur aus vielen kleinen, unabhängig
+        deploybaren Diensten statt einer großen Anwendung (vgl.\ \emph{Monolith}).
+
+  \item[Monolith] Anwendung, bei der alle Funktionen in einer einzigen,
+        eng gekoppelten Codebasis stecken und gemeinsam ausgeliefert werden.
+
+  \item[NIST] National Institute of Standards and Technology; liefert die
+        anerkannte formale Definition von Cloud Computing (5 Eigenschaften).
+
+  \item[Node] Einzelner Rechner (physisch oder virtuell) innerhalb eines Clusters,
+        in Kubernetes Träger der Pods.
+
+  \item[On-Demand Self-Service] NIST-Eigenschaft: Nutzer beziehen Ressourcen
+        selbstständig und automatisiert, ohne menschliches Zutun des Providers.
+
+  \item[OpEx (Operational Expenditure)] Laufende Betriebskosten (z.\,B.\
+        nutzungsbasierte Cloud-Gebühren) statt einmaliger Investition -- vgl.\ \emph{CapEx}.
+
+  \item[Ost-West-Verkehr] Datenverkehr \emph{zwischen} Servern innerhalb des
+        Rechenzentrums; Nord-Süd-Verkehr verläuft von außen nach innen und umgekehrt.
+
+  \item[PaaS (Platform as a Service)] Bereitstellung einer fertigen
+        Entwicklungs-/Laufzeitplattform; Kunde kümmert sich nur um Code und Daten.
+
+  \item[Pay per Use] Abrechnung nach tatsächlicher Nutzung statt fester
+        Pauschale -- ermöglicht durch \emph{Measured Service}.
+
+  \item[Personenbezogene Daten] Informationen, die sich auf eine identifizierte
+        oder identifizierbare natürliche Person beziehen (Kernbegriff der DSGVO).
+
+  \item[Pod] Kleinste deploybare Einheit in Kubernetes; enthält einen oder
+        mehrere eng zusammengehörige Container.
+
+  \item[Private Cloud] Cloud-Infrastruktur, die exklusiv für eine einzelne
+        Organisation betrieben wird (mehr Kontrolle, höhere Eigenverantwortung).
+
+  \item[Provisioning] Dynamische Bereitstellung von Ressourcen, sobald sie
+        angefordert werden.
+
+  \item[Public Cloud] Über das Internet öffentlich angebotene, geteilte
+        Cloud-Infrastruktur eines Providers (Mehrmandantenfähigkeit).
+
+  \item[Rapid Elasticity] NIST-Eigenschaft: Ressourcen lassen sich sehr schnell,
+        scheinbar unbegrenzt, automatisch erweitern und reduzieren.
+
+  \item[Rechenzentrum] Gebäude/Einrichtung mit Servern, Netz, Strom- und
+        Kühlinfrastruktur, in der Cloud-Ressourcen physisch betrieben werden.
+
+  \item[Refactoring] Migrations-R: Anwendung wird umgebaut/neu strukturiert,
+        um Cloud-Vorteile (z.\,B.\ Cloud Native) voll zu nutzen.
+
+  \item[Region] Geografisches Gebiet eines Providers, das mehrere
+        \emph{Verfügbarkeitszonen} bündelt.
+
+  \item[Rehosting (Lift \& Shift)] Migrations-R: Anwendung wird unverändert
+        in die Cloud verschoben -- schnell, aber ohne Cloud-Optimierung.
+
+  \item[Replatforming (Lift, Tinker \& Shift)] Migrations-R: kleine Anpassungen
+        bei der Migration, ohne die Kernarchitektur zu ändern.
+
+  \item[Repurchasing] Migrations-R: Wechsel auf ein anderes (meist SaaS-)Produkt
+        statt der bisherigen Anwendung.
+
+  \item[Reservierung (Reserved Instances)] Vorab-Buchung von Kapazität über
+        längere Laufzeit gegen deutlichen Rabatt gegenüber On-Demand.
+
+  \item[Resource Pooling] NIST-Eigenschaft: Ressourcen werden gebündelt und
+        mehreren Kunden mandantenfähig zugeteilt (ermöglicht durch Virtualisierung).
+
+  \item[Retaining] Migrations-R: Anwendung bleibt bewusst dort, wo sie ist
+        (kein Umzug, z.\,B.\ wegen Aufwand oder Vorgaben).
+
+  \item[Retiring] Migrations-R: nicht mehr benötigte Anwendungen werden
+        abgeschaltet.
+
+  \item[SaaS (Software as a Service)] Fertige Anwendung als Dienst über das Netz;
+        Provider verantwortet die komplette Infrastruktur (z.\,B.\ Microsoft~365).
+
+  \item[Savings Plans] Rabattmodell mit Verpflichtung zu einer bestimmten
+        Nutzung/Ausgabe pro Stunde über eine Laufzeit.
+
+  \item[Serverless] Modell, bei dem der Provider die Server vollständig
+        verwaltet; der Nutzer denkt nur in Funktionen/Diensten (vgl.\ \emph{FaaS}).
+
+  \item[Service Discovery] Mechanismus, mit dem Dienste sich gegenseitig
+        automatisch finden und adressieren (wichtig bei Microservices).
+
+  \item[Shared Responsibility Model] Aufteilung der Sicherheitsverantwortung
+        zwischen Provider und Kunde -- je nach Servicemodell (IaaS/PaaS/SaaS) verschieden.
+
+  \item[Skalierung (Scalability)] Fähigkeit eines Systems, mit wachsender Last
+        durch zusätzliche Ressourcen mitzuwachsen (horizontal oder vertikal).
+
+  \item[SLA (Service Level Agreement)] Vertrag, der zugesicherte Dienstgüte
+        (z.\,B.\ Verfügbarkeit) und Folgen bei Nichteinhaltung festlegt.
+
+  \item[Sovereign Cloud] Cloud, die durch Standort und Betrieb die Einhaltung
+        nationaler/europäischer Rechts- und Datenschutzvorgaben garantiert.
+
+  \item[Spot Instances] Sehr günstige, ungenutzte Cloud-Kapazität, die der
+        Provider jederzeit kurzfristig zurückfordern kann.
+
+  \item[Technische Schulden] Spätere Mehrkosten durch heute bewusst oder
+        unbewusst gewählte schnelle, aber suboptimale Lösungen.
+
+  \item[3-Tier-Architektur] Klassisches Schichtmodell aus Präsentations-,
+        Logik- und Datenschicht (im Netz auch als Access/Aggregation/Core).
+
+  \item[TOGAF] Verbreitetes Enterprise-Architektur-Framework mit der
+        Architecture Development Method (ADM) als Vorgehensmodell.
+
+  \item[Verfügbarkeitszone (Availability Zone)] Eigenständiges Rechenzentrum
+        (oder Gruppe) innerhalb einer Region, gegen Ausfälle voneinander isoliert.
+
+  \item[Vertikale Skalierung] Leistung erhöhen durch \emph{stärkere} Hardware
+        einer Instanz (Scale-up) statt durch zusätzliche Instanzen.
+
+  \item[Virtualisierung] Abstraktion physischer Hardware in mehrere virtuelle
+        Einheiten -- technische Grundlage für Resource Pooling und Cloud.
+
+  \item[Virtuelle Maschine (VM)] Software-Nachbildung eines vollständigen
+        Rechners samt eigenem Betriebssystem, vom Hypervisor bereitgestellt.
+
+  \item[VPC (Virtual Private Cloud)] Logisch isoliertes, privates Netz innerhalb
+        der Public Cloud, in dem eigene Ressourcen abgesichert betrieben werden.
+
+  \item[Zero Downtime] Bereitstellung von Updates ohne spürbare Ausfallzeit
+        für die Nutzer (z.\,B.\ über Rolling Updates).
+
+\end{glossar}

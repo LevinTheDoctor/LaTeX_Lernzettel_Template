@@ -1,0 +1,46 @@
+\section{Cloud Native}
+Der Begriff \textbf{Cloud Native} wurde 2013 von Matt Stine geprägt und unter anderem durch Netflix auf einem AWS re:Invent Talk bekannt gemacht. Es gibt keine einheitliche Definition für Cloud-Native-Architektur. Grundsätzlich soll Cloud Native dabei helfen, Webanwendungen zu entwickeln, die \emph{skalierbar} und \emph{hochverfügbar} sind. Gleichzeitig soll durch Cloud Native \emph{agil} entwickelt werden, also eine schnellstmögliche Feature-Anpassung mit möglichst kleinem Risiko. Dabei helfen \textit{Microservices} statt einer monolithischen Architektur, \textit{Container}, \textit{DevOps} sowie \textit{CI/CD-Pipelines}. Viele Lösungen wie Komponenten, \textit{Logging} und \textit{Tracing} sind dabei standardisiert.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{CloudNativeSaulen.png}
+    \caption{Die 4 Saulen von Cloud Native}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{CloudNativeMap.png}
+    \caption{Cloud Native Landscape (CNCF)}
+\end{figure}
+
+\subsection{DevOps}
+Kombination aus \textit{Development} und \textit{Operations}.
+Entwicklung und Betrieb arbeiten \emph{zusammen statt getrennt}.
+\textbf{Kern-Ideen:} Automatisierung von Builds, Tests und Deployments,
+schnelle Feedbackschleifen (kurze Release-Zyklen) und gemeinsame
+Verantwortung für Code und Infrastruktur.
+
+\subsection{CI/CD -- Continuous Integration / Continuous Delivery}
+\textbf{CI:} Jeder Code-Push wird automatisch gebaut und getestet,
+Fehler werden sofort sichtbar.
+\textbf{CD:} Nach erfolgreichem CI wird der Build automatisch
+in eine Umgebung ausgeliefert (Staging oder Produktion).
+
+\subsection{Microservices}
+Architekturstil, bei dem eine Anwendung in viele kleine, unabhängige
+Dienste aufgeteilt wird. Jeder Service hat eine \emph{klar abgegrenzte Aufgabe},
+kommuniziert über \textit{APIs} (REST oder Message Queues) und kann separat
+deployt und skaliert werden. Gegenteil: \textit{Monolith}.
+
+\subsection{Monolith}
+Eine monolithische Architektur bedeutet, dass alle Elemente einer Software in einer
+zusammenhängenden Codebasis liegen. Die grafische Benutzeroberfläche, die Geschäftslogik
+und der Datenzugriff sind eng miteinander verbunden. Dies führt dazu, dass die Codebasis
+stark anwächst, wodurch Fehler schwerer nachvollziehbar werden. Bereits eine kleine
+Änderung erfordert, dass die gesamte Anwendung neu deployt wird. Die beteiligten Teams
+sind häufig groß und müssen bereichsübergreifend zusammenarbeiten.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{CloudNativeBesipel.png}
+    \caption{Microservices vs.\ Monolith}
+\end{figure}

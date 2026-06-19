@@ -12,12 +12,12 @@
 % Verweis nun auf einen bereits gelesenen Abschnitt.
 % ──────────────────────────────────────────────────────────────────────────
 \subsection{Serverless}
-Serverless bezeichnet in der Cloud die Möglichkeit, Code und Services
+\textbf{Serverless} bezeichnet in der Cloud die Möglichkeit, Code und Services
 auszuführen, ohne selbst einen Server bereitzustellen oder zu verwalten. Man
 kümmert sich also weder um das Betriebssystem noch um Skalierung oder die
 darunterliegende Hardware. Stattdessen stellt man lediglich den Code bereit
 (\enquote{deployt} ihn), und der Cloud-Anbieter führt ihn aus. Abgerechnet
-wird nur die tatsächliche Nutzung.
+wird \emph{nur die tatsächliche Nutzung}.
 
 % LEKTORAT (fachlich): Der ursprüngliche Satz bezog das Deployment direkt auf
 % ein Docker-Image samt Registry. Für Serverless/FaaS ist ein Container-Image
@@ -35,12 +35,12 @@ paketieren ihn zuvor in ein Container-Image.
 % Viele rechnen es PaaS zu, andere sehen FaaS (zusammen mit Serverless) als
 % eigenständiges Cloud-Computing-Modell. Falls die Vorlesung FaaS ausdrücklich
 % als PaaS einordnet, bitte an die Kurssprache anpassen.
-Function as a Service (FaaS) wird meist dem PaaS-Modell zugerechnet und ist
+\textbf{Function as a Service (FaaS)} wird meist dem PaaS-Modell zugerechnet und ist
 besonders eng mit Serverless verwoben – FaaS ist gewissermaßen die bekannteste
 Ausprägung von Serverless. Bei FaaS wird Code mit Business-Logik – also
 Backend-Code – in der Cloud bereitgestellt, meist in Form einzelner Funktionen.
 
-Diese Funktionen werden automatisch horizontal skaliert und durch Events
+Diese Funktionen werden automatisch horizontal skaliert und durch \textit{Events}
 ausgelöst, beispielsweise durch HTTP-Requests, Webhooks oder Ereignisse
 anderer Cloud-Dienste (z.\,B. ein neuer Datei-Upload in einen AWS-S3-Bucket).
 % LEKTORAT (fachlich): "AWS S3" als Trigger präzisiert – nicht der Dienst

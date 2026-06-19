@@ -1,41 +1,41 @@
 \section{Virtualisierung}
-Virtualisierung ist ein schon lange bestehendes Konzept. Dabei wird auf einem
-physischen Computer per Software eine andere, isolierte Umgebung abstrahiert.
-Bekannt ist das Konzept beispielsweise durch Oracle VirtualBox. Als Abstraktion
+\textbf{Virtualisierung} ist ein schon lange bestehendes Konzept. Dabei wird auf einem
+physischen Computer per Software eine andere, \emph{isolierte Umgebung} abstrahiert.
+Bekannt ist das Konzept beispielsweise durch \textit{Oracle VirtualBox}. Als Abstraktion
 von Hardware-Ressourcen durch Software ist Virtualisierung zugleich der
-Grundstein für Cloud-Technologie: Erst sie ermöglicht Resource Pooling, denn
+\emph{Grundstein} für Cloud-Technologie: Erst sie ermöglicht \textit{Resource Pooling}, denn
 sonst könnten keine voneinander getrennten Umgebungen auf einem Server
 existieren.
 \subsection{Wie nutzt eine Cloud Virtualisierung?}
 \subsubsection{Virtuelle Maschinen (Virtual Machine)}
-Bei einer VM (kurz für Virtuelle Maschine) wird eine eigenständige, isolierte
+Bei einer \textbf{VM} (kurz für Virtuelle Maschine) wird eine \emph{eigenständige, isolierte}
 Instanz auf einem physischen System abstrahiert. Dadurch kann man
 beispielsweise auf einem Windows-PC ein Linux-Betriebssystem innerhalb einer VM
-ausführen. In der Cloud wird dies für Resource Pooling genutzt, also das
+ausführen. In der Cloud wird dies für \textit{Resource Pooling} genutzt, also das
 Aufteilen eines physischen Servers in mehrere kleinere, unabhängige Instanzen.
-So werden Infrastructure as a Service (IaaS) und dynamische Skalierung erst
+So werden \textit{Infrastructure as a Service (IaaS)} und dynamische Skalierung erst
 ermöglicht.
 \subsubsection{Virtuelles Netzwerk}
-Ein virtuelles Netzwerk ermöglicht die Kommunikation zwischen VMs sowie mit
-externen Systemen. Durch Peering – das direkte Verbinden zweier virtueller
+Ein \textbf{virtuelles Netzwerk} ermöglicht die Kommunikation zwischen VMs sowie mit
+externen Systemen. Durch \textit{Peering} – das direkte Verbinden zweier virtueller
 Netzwerke – können Services untereinander kommunizieren, ohne den Umweg über
-das öffentliche Internet nehmen zu müssen. Über VPNs (Virtual Private Network)
+das öffentliche Internet nehmen zu müssen. Über \textit{VPNs} (Virtual Private Network)
 lässt sich zudem eine verschlüsselte Direktverbindung zu
-On-Premises-Rechenzentren herstellen, um sicher mit Cloud-Services zu
+\textit{On-Premises}-Rechenzentren herstellen, um sicher mit Cloud-Services zu
 kommunizieren.
 \subsubsection{Speichervirtualisierung}
-Bei der Speichervirtualisierung werden mehrere physische Speichermedien per
+Bei der \textbf{Speichervirtualisierung} werden mehrere physische Speichermedien per
 Software zu einem einzigen logischen Speicherpool zusammengefasst und
-abstrahiert. Das ermöglicht beispielsweise Dienste wie Google Drive und iCloud
-oder – im Enterprise-Kontext – Azure Managed Disks.
+abstrahiert. Das ermöglicht beispielsweise Dienste wie \textit{Google Drive} und \textit{iCloud}
+oder – im Enterprise-Kontext – \textit{Azure Managed Disks}.
 
 \subsubsection{Hypervisor}
-Ein Hypervisor ist die Software, die Arbeitsspeicher, Rechenleistung und
+Ein \textbf{Hypervisor} ist die Software, die Arbeitsspeicher, Rechenleistung und
 Speicher in Pools zusammenfasst. Dadurch lassen sich auf einer physischen
 Maschine viele VMs erstellen. Der Hypervisor stellt den einzelnen virtuellen
 Maschinen die zugewiesenen Ressourcen bereit und verwaltet deren Planung im
 Verhältnis zu den physischen Ressourcen. Die Ausführung übernimmt nach wie vor
-die physische Hardware: Die CPU führt weiterhin die CPU-Befehle aus, wie sie
+\emph{die physische Hardware}: Die CPU führt weiterhin die CPU-Befehle aus, wie sie
 etwa von den VMs angefordert werden, während der Hypervisor die Planung
 übernimmt.
 
@@ -51,7 +51,7 @@ etwa von den VMs angefordert werden, während der Hypervisor die Planung
         \hline
         Ressourcenzuweisung & Direkt durch den Hypervisor & Über das Host-OS \\
         \hline
-        Beispiele & VMware ESXi, KVM & Oracle VirtualBox, VMware Workstation \\
+        Beispiele & \textit{VMware ESXi}, \textit{KVM} & \textit{Oracle VirtualBox}, \textit{VMware Workstation} \\
         \hline
     \end{tabular}
     \caption{Vergleich Hypervisor Typ~1 und Typ~2}
