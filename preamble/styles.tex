@@ -31,6 +31,8 @@
 \graphicspath{{assets/images/}}
 
 %% ── Überschriften (titlesec) ─────────────────────────────────────────────
+\AddToHook{cmd/section/before}{\clearpage}
+
 \titleformat{\section}
   {\Large\bfseries\color{primary}}         % Format
   {\color{primary}\thesection}             % Label
@@ -136,7 +138,7 @@
     % Fußleiste
     {\color{primary!30!white}\rule{\linewidth}{0.6pt}}\par
     \vspace{0.3cm}
-    {\small\color{primary!50!black}\sffamily Lernzettel-Template · LuaLaTeX}
+    {\small\color{primary!50!black}\sffamily Lernzettel}
   \end{titlepage}%
   \clearpage
 }
