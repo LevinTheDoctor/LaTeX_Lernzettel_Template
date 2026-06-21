@@ -1,15 +1,15 @@
 \section{Datenbankmodelle}
-Datenbankmodelle entscheiden, wie Daten gespeichert werden und wie sie abgerufen werden. Jedes der folgenden Datenbankmodelle hat einen eigenen sinnvollen Use Case. Keins der Modelle ist schlecht, trotzdem hat sich ein relationales Datenbankmodell heutzutage durchgesetzt.
+Datenbankmodelle entscheiden, wie Daten gespeichert und wie sie abgerufen werden. Jedes der folgenden Datenbankmodelle hat einen eigenen sinnvollen Use Case. Keins der Modelle ist schlecht, trotzdem hat sich heutzutage das relationale Datenbankmodell durchgesetzt.
 \subsection{Relationales Datenbankmodell}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/images/DMRelational}
-    \caption{Beispiel Relationales Datenbankmodell}
+    \caption{Beispiel: relationales Datenbankmodell}
 \end{figure}
-Ein relationales Datenbankmodell besteht aus Relationen, dies sind Tabellen. Jede Zeile ist ein Tupel. Ein Tupel ist eine Liste mit fester Länge, welche nicht mehr geändert werden kann. In dem Fall des relationalen Datenbankmodells bestehen die Tupel aus einer Reihe von Attributen. Das Schema einer Relation legt dabei die Anzahl und den Typ der Attribute fest. Ein Datensatz in der Tabelle wird Record genannt.
+Ein relationales Datenbankmodell besteht aus \emph{Relationen}, also Tabellen. Jede Zeile ist ein \emph{Tupel}. Ein Tupel ist eine Liste mit fester Länge, die nicht mehr geändert werden kann. Im Fall des relationalen Datenbankmodells bestehen die Tupel aus einer Reihe von Attributen. Das Schema einer Relation legt dabei die Anzahl und den Typ der Attribute fest. Ein Datensatz in der Tabelle wird \icode{Record} genannt.
 \begin{procon}
   \pro{Große Verbreitung}
-  \pro{Einfach und Flexibel}
+  \pro{Einfach und flexibel}
   \con{Aufwendige Segmentierung}
   \con{Künstliche Schlüsselattribute wie IDs}
   \con{Anspruchsvolle Komposition}
@@ -18,44 +18,44 @@ Ein relationales Datenbankmodell besteht aus Relationen, dies sind Tabellen. Jed
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/images/DMHierachie}
-    \caption{Beispiel Hierarchisches Datenbankmodell}
+    \caption{Beispiel: hierarchisches Datenbankmodell}
 \end{figure}
-Das hierarchische Modell erinnert an Baumstrukturen. Jede Entität hat einen Vorgänger außer die Erste und kann mehrere Nachfolger haben. Dadurch sind sie gut rekursiv durchsuchbar. Es gibt immer nur einen Einstiegspunkt.
+Das hierarchische Modell erinnert an Baumstrukturen. Jede Entität hat einen Vorgänger -- außer der ersten -- und kann mehrere Nachfolger haben. Dadurch ist das Modell gut rekursiv durchsuchbar. Es gibt immer nur einen Einstiegspunkt.
 \begin{procon}
 \pro{Effiziente computergerechte Datenorganisation}
 \pro{Sehr schnell}
 \con{Benutzer muss die Datenstruktur gut kennen}
 \con{Redundanzen sind möglich}
 \end{procon}
-\subsection{Netzwerk}
+\subsection{Netzwerkmodell}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/images/DMNetzwerk}
-    \caption{Beispiel Netzwerk Datenbankmodell}
+    \caption{Beispiel: Netzwerk-Datenbankmodell}
 \end{figure}
-Das Netzwerkmodell ist nah an dem hierarchischen Modell, allerdings bietet es mehr als einen Einstiegspunkt. So kann man über einen Kunden an dessen Bestellung kommen, aber auch durch den Verkäufer.
+Das Netzwerkmodell ist nah am hierarchischen Modell, allerdings bietet es mehr als einen Einstiegspunkt. So kann man über einen Kunden an dessen Bestellung gelangen, aber auch über den Verkäufer.
 \begin{procon}
-\pro{Einfache Datenmodellierung, da es keine n-zu-m-Beziehung gibt}
+\pro{Flexibler Zugriff über mehrere Einstiegspunkte}
 \pro{Komplexe Strukturen können abgebildet werden}
 \con{Benutzer muss die Datenstruktur gut kennen}
 \con{Unübersichtlich}
 \end{procon}
-\subsection{Objektorientiert}
+\subsection{Objektorientiertes Datenbankmodell}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/images/DMObjektorientiert}
-    \caption{Beispiel Objektorientiertes Datenbankmodell}
+    \caption{Beispiel: objektorientiertes Datenbankmodell}
 \end{figure}
-Bei einem objektorientierten Datenbankmodell werden Objekte ohne Zerlegung gespeichert, also als vollständige Objekte. Auch Vererbung, Kapselung und Polymorphie sind integriert. Dadurch kann man komplexe Datenstrukturen darstellen.
+Bei einem objektorientierten Datenbankmodell werden Objekte ohne Zerlegung gespeichert, also als vollständige Objekte. Auch Vererbung, Kapselung und Polymorphie sind integriert. Dadurch lassen sich komplexe Datenstrukturen darstellen.
 
 \begin{infobox}
-Heutzutage ist das eigentlich obsolet, da es für relationale Datenbanken ORMs gibt, wie z.B. für C\# Entity Framework Core.
+Heutzutage ist dieses Modell weitgehend obsolet, da es für relationale Datenbanken \icode{ORM}s gibt, z.\,B. \emph{Entity Framework Core} für C\#.
 \end{infobox}
 \begin{procon}
-\pro{"Object-relational impedance mismatch" Problem wird behoben}
-\pro{Komplexe Kompositionen (JOINS) entfallen}
+\pro{Das Problem des \emph{Object-Relational Impedance Mismatch} wird behoben}
+\pro{Komplexe Kompositionen (\icode{JOIN}s) entfallen}
 \pro{Schlüsselverwaltung systemintern}
-\con{Bis heute geringe Verbreitung (z.B. db4o), bei Mengenoperationen langsam}
+\con{Bis heute geringe Verbreitung (z.\,B. db4o), bei Mengenoperationen langsam}
 \con{Aufwändige Bearbeitung vererbter Objekte, inkl. Schreibsperren}
 \end{procon}
 \newpage
