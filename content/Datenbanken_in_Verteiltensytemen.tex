@@ -1,0 +1,92 @@
+\section{Datenbanken in verteilten Systemen}
+\begin{infobox}[Verteilte Systeme]
+Ein verteiltes System ist eine Sammlung mehrerer unabhängiger Computer bzw. Prozesse, die nach außen hin wie ein einziges System wirken. Die einzelnen Knoten kommunizieren dabei über ein Netzwerk miteinander.
+\end{infobox}
+
+Bei verteilten Systemen und dem Zugriff auf eine Datenbank treten immer wieder Fehler auf. Häufige Problemfelder sind:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Performance:} Bei verteilten Systemen kommen oft Performance-Probleme zum Tragen. Faktoren, die auf die Performance einwirken, sind die Leistung des Datenbankservers sowie der Code der Anwendung -- etwa, ob ein \icode{SQL}-Statement so geschrieben wurde, dass es die Daten effizient abfragt. Aber auch Up- und Download des Netzwerks sind wichtig. Gerade Mitarbeiter*innen, die über ein \icode{VPN} im Netzwerk sind, erleben häufig eine starke Latenz. Bei vielen Anfragen an einen Datenbankserver verstärkt sich das noch, weil die Hardware an ihre Grenzen kommt.
+  \item \textbf{Verfügbarkeit:} Dadurch, dass ein Server meist viele Anfragen verarbeiten muss, ist eine Hochverfügbarkeit schwer zu erreichen. Daher wird oft darauf verzichtet, bestimmte Features in Programme einzubinden, da sonst der Server zu stark ausgelastet wird.
+  \item \textbf{Konsistenz:} Bei mehreren Nutzern ist es oft schwer, die Konsistenz zu halten -- insbesondere, wenn mehrere Personen auf denselben Datensatz zugreifen. Beispiel: Eine Person aus dem Telefonverkauf greift auf einen Artikel zu, um dem Kunden den Preis zu nennen, während gleichzeitig eine Person aus dem Einkauf denselben Preis anpasst. Um die Konsistenz zu halten, werden oft einzelne Felder oder sogar ganze Datensätze gesperrt.
+\end{enumerate}
+
+\subsection{CAP-Theorem}
+Bevor wir uns Lösungen für diese Probleme ansehen, müssen wir das CAP-Theorem verstehen. Dieses wurde im Jahr 2000 von \emph{Eric Brewer} aufgestellt und 2002 von \emph{Seth Gilbert} und \emph{Nancy Lynch} formal bewiesen. Das Theorem besagt, dass man Konsistenz (\emph{Consistency}), Verfügbarkeit (\emph{Availability}) und Partitionstoleranz (\emph{Partition Tolerance}) nie gleichzeitig vollständig erreichen kann. Daher muss man immer abwägen, was wichtiger ist.
+
+\begin{merksatz}[CAP-Theorem]
+Von den drei Eigenschaften Konsistenz, Verfügbarkeit und Partitionstoleranz sind in einem verteilten System stets nur zwei zugleich vollständig erreichbar.
+\end{merksatz}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/images/CAP}
+    \caption{CAP-Theorem}
+\end{figure}
+
+\subsection{Zentrale Datenbank}
+Bei einer zentralen Datenbank hat man einen zentralen \icode{SQL}-Server, auf dem immer alle Abfragen laufen. Dadurch ist eine gewisse Konsistenz gewährleistet. Das Problem dabei ist jedoch, dass der \icode{SQL}-Server ausgelastet werden kann, was sich auf die Performance auswirkt -- dadurch wird alles langsamer, und auch die Ausfallsicherheit ist schwierig. Allerdings kann ein Server auch stark ausgestattet sein, sodass dies weniger ein Problem darstellt. Bei einem zentralen System muss man die Konfiguration vorab festlegen und kann später schlecht skalieren.
+
+\subsection{Replikation}
+Statt nur einen Server zu haben, nutzt man mehrere und repliziert die Daten. Damit hat man einen konsistenten Datenbestand, kann aber Anfragen und Last verteilen.
+
+\subsubsection{Arten}
+\begin{infobox}[Primary / Secondary]
+  Es gibt einen Hauptserver (\emph{Primary}); die Replikationen werden auf andere Server kopiert (\emph{Secondary}). Schreibzugriffe gibt es nur auf dem Primary, Leseanfragen können hingegen auch an die Secondary-Server geleitet werden.
+\end{infobox}
+\begin{infobox}[Peer to Peer (Multi-Master)]
+  Alle Nodes sind gleichberechtigt und erlauben Schreibzugriffe. Änderungen müssen daher immer auf allen Nodes synchronisiert werden.
+\end{infobox}
+
+\subsubsection{Modus}
+\begin{infobox}[Asynchrone Replikation]
+  Die Änderung ist sofort abgeschlossen und wird erst später repliziert. Die Performance der Schreiboperation ist gut, dafür ist der Datenbestand vorübergehend inkonsistent.
+\end{infobox}
+\begin{infobox}[Synchrone Replikation]
+  Die Änderung ist erst nach der Synchronisation abgeschlossen. Die Performance der Schreiboperation ist langsamer, dafür ist der Datenbestand durchgehend konsistent.
+\end{infobox}
+
+\subsection{Sharding}
+Beim \emph{Sharding} werden zusammengehörige Daten-Aggregate jeweils einem Node zugeordnet. Schreibzugriffe für einen Datensatz erfolgen immer nur über diesen einen, definierten Node. Dadurch sind Lese- und Schreiboperationen skalierbar, und durch die Daten-Lokalität ergibt sich eine bessere Latenz. Außerdem ist das System konsistent: Da Schreibzugriffe für einen Datensatz nur über einen Node laufen, entstehen keine Konflikte.
+
+\begin{merksatz}[Sharding vs. Replikation]
+Bei der \emph{Replikation} liegen dieselben Daten auf mehreren Nodes. Beim \emph{Sharding} wird der Datenbestand aufgeteilt -- jeder Node hält nur einen Teil der Daten.
+\end{merksatz}
+
+Mittels Sharding können umfangreiche Datenmengen verwaltet werden, welche die Kapazitäten eines einzelnen Servers sprengen würden.
+
+\begin{warnbox}[Nachteil]
+Der größte Nachteil des Shardings ist, dass ein Zugriff über andere Kriterien als das Aufteilungskriterium unverhältnismäßig aufwändig ist. Abfragen über andere Kriterien oder \icode{JOINs} müssen im Allgemeinen auf alle Server aufgeteilt werden. Datenmodell und Zugriffspfade müssen daher so entworfen werden, dass derartige Zugriffe nur selten oder gar nicht vorkommen -- sonst werden die Vorteile des Shardings zunichtegemacht.
+\end{warnbox}
+
+Aufgrund dieser Eigenschaften ist Sharding ideal für \icode{NoSQL}-Datenbanken.
+
+\subsection{Caching}
+Beim \emph{Caching} verwalten die Clients eine eigene Kopie der Daten (oder von Teilen davon).
+
+\begin{procon}
+  \pro{Schneller, lokaler Zugriff}
+  \pro{Entlastung des Netzwerks und der Server}
+  \con{Konsistenz -- wie lange sind die gecachten Daten gültig?}
+  \con{Bei Schreiboperationen im Cache sind Konflikte möglich}
+\end{procon}
+
+\begin{beispiel}[Caching in der Praxis]
+\icode{DNS}, Browser-Cache, Offline-Webanwendungen sowie Microsoft \icode{BranchCache} und Windows Updates.
+\end{beispiel}
+
+\subsection{Map/Reduce}
+\emph{Map/Reduce} ist ein Programmiermodell zur Parallelisierung, das häufig in Software-Frameworks realisiert ist -- etwa in \icode{Hadoop} oder \icode{MongoDB}. Komplexe Aufgaben werden dabei in zwei Phasen bearbeitet: \emph{Map} und \emph{Reduce}.
+
+\begin{infobox}[Divide and Conquer]
+Map/Reduce basiert auf dem Prinzip \emph{Divide and Conquer} („Teile und herrsche"): Ein großes Problem wird rekursiv in kleinere, unabhängige Teilprobleme zerlegt, die einzeln gelöst werden. Anschließend werden die Teilergebnisse wieder zu einer Gesamtlösung zusammengefügt. Weil die Teilprobleme unabhängig voneinander sind, können sie parallel bearbeitet werden.
+\end{infobox}
+
+\begin{process}
+  \step{\textbf{Map:} Die Gesamtaufgabe wird in einzelne Arbeitspakete aufgeteilt und auf verschiedene Nodes verteilt. Jeder Node bearbeitet seine Teilaufgabe unabhängig von den anderen -- dadurch ist eine parallele Bearbeitung möglich.}
+  \step{\textbf{Reduce:} Die Teilergebnisse der einzelnen Nodes werden wieder zu einem Gesamtergebnis zusammengefügt.}
+\end{process}
+
+\begin{merksatz}[Kernidee]
+Durch das rekursive Aufteilen in unabhängige Teilaufgaben (\emph{Divide and Conquer}) lässt sich die Bearbeitung über viele Nodes parallelisieren und damit auf großen Datenmengen skalieren.
+\end{merksatz}
