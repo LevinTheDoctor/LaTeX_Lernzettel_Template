@@ -1,0 +1,33 @@
+\section{NoSQL}
+\icode{NoSQL} steht für \emph{Not Only SQL} und bietet eine Alternative zu relationalen Datenbank-Management-Systemen.
+
+Das liegt insbesondere daran, dass relationale Datenbanksysteme bei flexiblen Datenstrukturen (etwa für Konfigurationen), hoher Schreiblast, globalen Netzwerken und sehr großen Datenmengen an ihre Grenzen kommen - gerade bei Echtzeitanalysen oder \icode{SaaS}-Anwendungen. Auch wenn man an die 5 V von Big Data denkt, ist NoSQL für Varietät wichtig.
+
+Eine andere Sache, die man bei NoSQL im Kopf behalten sollte, ist, dass eine NoSQL-Datenbank oder eine relationale Datenbank nie die wirkliche Lösung ist, sondern man für unterschiedliche Daten unterschiedliche Datenbanksysteme nutzt.
+
+Die Ziele und die Motivation von NoSQL sind:
+\begin{enumerate}[leftmargin=*]
+  \item ein einfacheres Design
+  \item einfache Skalierung
+  \item Kontrolle über die Daten
+  \item verteilte Architektur -- eine passende Datenbank für jeden Use Case
+  \item größere Datenbanken für Big Data
+  \item horizontale Skalierung in der Cloud
+  \item flexible Datenstruktur
+  \item hohe Schreiblast
+\end{enumerate}
+
+\subsection{Modelle}
+\subsubsection{Key-Value}
+In einem Key-Value-Store -- wie beispielsweise einem \icode{Redis}-Cache -- werden Daten als Schlüssel-Wert-Paare (\emph{Key-Value-Pairs}) gespeichert. Ein Key-Value-Modell eignet sich gut für temporäre Daten.
+
+\subsubsection{Document Store}
+Daten werden in Dokumenten gespeichert. Ein Beispiel ist \icode{MongoDB}, das mit \icode{JSON}-Dateien arbeitet. MongoDB ist besonders gut für Konfigurationsdateien geeignet.
+
+\subsubsection{Column Store}
+Bei einem Column-Store existieren keine festen Schemas, da jede Zeile andere Spalten besitzen kann.
+
+\subsubsection{Graphdatenbank}
+Eine Graphdatenbank stellt Daten als Graphen dar. Die Verknüpfung über Knoten ermöglicht die Darstellung von Netzwerken und Wortzusammenhängen und bildet so die Grundlage für \icode{LLMs} und Big Data. Ziel ist es, Relationen abzubilden.
+
+\newpage
