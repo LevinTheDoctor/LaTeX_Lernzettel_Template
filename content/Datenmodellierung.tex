@@ -1,0 +1,19 @@
+\section{Datenmodellierung}
+alle relevanten Informationen eines Systems beschreiben – mit einer Syntax, die einfach,
+aber formal/exakt genug ist. Schnittstelle zwischen Realität und konzeptionellem Modell.
+\subsection{Grundbegriffe}
+\begin{itemize}
+  \item \textbf{Objekt (entity)} ein konkretes Exemplar (z. B. Lehrer „Fröhlich“).
+  \item \textbf{Objekttyp (entity type)} die Klasse gleichartiger Objekte (z. B. Lehrer).
+  \item \textbf{Eigenschaft (attribute)} Merkmal aller Objekte; 
+  \item  \textbf{Eigenschaftswert} konkrete Ausprägung
+  \item  \textbf{Beziehung (relationship)} Zusammenhang zwischen zwei Objekttypen.
+  \item \textbf{Beziehungstyp} alle gleichartigen Beziehungen.
+\end{itemize}
+\subsection{Stufen der Datenmodellierung}
+\begin{itemize}
+  \item \textbf{Konzeptionell} Fachliche Beschreibung, Identifikation von Entitäten,Attributen,Beziehungen – meist als ER-Diagramm – aus den Bestehnden Daten. Die Phase ist rein Konzeptionell deshalb werden noch keine Datentypen genutzt.
+  Es wird drauft geachtet wo fallen daten an und Welche daten sind relevanten
+  \item \textbf{Logisch} Anhand des ER-Diagramms Tabellen erstellen, Festlegung von Primär-/Fremdschlüsseln, Normalisierung. Erstellung eines relationalen Schema. 
+  \item \textbf{Physikalisch}  Umsetzung der Tabbelen in einem konkreten DBMS: Datentypen, Indizes, Speicherstrukturen. Daruas folgt ein implementiertes Schema. Also auch SQL "Code"
+\end{itemize} 
