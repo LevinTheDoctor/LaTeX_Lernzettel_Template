@@ -1,15 +1,6 @@
 \section{Datenmodellierung}
 alle relevanten Informationen eines Systems beschreiben – mit einer Syntax, die einfach,
 aber formal/exakt genug ist. Schnittstelle zwischen Realität und konzeptionellem Modell.
-\subsection{Grundbegriffe}
-\begin{itemize}
-  \item \textbf{Objekt (entity)} ein konkretes Exemplar (z. B. Lehrer „Fröhlich“).
-  \item \textbf{Objekttyp (entity type)} die Klasse gleichartiger Objekte (z. B. Lehrer).
-  \item \textbf{Eigenschaft (attribute)} Merkmal aller Objekte; 
-  \item  \textbf{Eigenschaftswert} konkrete Ausprägung
-  \item  \textbf{Beziehung (relationship)} Zusammenhang zwischen zwei Objekttypen.
-  \item \textbf{Beziehungstyp} alle gleichartigen Beziehungen.
-\end{itemize}
 \subsection{Stufen der Datenmodellierung}
 \begin{itemize}
   \item \textbf{Konzeptionell} Fachliche Beschreibung, Identifikation von Entitäten,Attributen,Beziehungen – meist als ER-Diagramm – aus den Bestehnden Daten. Die Phase ist rein Konzeptionell deshalb werden noch keine Datentypen genutzt.
@@ -17,3 +8,47 @@ aber formal/exakt genug ist. Schnittstelle zwischen Realität und konzeptionelle
   \item \textbf{Logisch} Anhand des ER-Diagramms Tabellen erstellen, Festlegung von Primär-/Fremdschlüsseln, Normalisierung. Erstellung eines relationalen Schema. 
   \item \textbf{Physikalisch}  Umsetzung der Tabbelen in einem konkreten DBMS: Datentypen, Indizes, Speicherstrukturen. Daruas folgt ein implementiertes Schema. Also auch SQL "Code"
 \end{itemize} 
+\subsection{Entity Relationship Modell}
+Ein Entity Relationship Model kurz ERM ist ein Konzeptioneller
+Entwurf einer Datenbank. Das ERM kommt bei der Semantischen
+Modellierung einer Datenbank zum Einsatz. Es hilft dabei Entitäten,
+deren Attribute und Beziehungen zu bestimmen. Die Notation die für ERM der Standert ist wird Chen Notaion gennant. Diese wurde von Peter Chen erfunden.
+\subsubsection{Chen Notation}
+Die Chen Notation ist besonders Bliebt weil sie regeln hat
+wie sie Erstellt und Gelsen werden.
+\begin{itemize}
+  \item Bei ERM gibt es eine Fest Leserichtung. Von Links nach Rechts und Unten nach Oben.
+  \item bipartiter ungerichteter Graph: Also Graphen nur zwischen Entitäten und Beziehung oder Entitäten und Attribute. Die Graphen gehen zusätzlich in beiden Richtung.
+  \item Jede Entität hat ein Identifizierendes Attribut → Vorbereitung für Primary Key
+\end{itemize}
+Die Chen Notation besthet aus verschdien elmenten
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}m{2cm} >{\raggedright\arraybackslash}p{2.6cm} X}
+  \toprule
+  \textbf{Symbol} & \textbf{Element} & \textbf{Beschreibung} \\
+  \midrule
+  \includegraphics[width=1.4cm]{assets/images/Entitaet} & Objekt / Objekttyp & Objekt: ein konkretes Exemplar (z.\,B. Lehrer „Fröhlich“). Objekttyp: die Klasse gleichartiger Objekte (z.\,B. Lehrer). \\
+  \includegraphics[width=1.4cm]{assets/images/Attribute} & Eigenschaft / Eigenschaftswert & Eigenschaft: Merkmal aller Objekte. Eigenschaftswert: konkrete Ausprägung. \\
+  \includegraphics[width=1.4cm]{assets/images/Rleationship} & Beziehung / Beziehungstyp & Beziehung: Zusammenhang zwischen zwei Objekttypen. Beziehungstyp: alle gleichartigen Beziehungen. \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+Jede Beziehung besitzt außerdem eine \textbf{Kardinalität}, die angibt, wie viele Objekte eines Typs an der Beziehung teilnehmen können.
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+  \toprule
+  \textbf{Kardinalität} & \textbf{Beispiel} \\
+  \midrule
+  1:1 & Ein Beamer befindet sich in genau einem Raum (und umgekehrt). \\
+  1:n & Ein Auftrag besteht aus n Auftragspositionen; eine Position gehört zu genau einem Auftrag. \\
+  n:m & Ein Student nimmt an mehreren Klausuren teil; an einer Klausur nehmen mehrere Studenten teil. \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+In den Vorlesungen haben wir ein Beispiel eine Pizza Service behandelt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/images/PizzaService}
+    \caption{Beispiel ERM}
+\end{figure}
+
