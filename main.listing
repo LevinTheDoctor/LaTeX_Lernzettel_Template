@@ -1,6 +1,7 @@
--- Ergebnisse nach Score sortiert (analog zu ORDER BY = Sortieralgorithmus)
-SELECT student_id, name, score
-FROM   exam_results
-WHERE  score >= 50
-ORDER  BY score DESC, name ASC
-LIMIT  10;
+CREATE FUNCTION multipliziere(param1 FLOAT(8,2), param2 FLOAT(8,2))
+RETURNS FLOAT(8,2)
+READS SQL DATA
+DETERMINISTIC
+RETURN param1 * param2;
+
+SELECT multipliziere(Kosten, 1.19) FROM Leistung;   -- Aufruf

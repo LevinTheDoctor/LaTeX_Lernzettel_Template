@@ -249,13 +249,30 @@
 %%      Bubble Sort & $O(n^2)$ & Einfach \\
 %%    \end{stdtable}
 %% ══════════════════════════════════════════════════════════════════════════
+%% \lzheaderrow{a & b & c} setzt in JEDER Kopfzelle Farbe und Fettdruck.
+%% (\color gilt sonst nur bis zum ersten &, weil jede Zelle eine Gruppe ist.)
+\ExplSyntaxOn
+\NewDocumentCommand{\lzheaderrow}{m}
+ {
+  \seq_set_split:Nnn \l_tmpa_seq { & } { #1 }
+  \bool_set_true:N \l_tmpa_bool
+  \seq_map_inline:Nn \l_tmpa_seq
+   {
+    \bool_if:NTF \l_tmpa_bool
+     { \bool_set_false:N \l_tmpa_bool }
+     { & }
+    \color{tableheadertext}\bfseries ##1
+   }
+ }
+\ExplSyntaxOff
+
 \NewEnviron{stdtable}[2]{%
   \par\smallskip
   \rowcolors{2}{tablerowalt}{white}%
   \begin{center}%
   \begin{tabularx}{\linewidth}{#1}%
   \rowcolor{tableheader}%
-  \color{tableheadertext}\bfseries #2\\[\jot]%
+  \lzheaderrow{#2}\\[\jot]%
   \BODY
   \end{tabularx}%
   \end{center}%

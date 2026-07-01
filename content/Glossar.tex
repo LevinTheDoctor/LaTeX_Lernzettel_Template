@@ -1,0 +1,45 @@
+\section{Glossar}
+\begin{description}[style=nextline, itemsep=2pt]
+  \item[ACID] \emph{Atomicity, Consistency, Isolation, Durability} -- die vier Eigenschaften zuverlässiger Transaktionen.
+  \item[Aggregatfunktion] Funktion, die mehrere Zeilen zu einem einzelnen Wert zusammenfasst: \icode{COUNT}, \icode{SUM}, \icode{AVG}, \icode{MIN}, \icode{MAX}.
+  \item[Anomalie] Fehler, der durch Redundanz in unnormalisierten Tabellen entsteht (Einfüge-, Änderungs- und Löschanomalie).
+  \item[ANSI-3-Ebenen-Modell] Architektur, die eine Datenbank in eine interne, eine konzeptionelle und eine externe Ebene trennt (auch \emph{SPARC} genannt).
+  \item[Attribut] Eigenschaft eines Objekts bzw. Spalte einer Relation.
+  \item[CAP-Theorem] Konsistenz, Verfügbarkeit und Partitionstoleranz sind in einem verteilten System nie gleichzeitig vollständig erreichbar -- nur zwei davon.
+  \item[Chen-Notation] Standardnotation für ER-Diagramme: Rechteck = Objekttyp, Ellipse = Eigenschaft, Raute = Beziehungstyp.
+  \item[Constraint] Regel auf einer Spalte oder Tabelle, z.\,B. \icode{NOT NULL} oder \icode{UNIQUE}.
+  \item[Data Mart] Abteilungs- oder funktionsbezogene Teilmenge eines Data Warehouse.
+  \item[Data Mining] Automatisches Entdecken von Modellen und Mustern in großen Datenbeständen.
+  \item[Data Warehouse] Sehr große, von den operativen Systemen unabhängige Datenbank mit verdichteten Daten für Auswertungen.
+  \item[DBMS] Datenbank-Management-System -- verwaltet die Datenbank und ist die Schnittstelle zu ihr (z.\,B. MySQL, PostgreSQL).
+  \item[DCL] \emph{Data Control Language} -- steuert Zugriff und Rechte (\icode{GRANT}, \icode{REVOKE}).
+  \item[DDL] \emph{Data Definition Language} -- definiert und verändert das Schema (\icode{CREATE}, \icode{ALTER}, \icode{DROP}).
+  \item[Deadlock] Gegenseitiges Sperren zweier Transaktionen, die aufeinander warten.
+  \item[DML] \emph{Data Manipulation Language} -- verändert Daten in bestehenden Tabellen (\icode{INSERT}, \icode{UPDATE}, \icode{DELETE}).
+  \item[DQL] \emph{Data Query Language} -- fragt Daten ab (\icode{SELECT}).
+  \item[Entität] Konkretes Objekt der realen Welt, das in der Datenbank modelliert wird.
+  \item[ERM] Entity-Relationship-Modell -- konzeptioneller Entwurf einer Datenbank mit Entitäten, Attributen und Beziehungen.
+  \item[Foreign Key] Fremdschlüssel -- verweist auf den Primary Key einer anderen Tabelle und verknüpft so die Daten.
+  \item[Funktionale Abhängigkeit] $A \rightarrow B$: Zu jedem Wert von $A$ gehört genau ein Wert von $B$.
+  \item[Join] Verknüpft Daten aus mehreren Tabellen über Primär- und Fremdschlüssel (\icode{INNER}, \icode{LEFT}, \icode{RIGHT}, \icode{CROSS}).
+  \item[Kardinalität] Gibt an, wie viele Objekte eines Typs an einer Beziehung teilnehmen können (1:1, 1:n, n:m).
+  \item[Locking] Temporäres Sperren von Datenbankobjekten -- \emph{Shared Lock} zum Lesen, \emph{Exclusive Lock} zum Schreiben.
+  \item[Map/Reduce] Programmiermodell zur Parallelisierung nach dem Prinzip \emph{Divide and Conquer}.
+  \item[Multiplizität] Zahlenverhältnis zwischen Objekten im UML-Klassendiagramm, z.\,B. \icode{1}, \icode{0..5}, \icode{0..*}.
+  \item[Normalisierung] Schrittweises Aufteilen von Relationen (1NF--3NF), um Redundanz und Anomalien zu vermeiden.
+  \item[NoSQL] \emph{Not Only SQL} -- Alternative zu relationalen DBMS (Key-Value, Document Store, Column Store, Graphdatenbank).
+  \item[OLAP] \emph{Online Analytical Processing} -- flexible, mehrdimensionale Datenanalyse nach dem Top-down-Ansatz.
+  \item[Primary Key] Primärschlüssel -- identifiziert einen Datensatz eindeutig, ist nie \icode{NULL} und kann aus mehreren Spalten bestehen.
+  \item[Prozedur] Benannter, in der Datenbank gespeicherter Anweisungsblock; Aufruf per \icode{CALL}.
+  \item[RDM] Relationales Datenbankmodell -- Daten liegen in Tabellen (Relationen) mit Primär- und Fremdschlüsseln, in der dritten Normalform.
+  \item[Redundanz] Mehrfaches Speichern derselben Information.
+  \item[Referenzielle Integrität] Verhindert verwaiste Datensätze: Ein Fremdschlüssel muss auf einen existierenden Primärschlüssel zeigen.
+  \item[Relation] Tabelle im relationalen Modell; eine Zeile ist ein \emph{Tupel}, ein Datensatz ein \emph{Record}.
+  \item[Replikation] Dieselben Daten liegen auf mehreren Nodes -- entweder Primary/Secondary oder Peer-to-Peer.
+  \item[Sharding] Aufteilen des Datenbestands: Jeder Node hält nur einen Teil der Daten.
+  \item[Subselect] Verschachtelte Abfrage; das innere \icode{SELECT} wird zuerst ausgeführt, sein Ergebnis nutzt die äußere Abfrage.
+  \item[Transaktion] Logisch zusammenhängende Gruppe von SQL-Befehlen, die vollständig oder gar nicht ausgeführt wird.
+  \item[Trigger] Vom DBMS automatisch ausgelöster Anweisungsblock -- \icode{BEFORE} oder \icode{AFTER} einem \icode{INSERT}, \icode{UPDATE} oder \icode{DELETE}.
+  \item[Tupel] Zeile einer Relation; Liste fester Länge aus Attributwerten.
+  \item[View] Gespeicherte \icode{SELECT}-Abfrage, die wie eine virtuelle Tabelle genutzt wird -- ohne eigene Daten.
+\end{description}

@@ -1,0 +1,54 @@
+<mxfile host="app.diagrams.net">
+    <diagram id="uml-beziehungen-legende" name="UML-Beziehungen">
+        <mxGraphModel dx="1330" dy="1035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+
+                <!-- Assoziation -->
+                <mxCell id="ass-l" value="Klasse A" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="60" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ass-r" value="Klasse B" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="60" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ass-e" value="Assoziation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=12;" edge="1" parent="1" source="ass-l" target="ass-r">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Aggregation -->
+                <mxCell id="agg-l" value="Ganzes" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="160" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="agg-r" value="Teil (eigenständig)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="160" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="agg-e" value="Aggregation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamondThin;startFill=0;startSize=22;endArrow=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=12;" edge="1" parent="1" source="agg-l" target="agg-r">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Komposition -->
+                <mxCell id="komp-l" value="Ganzes" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="260" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="komp-r" value="Teil (stirbt mit)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="260" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="komp-e" value="Komposition" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamondThin;startFill=1;startSize=22;endArrow=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=12;" edge="1" parent="1" source="komp-l" target="komp-r">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Generalisierung -->
+                <mxCell id="gen-l" value="Abgeleitete Klasse" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="360" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="gen-r" value="Basisklasse" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="360" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="gen-e" value="Generalisierung (Vererbung)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=0;endSize=16;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontSize=12;" edge="1" parent="1" source="gen-l" target="gen-r">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

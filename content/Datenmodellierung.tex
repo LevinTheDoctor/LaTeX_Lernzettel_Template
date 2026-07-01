@@ -1,27 +1,26 @@
 \section{Datenmodellierung}
-alle relevanten Informationen eines Systems beschreiben – mit einer Syntax, die einfach,
-aber formal/exakt genug ist. Schnittstelle zwischen Realität und konzeptionellem Modell.
+Datenmodellierung bedeutet, alle relevanten Informationen eines Systems zu beschreiben -- mit einer Syntax, die einfach, aber formal und exakt genug ist. Sie ist die Schnittstelle zwischen der Realität und dem konzeptionellen Modell.
 \subsection{Stufen der Datenmodellierung}
 \begin{itemize}
-  \item \textbf{Konzeptionell} Fachliche Beschreibung, Identifikation von Entitäten,Attributen,Beziehungen – meist als ER-Diagramm – aus den Bestehnden Daten. Die Phase ist rein Konzeptionell deshalb werden noch keine Datentypen genutzt.
-  Es wird drauft geachtet wo fallen daten an und Welche daten sind relevanten
-  \item \textbf{Logisch} Anhand des ER-Diagramms Tabellen erstellen, Festlegung von Primär-/Fremdschlüsseln, Normalisierung. Erstellung eines relationalen Schema. 
-  \item \textbf{Physikalisch}  Umsetzung der Tabbelen in einem konkreten DBMS: Datentypen, Indizes, Speicherstrukturen. Daruas folgt ein implementiertes Schema. Also auch SQL "Code"
-\end{itemize} 
-\subsection{Entity Relationship Modell}
-Ein Entity Relationship Model kurz ERM ist ein Konzeptioneller
-Entwurf einer Datenbank. Das ERM kommt bei der Semantischen
-Modellierung einer Datenbank zum Einsatz. Es hilft dabei Entitäten,
-deren Attribute und Beziehungen zu bestimmen. Die Notation die für ERM der Standert ist wird Chen Notaion gennant. Diese wurde von Peter Chen erfunden.
-\subsubsection{Chen Notation}
-Die Chen Notation ist besonders Bliebt weil sie regeln hat
-wie sie Erstellt und Gelsen werden.
-\begin{itemize}
-  \item Bei ERM gibt es eine Fest Leserichtung. Von Links nach Rechts und Unten nach Oben.
-  \item bipartiter ungerichteter Graph: Also Graphen nur zwischen Entitäten und Beziehung oder Entitäten und Attribute. Die Graphen gehen zusätzlich in beiden Richtung.
-  \item Jede Entität hat ein Identifizierendes Attribut → Vorbereitung für Primary Key
+  \item \textbf{Konzeptionell:} Fachliche Beschreibung, Identifikation von Entitäten, Attributen und Beziehungen -- meist als ER-Diagramm -- aus den bestehenden Daten. Die Phase ist rein konzeptionell, deshalb werden noch keine Datentypen genutzt.
+  Es wird darauf geachtet, wo Daten anfallen und welche Daten relevant sind.
+  \item \textbf{Logisch:} Anhand des ER-Diagramms Tabellen erstellen, Festlegung von Primär- und Fremdschlüsseln, Normalisierung. Erstellung eines relationalen Schemas.
+  \item \textbf{Physikalisch:} Umsetzung der Tabellen in einem konkreten DBMS: Datentypen, Indizes, Speicherstrukturen. Daraus folgt ein implementiertes Schema -- also auch SQL-„Code“.
 \end{itemize}
-Die Chen Notation besthet aus verschdien elmenten
+\subsection{Entity-Relationship-Modell}
+Ein Entity-Relationship-Modell, kurz \icode{ERM}, ist ein konzeptioneller
+Entwurf einer Datenbank. Das ERM kommt bei der semantischen
+Modellierung einer Datenbank zum Einsatz. Es hilft dabei, Entitäten,
+deren Attribute und Beziehungen zu bestimmen. Die Notation, die für ERM der Standard ist, wird \emph{Chen-Notation} genannt. Diese wurde von Peter Chen erfunden.
+\subsubsection{Chen-Notation}
+Die Chen-Notation ist besonders beliebt, weil sie Regeln hat,
+wie sie erstellt und gelesen wird.
+\begin{itemize}
+  \item Bei einem ERM gibt es eine feste Leserichtung: von links nach rechts und von unten nach oben.
+  \item Bipartiter ungerichteter Graph: Kanten gibt es nur zwischen Entitäten und Beziehungen oder Entitäten und Attributen. Die Kanten gelten zusätzlich in beide Richtungen.
+  \item Jede Entität hat ein identifizierendes Attribut → Vorbereitung für den \icode{Primary Key}.
+\end{itemize}
+Die Chen-Notation besteht aus verschiedenen Elementen:
 \begin{center}
 \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}m{2cm} >{\raggedright\arraybackslash}p{2.6cm} X}
   \toprule
@@ -45,11 +44,61 @@ Jede Beziehung besitzt außerdem eine \textbf{Kardinalität}, die angibt, wie vi
   \bottomrule
 \end{tabularx}
 \end{center}
-In den Vorlesungen haben wir ein Beispiel eine Pizza Service behandelt.
+In den Vorlesungen haben wir als Beispiel einen Pizza-Service behandelt.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/images/PizzaService}
     \caption{Beispiel ERM}
 \end{figure}
- \subsection{UML-Klassen Diagramm}
- 
+
+\subsection{Vom ERM zum RDM}
+Das \emph{relationale Datenbankmodell} (RDM) ist Teil der logischen Modellierung: Die Entitäten des ERM werden in Tabellen bzw. Relationen überführt -- samt ihren Beziehungen und Attributen. Besonders wichtig sind dabei Primär- und Fremdschlüssel, denn sie gewährleisten die Einzigartigkeit der Zeilen und die Verknüpfung der Tabellen. Ein fertiges RDM liegt in der dritten Normalform vor.
+
+\begin{process}
+  \step{Tabellen schaffen: die Entitäten werden zur Bezeichnung, die Attribute zu Spalten.}
+  \step{Das identifizierende Schlüsselattribut wird zum \icode{Primary Key}.}
+  \step{Die Beziehungen betrachten und über \icode{Foreign Keys} bzw. Beziehungstabellen im RDM umsetzen.}
+\end{process}
+
+\begin{stdtable}{l X}{Kardinalität & Umsetzung im RDM}
+  1:1 & Auf einer der beiden Seiten wird der FK der anderen Entität eingetragen -- am besten auf der Seite, die stärker abhängig ist. \\
+  1:n & Auf der n-Seite fügt man den FK ein (also den PK der Entität auf der 1-Seite). \\
+  n:m & Man schafft eine zusätzliche Beziehungstabelle, die beide PKs als FKs enthält. \\
+\end{stdtable}
+
+\subsection{UML-Klassendiagramm}
+Neben dem ERM lässt sich ein System auch objektorientiert modellieren -- mit einem \emph{UML-Klassen\-diagramm}. Auf Klassen und Objekte gibt es dabei zwei Sichten:
+\begin{itemize}
+  \item \textbf{Sicht A:} Eine Klasse ist ein Bauplan, aus dem Objekte gebaut werden.
+  \item \textbf{Sicht B:} Objekte werden aufgrund von Ähnlichkeiten zu einer Klasse zusammengefasst -- z.\,B. können Schüler und Lehrer als Klasse „Mensch“ zusammengefasst werden.
+\end{itemize}
+Wichtig sind dabei die relevanten Attribute, Methoden zur Kommunikation über Schnittstellen und die Nutzung von Ähnlichkeiten über Vererbung.
+
+Eine Klasse wird als Rechteck mit drei durch Linien getrennten Bereichen dargestellt: Klassenname, Attribute und Methoden.
+\begin{itemize}
+  \item \textbf{Sichtbarkeit:} \icode{-} für privat, \icode{+} für öffentlich.\\
+  Beispiele: \icode{- modell : String} und \icode{+ beschleunigen() : void}
+  \item \textbf{Multiplizität:} Zahlenverhältnis zwischen Objekten, z.\,B. \icode{1}, \icode{0..5}, \icode{0..*}.
+\end{itemize}
+
+\begin{stdtable}{l X}{Beziehung & Bedeutung}
+  Assoziation & Allgemeine Beziehung zwischen zwei Klassen. \\
+  Aggregation & Ganzes-Teile-Beziehung; die Teile existieren eigenständig weiter (leere Raute). \\
+  Komposition & Starke Aggregation; die Teile „sterben“ mit dem Ganzen (gefüllte Raute). \\
+  Generalisierung & Vererbung zwischen Basisklasse und abgeleiteter Klasse (leeres Dreieck). \\
+\end{stdtable}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/images/UMLBeziehungen}
+    \caption{Notation der UML-Beziehungen}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{assets/images/UMLKlassendiagramm}
+    \caption{Beispiel UML-Klassendiagramm: Schule}
+\end{figure}
+Das Beispiel zeigt alle vier Beziehungsarten: \emph{Schüler} und \emph{Lehrer} erben von der Basisklasse \emph{Mensch} (Generalisierung). Die \emph{Schule} besteht aus \emph{Klassenräumen} (Komposition -- ohne Schule kein Klassenraum) und beschäftigt \emph{Lehrer} (Aggregation -- ein Lehrer existiert auch ohne die Schule weiter). Zwischen \emph{Lehrer} und \emph{Schüler} besteht die Assoziation „unterrichtet“ mit den Multiplizitäten \icode{1..*} und \icode{0..*}.
+
+\newpage
