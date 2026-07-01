@@ -1,0 +1,158 @@
+\section{Normalisierung}
+\textbf{Was ist Normalisierung?} Das schrittweise Aufteilen einer Relation (Tabelle) in mehrere kleinere Relationen, bis diese den Normalisierungsregeln entsprechen. Ziel ist ein redundanzarmes, konsistentes Schema.
+
+\subsection{Anomalien und Redundanz}
+Unnormalisierte Tabellen speichern Informationen oft mehrfach (Redundanz). Das führt zu drei Arten von Anomalien:
+\begin{itemize}
+  \item \textbf{Einfügeanomalie} Ein neuer Fakt kann nicht gespeichert werden, ohne einen anderen, eigentlich unabhängigen Fakt mit anzugeben (z.\,B. kann ein neuer Artikel erst gespeichert werden, wenn es auch schon eine Bestellung für ihn gibt).
+  \item \textbf{Änderungsanomalie} Ändert sich ein Fakt, muss er an mehreren Stellen gleichzeitig geändert werden, sonst entstehen Widersprüche (z.\,B. Adressänderung eines Kunden, die in jeder Bestellzeile einzeln gepflegt wird).
+  \item \textbf{Löschanomalie} Beim Löschen eines Datensatzes gehen ungewollt weitere, eigentlich unabhängige Informationen verloren (z.\,B. löscht man die letzte Bestellung eines Kunden, verschwinden auch dessen Stammdaten).
+\end{itemize}
+
+\subsection{Funktionale Abhängigkeit}
+Ein Attribut $B$ ist \emph{funktional abhängig} von einem Attribut $A$ (geschrieben $A \rightarrow B$), wenn zu jedem Wert von $A$ immer genau ein Wert von $B$ gehört. Der Primärschlüssel einer Relation bestimmt dabei funktional alle übrigen (Nichtschlüssel-)Attribute. Zwei Sonderfälle sind für die Normalformen entscheidend:
+\begin{itemize}
+  \item \textbf{Teilabhängigkeit (partielle Abhängigkeit)} Ein Nichtschlüsselattribut hängt nur von einem Teil eines zusammengesetzten Schlüssels ab, nicht vom gesamten Schlüssel.
+  \item \textbf{Transitive Abhängigkeit} Ein Nichtschlüsselattribut hängt nicht direkt vom Schlüssel ab, sondern über ein anderes Nichtschlüsselattribut ($A \rightarrow C \rightarrow B$).
+\end{itemize}
+
+Als durchgängiges Beispiel dient im Folgenden eine Bestellverwaltung, die schrittweise über alle drei Normalformen normalisiert wird.
+
+\subsection{Erste Normalform (1NF)}
+Eine Relation ist in der 1NF, wenn jeder Attributwert \emph{atomar} ist -- es gibt also keine Listen, Mehrfachwerte oder zusammengesetzten Werte in einer Zelle.
+
+\textit{Vorher (verletzt 1NF -- die Spalte Artikel enthält mehrere Werte):}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X}
+  \toprule
+  \textbf{BestellNr} & \textbf{Kunde} & \textbf{Artikel} \\
+  \midrule
+  1001 & Meier & Tastatur, Maus \\
+  1002 & Schmidt & Monitor \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\textit{Nachher (1NF -- jede Artikelposition steht in einer eigenen Zeile):}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X}
+  \toprule
+  \textbf{BestellNr} & \textbf{Kunde} & \textbf{Artikel} \\
+  \midrule
+  1001 & Meier & Tastatur \\
+  1001 & Meier & Maus \\
+  1002 & Schmidt & Monitor \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Zweite Normalform (2NF)}
+Eine Relation ist in der 2NF, wenn sie in 1NF ist \emph{und} jedes Nichtschlüsselattribut voll funktional vom \emph{gesamten} (zusammengesetzten) Primärschlüssel abhängt -- es darf also keine Teilabhängigkeit geben. Bei einem einfachen (nicht zusammengesetzten) Primärschlüssel ist die 2NF automatisch erfüllt.
+
+\textit{Vorher (Schlüssel = BestellNr + ArtikelNr; verletzt 2NF -- Kunde hängt nur von BestellNr, ArtikelBezeichnung nur von ArtikelNr ab):}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X l l}
+  \toprule
+  \textbf{BestellNr} & \textbf{ArtikelNr} & \textbf{ArtikelBezeichnung} & \textbf{Menge} & \textbf{Kunde} \\
+  \midrule
+  1001 & A1 & Tastatur & 1 & Meier \\
+  1001 & A2 & Maus & 1 & Meier \\
+  1002 & A3 & Monitor & 2 & Schmidt \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\textit{Nachher (2NF -- aufgeteilt in drei Relationen):}
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+  \toprule
+  \multicolumn{2}{l}{\textbf{Bestellung}} \\
+  \midrule
+  \textbf{BestellNr} & \textbf{Kunde} \\
+  \midrule
+  1001 & Meier \\
+  1002 & Schmidt \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+  \toprule
+  \multicolumn{2}{l}{\textbf{Artikel}} \\
+  \midrule
+  \textbf{ArtikelNr} & \textbf{ArtikelBezeichnung} \\
+  \midrule
+  A1 & Tastatur \\
+  A2 & Maus \\
+  A3 & Monitor \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X}
+  \toprule
+  \multicolumn{3}{l}{\textbf{Bestellposition}} \\
+  \midrule
+  \textbf{BestellNr} & \textbf{ArtikelNr} & \textbf{Menge} \\
+  \midrule
+  1001 & A1 & 1 \\
+  1001 & A2 & 1 \\
+  1002 & A3 & 2 \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Dritte Normalform (3NF)}
+Eine Relation ist in der 3NF, wenn sie in 2NF ist \emph{und} kein Nichtschlüsselattribut transitiv vom Primärschlüssel abhängt. Jedes Nichtschlüsselattribut muss also direkt vom Schlüssel abhängen, nicht über ein anderes Nichtschlüsselattribut.
+
+\textit{Vorher (Schlüssel = KundenNr; verletzt 3NF -- Ort hängt über PLZ transitiv von KundenNr ab):}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l l X}
+  \toprule
+  \textbf{KundenNr} & \textbf{Name} & \textbf{PLZ} & \textbf{Ort} \\
+  \midrule
+  K1 & Meier & 10115 & Berlin \\
+  K2 & Schmidt & 80331 & München \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\textit{Nachher (3NF -- Ort ist über die PLZ ausgelagert):}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X}
+  \toprule
+  \multicolumn{3}{l}{\textbf{Kunde}} \\
+  \midrule
+  \textbf{KundenNr} & \textbf{Name} & \textbf{PLZ} \\
+  \midrule
+  K1 & Meier & 10115 \\
+  K2 & Schmidt & 80331 \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+  \toprule
+  \multicolumn{2}{l}{\textbf{Postleitzahl}} \\
+  \midrule
+  \textbf{PLZ} & \textbf{Ort} \\
+  \midrule
+  10115 & Berlin \\
+  80331 & München \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Zusammenfassung}
+\begin{center}
+\begin{tabularx}{\textwidth}{l X X}
+  \toprule
+  \textbf{NF} & \textbf{Regel} & \textbf{Beispiel-Verstoß} \\
+  \midrule
+  1NF & Jeder Attributwert ist atomar -- keine Listen, Mehrfach- oder zusammengesetzten Werte. & „Tastatur, Maus“ in einer Zelle der Spalte Artikel. \\
+  2NF & 1NF + jedes Nichtschlüsselattribut hängt voll vom gesamten (zusammengesetzten) Primärschlüssel ab -- keine Teilabhängigkeit. & Kunde hängt nur von BestellNr ab, nicht von BestellNr + ArtikelNr. \\
+  3NF & 2NF + kein Nichtschlüsselattribut hängt transitiv vom Schlüssel ab. & PLZ $\rightarrow$ Ort: Ort hängt über die PLZ am Schlüssel. \\
+  \bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Hinweis:} Gibt es keinen zusammengesetzten Primärschlüssel, ist eine Relation in 1NF automatisch auch in 2NF.
