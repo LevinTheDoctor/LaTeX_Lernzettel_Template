@@ -1,0 +1,449 @@
+%% lernzettelapp.tex — Technische Dokumentation der Lernzettel-App
+%% LaTeX-Fassung der Markdown-Doku aus dem App-Repo (docs/).
+%% ──────────────────────────────────────────────────────────────────────────
+
+\section{Überblick}
+
+\begin{infobox}[Was ist die Lernzettel-App?]
+  Eine \textbf{selbst-hostbare, kollaborative Lernplattform}: Markdown-/LaTeX-Editor
+  mit Live-Vorschau, Quizzes mit server-seitiger Bewertung, Freunde \& Sharing,
+  PDF-Export über LuaLaTeX, Dokument-Vorlagen, Bibliographie (BibTeX/Zotero),
+  AI-Tools (OpenAI, Anthropic, Ollama) und native Apps für Desktop, Android und
+  iOS/iPadOS über Tauri~2 \parencite{tauri2}.
+\end{infobox}
+
+\begin{stdtable}{l X}{Ebene & Technologie}
+  Frontend        & React~18, TypeScript, Vite; Theming über CSS-Variablen (Dark/Light/Dracula), i18n DE/EN \\
+  Backend         & 14 FastAPI-Microservices \parencite{fastapi} hinter einem API-Gateway \\
+  Persistenz      & PostgreSQL~16, MongoDB~7, Datei-Volumes, Gitea (Versionierung) \\
+  Native Apps     & Tauri~2 (eine Codebasis für Desktop, Android, iOS/iPadOS) \\
+  Deployment      & Docker Compose, optional Cloudflare Tunnel \\
+\end{stdtable}
+
+\begin{warnbox}[Legacy-Hinweis]
+  Das Verzeichnis \icode{backend/} im Repo ist ein ungenutztes Monolith-Relikt.
+  Der aktive Backend-Code liegt vollständig unter \icode{services/}.
+\end{warnbox}
+
+\clearpage
+\section{Architektur}
+
+Die App ist eine Microservice-Anwendung: ein React-Frontend, ein API-Gateway
+und 13 fachliche Services, orchestriert über Docker Compose.
+
+\begin{syntaxbox}[bash]
+Browser ----> Frontend-nginx :3000 --/api--> Gateway :8000
+Tauri-App --------------(server_url)-------> Gateway :8000
+
+Gateway :8000
+  |-- auth-service      :8001   (PostgreSQL)
+  |-- document-service  :8002   (PostgreSQL, uploads, Gitea)
+  |-- quiz-service      :8003   (PostgreSQL)
+  |-- latex-service     :8004   (Volume: PDFs)
+  |-- collab-service    :8005   (WebSocket-Relay, In-Memory)
+  |-- user-config-svc   :8006   (MongoDB)
+  |-- template-service  :8007   |-- image-service :8008
+  |-- github-service    :8009   |-- bib-service   :8010
+  |-- ai-service        :8011   |-- mcp-service   :8012
+\end{syntaxbox}
+
+\subsection{Request-Fluss}
+
+\begin{process}
+  \step{\textbf{Browser:} lädt das Frontend vom nginx-Container (Port~3000);
+    alle API-Aufrufe gehen relativ an \icode{/api/...} und werden von nginx an
+    das Gateway weitergereicht (inkl.\ WebSocket-Upgrade-Header).}
+  \step{\textbf{Tauri-Apps:} haben keinen nginx-Proxy und sprechen das Gateway
+    direkt an; die Basis-URL wird in den Einstellungen konfiguriert
+    (localStorage \icode{server\_url}).}
+  \step{\textbf{Gateway:} matcht den Pfad-Präfix (längster Präfix zuerst, mit
+    Segment-Grenze — \icode{/api/github} landet nicht bei \icode{/api/git})
+    und leitet den Request mit einem geteilten \icode{httpx.AsyncClient}
+    weiter. Für \icode{/api/collab/ws/\{doc\_id\}} betreibt es ein
+    bidirektionales WebSocket-Relay.}
+  \step{\textbf{Services:} validieren das JWT selbst (shared
+    \icode{JWT\_SECRET}, HS256) — es gibt keine implizite
+    Vertrauensstellung zwischen den Services.}
+\end{process}
+
+\subsection{Datenhaltung}
+
+\begin{stdtable}{l X l}{Speicher & Inhalt & Services}
+  PostgreSQL & User, OAuth-Accounts, Dokumente, Shares, Kommentare, Freunde, Quizzes & auth, document, quiz \\
+  MongoDB    & User-Konfiguration (Theme, Editor, PDF-Defaults), Profile & user-config \\
+  Gitea      & Versionshistorie der Dokumente & document \\
+  Volumes    & Uploads, generierte PDFs, Templates, Bilder, verschlüsselte User-Secrets & latex, template, image, github, bib, ai \\
+\end{stdtable}
+
+\begin{merksatz}[Zero-Trust zwischen den Services]
+  Jeder Service prüft eingehende JWTs eigenständig. Ein kompromittierter
+  Service erhält dadurch keinen Freifahrtschein für die übrigen — und ein
+  direkt (unter Umgehung des Gateways) angesprochener Service ist trotzdem
+  authentifiziert.
+\end{merksatz}
+
+\clearpage
+\section{Service-Katalog}
+
+Alle Backend-Services sind FastAPI-Apps (Python~3.12) mit eigenem
+\icode{GET /api/health}. Nur Gateway, Frontend und Gitea publizieren Ports;
+alles andere ist ausschließlich über das Gateway erreichbar.
+
+\begin{stdtable}{l r X}{Service & Port & Aufgabe}
+  gateway               & 8000 & Reverse-Proxy, CORS, WebSocket-Relay, OpenAPI-Aggregation \\
+  auth-service          & 8001 & Registrierung, Login, JWT, OAuth (Google/GitHub/Apple) \\
+  document-service      & 8002 & Dokumente, Sharing, Kommentare, Freunde, Git-Historie \\
+  quiz-service          & 8003 & Quizzes, Fragen, server-seitig bewertete Versuche \\
+  latex-service         & 8004 & LuaLaTeX-Builds, Markdown$\to$PDF, signierte Downloads \\
+  collaboration-service & 8005 & Live-Kollaboration über WebSockets (Rooms pro Dokument) \\
+  user-config-service   & 8006 & User-Konfiguration, öffentliche Profile \\
+  template-service      & 8007 & Dokument-Vorlagen mit Tags \\
+  image-service         & 8008 & Bild-Uploads für Dokumente \\
+  github-service        & 8009 & Push/Read von GitHub-Repos mit User-PATs \\
+  bibliography-service  & 8010 & BibTeX-Verwaltung, Import/Export, Zotero-Sync \\
+  ai-service            & 8011 & AI-Prompts/Generierung (OpenAI, Anthropic, Ollama) \\
+  mcp-service           & 8012 & Model-Context-Protocol-Endpunkt (Tools, Resources, SSE) \\
+  frontend              & 3000 & nginx: statisches React-Bundle + \icode{/api}-Proxy \\
+  gitea                 & 3001 & Git-Server für die Dokument-Versionierung \\
+\end{stdtable}
+
+Dazu kommen \icode{db} (PostgreSQL), \icode{mongo} (MongoDB) und optional
+\icode{cloudflared} (Compose-Profil \icode{tunnel}).
+
+\subsection{Gateway-Routing}
+
+\sidetables{%
+  \begin{stdtable}{l l}{Präfix & Ziel-Service}
+    \icode{/api/auth}      & auth \\
+    \icode{/api/documents} & document \\
+    \icode{/api/comments}  & document \\
+    \icode{/api/friends}   & document \\
+    \icode{/api/git}       & document \\
+    \icode{/api/quiz}      & quiz \\
+    \icode{/api/latex}     & latex \\
+    \icode{/api/collab}    & collaboration \\
+  \end{stdtable}
+}{%
+  \begin{stdtable}{l l}{Präfix & Ziel-Service}
+    \icode{/api/config}    & user-config \\
+    \icode{/api/profile}   & user-config \\
+    \icode{/api/templates} & template \\
+    \icode{/api/images}    & image \\
+    \icode{/api/github}    & github \\
+    \icode{/api/bib}       & bibliography \\
+    \icode{/api/ai}        & ai \\
+    \icode{/api/mcp}       & mcp \\
+  \end{stdtable}
+}
+
+\subsection{Gemeinsamer Code (\icode{services/shared/})}
+
+\begin{stdtable}{l X}{Modul & Zweck}
+  \icode{auth\_utils.py}   & JWT-Validierung; Start-Abbruch bei fehlendem/Default-Secret \\
+  \icode{crypto\_utils.py} & Fernet-Verschlüsselung für User-Secrets \parencite{fernet} \\
+  \icode{user\_model.py}   & dedupliziertes SQLAlchemy-User-Model \\
+\end{stdtable}
+
+\clearpage
+\section{API \& Authentifizierung}
+
+Alle Endpunkte laufen über das Gateway unter
+\icode{http://<host>:8000/api/...}. Interaktive Dokumentation:
+\icode{GET /api/docs} (Scalar-UI), Schema unter \icode{GET /api/openapi.json}.
+
+\subsection{Login und Token-Verwendung}
+
+\begin{syntaxbox}[bash]
+# 1. Token holen
+curl -X POST http://localhost:8000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "alice", "password": "mein-passwort"}'
+# -> {"access_token": "<JWT>", "token_type": "bearer", "user": {...}}
+
+# 2. Token mitsenden
+curl http://localhost:8000/api/documents \
+  -H "Authorization: Bearer <JWT>"
+\end{syntaxbox}
+
+\begin{infobox}[JWT-Eckdaten]
+  HS256, signiert mit dem shared \icode{JWT\_SECRET}; Laufzeit
+  \icode{JWT\_EXP\_MINUTES} (Default 1440~min = 24~h);
+  Claims: \icode{sub} (User-ID), \icode{username}, \icode{exp}.
+\end{infobox}
+
+\begin{warnbox}[Zwei Sonderfälle]
+  \textbf{WebSockets} (\icode{/api/collab/ws/\{doc\_id\}}) akzeptieren keine
+  Header — das Token wird als Query-Parameter \icode{?token=<JWT>} übergeben.
+  \textbf{PDF-Downloads} (\icode{/api/latex/pdf/\{id\}?t=...}) nutzen ein
+  kurzlebiges signiertes Download-Token aus der Build-Response, weil
+  Browser-Downloads keine Authorization-Header senden.
+\end{warnbox}
+
+\subsection{Öffentliche Endpunkte (ohne Token)}
+
+\begin{itemize}
+  \item \icode{POST /api/auth/register}, \icode{POST /api/auth/login}, OAuth-Flow
+  \item \icode{GET /api/documents/shared/\{token\}} — öffentlich geteilte Dokumente
+  \item \icode{GET /api/profile/\{user\_id\}} — öffentliches Profil
+  \item \icode{GET /api/health} pro Service
+\end{itemize}
+
+Alles andere erfordert ein gültiges Bearer-Token (sonst \icode{401}).
+Fehlerformat ist FastAPI-Standard: \icode{\{"detail": "..."\}} mit passendem
+Statuscode (400/401/403/404, 429 beim Login-Rate-Limit, 502 bei
+Upstream-Fehlern).
+
+\clearpage
+\section{Setup \& Betrieb}
+
+\subsection{Installation}
+
+\begin{process}
+  \step{\icode{.env} anlegen: \icode{cp .env.example .env}}
+  \step{Pflichtwerte setzen (Compose bricht ohne sie ab), siehe Tabelle unten.}
+  \step{Stack starten: \icode{docker compose up --build -d}}
+  \step{Prüfen: Frontend auf \icode{:3000}, API-Docs auf
+    \icode{:8000/api/docs}, Gitea auf \icode{:3001}.}
+\end{process}
+
+\begin{stdtable}{l X}{Variable & Erzeugen mit}
+  \icode{POSTGRES\_PASSWORD}       & \icode{openssl rand -hex 24} \\
+  \icode{JWT\_SECRET}              & \icode{openssl rand -hex 32} \\
+  \icode{SECRETS\_ENCRYPTION\_KEY} & Fernet-Key, siehe Kommando unten \\
+\end{stdtable}
+
+\begin{syntaxbox}[bash]
+python3 -c "from cryptography.fernet import Fernet; \
+  print(Fernet.generate_key().decode())"
+\end{syntaxbox}
+
+\begin{warnbox}[Key-Verlust ist endgültig]
+  Geht der \icode{SECRETS\_ENCRYPTION\_KEY} verloren, sind alle gespeicherten
+  User-Secrets (AI-Keys, GitHub-PATs, Zotero-Keys) nicht mehr entschlüsselbar.
+  Recovery: neuen Key setzen, alle User geben ihre Keys neu ein. Den Key wie
+  ein Passwort sichern.
+\end{warnbox}
+
+\subsection{Deployment-Verifikation}
+
+\begin{syntaxbox}[bash]
+docker compose ps                       # alles "running"/"healthy"?
+curl -o /dev/null -w "%{http_code}\n" \
+  http://localhost:8000/api/docs        # -> 200
+
+# Security-Regressionen:
+# 6 Fehllogins -> 429 (Rate-Limit)
+# /api/quiz ohne Token -> 401
+# GET /api/ai/config -> nur "has_key", nie der Klartext-Key
+# GET /api/documents/shared/<t> -> "share_token": null
+\end{syntaxbox}
+
+Für die Live-Kollaboration zwei Browser-Fenster mit demselben Dokument
+öffnen — Änderungen müssen in beiden erscheinen (WebSocket-Relay über
+Gateway und nginx).
+
+\subsection{OAuth einrichten (Google, GitHub, Apple)}
+
+Provider ohne Konfiguration sind automatisch deaktiviert; das Frontend blendet
+die Buttons dynamisch ein (\icode{GET /api/auth/oauth/providers}). Die
+Callback-URL ist immer
+\icode{\{OAUTH\_REDIRECT\_BASE\}/api/auth/oauth/\{provider\}/callback}.
+
+\subsubsection{Google}
+\begin{process}
+  \step{Google Cloud Console $\to$ \enquote{OAuth-Client-ID erstellen} $\to$ Typ \textbf{Webanwendung}.}
+  \step{Weiterleitungs-URI: \icode{.../api/auth/oauth/google/callback}.}
+  \step{\icode{GOOGLE\_CLIENT\_ID} und \icode{GOOGLE\_CLIENT\_SECRET} in die \icode{.env}.}
+\end{process}
+
+\subsubsection{GitHub}
+\begin{process}
+  \step{GitHub $\to$ Settings $\to$ Developer settings $\to$ \enquote{New OAuth App}.}
+  \step{Callback-URL: \icode{.../api/auth/oauth/github/callback}.}
+  \step{\icode{GITHUB\_CLIENT\_ID} und \icode{GITHUB\_CLIENT\_SECRET} in die \icode{.env}.}
+\end{process}
+
+\subsubsection{Apple}
+\begin{warnbox}[Voraussetzungen]
+  Benötigt einen \textbf{bezahlten Apple-Developer-Account} und eine
+  \textbf{HTTPS-Callback-URL} — lokal daher nicht end-to-end testbar.
+\end{warnbox}
+\begin{process}
+  \step{App~ID mit \enquote{Sign in with Apple} + zugehörige \textbf{Services~ID} (= \icode{APPLE\_CLIENT\_ID}) anlegen.}
+  \step{Return-URL bei der Services~ID eintragen.}
+  \step{\enquote{Sign in with Apple}-Key erstellen, \icode{.p8} herunterladen.}
+  \step{\icode{APPLE\_CLIENT\_ID}, \icode{APPLE\_TEAM\_ID}, \icode{APPLE\_KEY\_ID},
+    \icode{APPLE\_PRIVATE\_KEY} in die \icode{.env} — das \icode{client\_secret}
+    erzeugt der auth-service selbst als ES256-JWT.}
+\end{process}
+
+\begin{infobox}[Cookie-freier OAuth-Flow]
+  Der Flow nutzt einen signierten State-JWT statt Session-Cookies und
+  funktioniert dadurch identisch im Browser und aus den Tauri-Apps. Das Token
+  wird im URL-Fragment übergeben (\icode{\#token=...}) und taucht damit in
+  keinem Server-Log auf; native Apps empfangen es per Deep-Link
+  \icode{lernzettel://oauth/callback}.
+\end{infobox}
+
+\clearpage
+\section{Native Apps: Tauri 2}
+
+Die Apps in \icode{tauri-app/} nutzen \textbf{dasselbe React-Frontend} aus
+\icode{frontend/} — es gibt keine zweite UI-Codebasis.
+
+\subsection{Besonderheiten gegenüber dem Browser}
+
+\begin{stdtable}{l X}{Aspekt & Lösung}
+  Server-Adresse & Kein \icode{/api}-Proxy im Webview; Gateway-URL wird in Login/Einstellungen gesetzt (localStorage \icode{server\_url}, \icode{/api}-Suffix wird ergänzt) \\
+  OAuth          & Login öffnet den System-Browser; Rückweg per Deep-Link \icode{lernzettel://oauth/callback\#token=...} \\
+  Offline-Modus  & Rust-Commands legen Dokumente im App-Data-Verzeichnis ab \\
+  CORS           & \icode{tauri://localhost} und \icode{http://tauri.localhost} sind im Default von \icode{ALLOWED\_ORIGINS} \\
+\end{stdtable}
+
+\subsection{Desktop}
+
+\begin{syntaxbox}[bash]
+cd tauri-app && npm install
+npm run dev                   # Vite (frontend/) + natives Fenster
+npm run build                 # Release-Bundle (dmg/msi/deb)
+cd src-tauri && cargo check   # schneller Rust-Check
+\end{syntaxbox}
+
+\subsection{Android}
+
+Voraussetzungen: Android Studio mit SDK + NDK, \icode{ANDROID\_HOME} gesetzt,
+Rust-Targets über \icode{rustup} (eine Homebrew-Rust-Installation kann keine
+Cross-Targets nachladen).
+
+\begin{syntaxbox}[bash]
+rustup target add aarch64-linux-android armv7-linux-androideabi \
+  i686-linux-android x86_64-linux-android
+cd tauri-app
+npx tauri android init    # erzeugt src-tauri/gen/android
+npx tauri android dev     # Emulator/Geraet
+npx tauri android build   # APK/AAB
+\end{syntaxbox}
+
+Für den OAuth-Deep-Link im generierten
+\icode{AndroidManifest.xml} einen Intent-Filter für das Schema
+\icode{lernzettel} ergänzen (Details in \icode{docs/mobile.md}).
+
+\subsection{iOS / iPadOS}
+
+Voraussetzungen: volles Xcode (nicht nur Command Line Tools), CocoaPods,
+Rust-Targets \icode{aarch64-apple-ios(-sim)}.
+
+\begin{syntaxbox}[bash]
+cd tauri-app
+npx tauri ios init        # erzeugt src-tauri/gen/apple
+npx tauri ios dev         # iOS-Simulator
+npx tauri ios build       # IPA (Signing noetig)
+\end{syntaxbox}
+
+\begin{infobox}[iPadOS]
+  iPadOS ist dasselbe Target — in Xcode unter \enquote{Supported Destinations}
+  iPad aktivieren; das responsive Frontend deckt Phone- und Tablet-Breiten ab.
+  Simulator-Betrieb geht ohne Bezahl-Account; echte Geräte, TestFlight und
+  App~Store brauchen einen Apple-Developer-Account.
+\end{infobox}
+
+\subsection{Bekannte Stolpersteine}
+
+\begin{stdtable}{l X}{Problem & Ursache / Lösung}
+  \icode{init} schlägt fehl        & NDK bzw.\ Xcode fehlt; \icode{npx tauri info} zeigt, was fehlt \\
+  Weißes Fenster im Release        & \icode{frontend/dist} fehlt — vorher \icode{npm --prefix ../frontend run build} \\
+  API nicht erreichbar             & Server-Adresse nicht gesetzt; Android-Emulator: \icode{10.0.2.2} statt \icode{localhost} \\
+  OAuth kommt nicht zurück         & \icode{OAUTH\_REDIRECT\_BASE} vom Gerät nicht erreichbar; Deep-Link-Schema prüfen \\
+  Icons neu generieren             & \icode{npx tauri icon app-icon.png} \\
+\end{stdtable}
+
+\clearpage
+\section{Security}
+
+Zusammenfassung des Security-Audits (2026) mit den wichtigsten Findings und
+Fixes; Details in \icode{docs/security.md} im App-Repo.
+
+\subsection{Behobene Probleme (Auswahl)}
+
+\begin{stdtable}{l X X}{Schwere & Problem & Fix}
+  Hoch    & Quiz-Score spoofbar (Client sendete \icode{correct}-Flags) & Server-seitiges Scoring; Antworten werden Nicht-Ownern nicht ausgeliefert \\
+  Hoch    & Collaboration-WebSocket ohne Auth, \icode{user\_id} frei wählbar & JWT-Pflicht via \icode{?token=}; \icode{user\_id} aus dem Token \\
+  Hoch    & LaTeX-Builds ohne Auth, shell-escape (RCE-Risiko) & Auth-Pflicht; \icode{--safer}/\icode{-no-shell-escape}; Semaphore pro User; signierte Downloads \\
+  Hoch    & \icode{JWT\_SECRET} mit Default-Wert & Start-Abbruch bei fehlendem/Default-Secret; Compose erzwingt den Wert \\
+  Hoch    & User-Secrets im Klartext auf Disk, GETs echoten sie & Fernet-Verschlüsselung at rest; GET liefert nur \icode{has\_key} \\
+  Mittel  & \icode{share\_token}-Leak an jeden Betrachter & Response strippt den Token \\
+  Mittel  & Kein Login-Rate-Limit; Passwort-Minimum 4 Zeichen & 5 Fehlversuche/15\,min $\to$ 429; Minimum 10 Zeichen \\
+  Mittel  & CORS \icode{*} mit Credentials & Origins aus \icode{ALLOWED\_ORIGINS} \\
+  Mittel  & Gateway: \icode{/api/github} vom Präfix \icode{/api/git} geschluckt & Longest-Prefix-Matching mit Segment-Grenze \\
+  Mittel  & Collab im Docker-Deployment kaputt (kein WS-Proxying) & WebSocket-Relay im Gateway; nginx-Upgrade-Header \\
+\end{stdtable}
+
+\subsection{Akzeptierte Risiken}
+
+\begin{stdtable}{l X}{Risiko & Begründung}
+  JWT im localStorage & Tauri-Apps brauchen direkten Token-Zugriff (Deep-Link-Login, WS-Query-Param); gemindert durch CSP und React-Escaping \\
+  Token im URL-Fragment & Fragmente erreichen keinen Server und keine Access-Logs; Callback-Seite entfernt das Fragment sofort \\
+  Shared \icode{JWT\_SECRET} (HS256) & Alle Services in derselben Compose-Trust-Boundary; bei Bedarf auf RS256 umstellbar \\
+  Gitea-Registrierung offen & Gitea ist standardmäßig nur lokal erreichbar; bei öffentlicher Exposition abschalten \\
+\end{stdtable}
+
+\subsection{Key-Management}
+
+\begin{stdtable}{l X}{Schlüssel & Hinweise}
+  \icode{JWT\_SECRET} & Rotation loggt alle Nutzer aus, sonst folgenlos \\
+  \icode{SECRETS\_ENCRYPTION\_KEY} & Bei Verlust sind verschlüsselte User-Secrets unwiederbringlich; sicher ablegen \\
+  \icode{POSTGRES\_PASSWORD} & Nur im Compose-Netz verwendet; DB publiziert keinen Host-Port \\
+  OAuth-Secrets & Liegen nur in der \icode{.env} des Servers (gitignored) \\
+\end{stdtable}
+
+\begin{merksatz}[Betriebsempfehlung]
+  Öffentlich nur über HTTPS betreiben (z.\,B. Cloudflare Tunnel) — die JWTs
+  sind Bearer-Tokens. \icode{ALLOWED\_ORIGINS} auf die tatsächlichen Domains
+  einschränken und Basis-Images regelmäßig aktualisieren.
+\end{merksatz}
+
+\clearpage
+\section{Entwicklung}
+
+\subsection{Frontend}
+
+\begin{syntaxbox}[bash]
+cd frontend && npm install
+npm run dev          # http://localhost:5173 (Proxy /api -> :8000, ws: true)
+npx tsc --noEmit     # Type-Check
+npm run build        # Produktions-Build nach dist/
+npm run storybook    # Komponenten-Werkstatt auf :6006
+\end{syntaxbox}
+
+\subsection{Einzelnen Service lokal starten}
+
+\begin{syntaxbox}[bash]
+cd services/auth-service
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+export DATABASE_URL="postgresql+psycopg://lernzettel:<pw>@localhost:5432/lernzettel"
+export JWT_SECRET="dev-only" ALLOW_INSECURE_DEV=1 PYTHONPATH=..
+uvicorn main:app --reload --port 8001
+\end{syntaxbox}
+
+\begin{warnbox}
+  \icode{ALLOW\_INSECURE\_DEV=1} niemals in Produktion setzen — es
+  deaktiviert den Start-Abbruch bei fehlendem oder schwachem
+  \icode{JWT\_SECRET}.
+\end{warnbox}
+
+\subsection{Konventionen}
+
+\begin{itemize}
+  \item Neue Endpunkte grundsätzlich mit \icode{Depends(get\_current\_user)}
+    absichern; JWT-Validierung über \icode{services/shared/auth\_utils.py}.
+  \item User-Secrets nie im Klartext speichern
+    ($\to$ \icode{services/shared/crypto\_utils.py}).
+  \item Neue API-Präfixe im Gateway (\icode{SERVICE\_ROUTES}) registrieren;
+    das Frontend-nginx proxied nur \icode{/api}.
+  \item Frontend: Icons zentral aus \icode{components/ui/icons.ts}; Farben,
+    Abstände, Radii über die CSS-Tokens aus \icode{themes.css}; schwere
+    Abhängigkeiten nur in lazy geladenen Routen.
+  \item Fehler dem User über die Toast-Komponente zeigen, keine
+    \icode{alert()}s.
+\end{itemize}
