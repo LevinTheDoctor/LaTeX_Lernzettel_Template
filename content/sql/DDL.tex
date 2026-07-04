@@ -8,7 +8,7 @@ Mit \icode{IF NOT EXISTS} wird eine Exception abgefangen, falls die Datenbank be
 CREATE DATABASE IF NOT EXISTS kurs_db;
 
 CREATE TABLE Personal (
-    PersonalNummer  INT UNSIGNED,             -- kein NOT NULL noetig (ist PK)
+    PersonalNummer  INT UNSIGNED,      -- PK: NOT NULL implizit
     Vorname         VARCHAR(60)  NOT NULL,
     Nachname        VARCHAR(60)  NOT NULL,
     GeburtsDatum    DATE         NOT NULL,
@@ -46,11 +46,16 @@ In SQL kann man eine Tabelle auch ohne \icode{PRIMARY KEY} erstellen -- das soll
 \icode{ALTER TABLE} verändert die Struktur einer bestehenden Tabelle, ohne die Daten zu löschen.
 
 \begin{syntaxbox}[SQL]
-ALTER TABLE Personal ADD Gender CHAR AFTER GeburtsDatum;   -- Spalte hinzufuegen
-ALTER TABLE Personal MODIFY GeburtsDatum DATETIME;          -- Datentyp aendern
-ALTER TABLE Personal CHANGE GeburtsDatum Geburtsdatum DATE; -- Spalte umbenennen
-ALTER TABLE Personal DROP Gender;                           -- Spalte loeschen
-ALTER TABLE Personal RENAME TO Mitarbeiter;                 -- Tabelle umbenennen
+-- Spalte hinzufuegen
+ALTER TABLE Personal ADD Gender CHAR AFTER GeburtsDatum;
+-- Datentyp aendern
+ALTER TABLE Personal MODIFY GeburtsDatum DATETIME;
+-- Spalte umbenennen
+ALTER TABLE Personal CHANGE GeburtsDatum Geburtsdatum DATE;
+-- Spalte loeschen
+ALTER TABLE Personal DROP Gender;
+-- Tabelle umbenennen
+ALTER TABLE Personal RENAME TO Mitarbeiter;
 
 -- Foreign Key nachtraeglich setzen
 ALTER TABLE Personal
