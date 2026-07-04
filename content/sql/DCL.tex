@@ -1,0 +1,19 @@
+\subsection{DCL -- Data Control Language}
+Die DCL steuert Zugriff und Rechte auf die Datenbank. Kernfrage des Datenschutzes: \emph{Wer darf welche Daten zu welchem Zweck sehen oder ändern?}
+
+\begin{merksatz}[Grundsatz]
+Jeder User bekommt nur die Rechte, die er wirklich benötigt -- kein pauschales \icode{ALL}.
+\end{merksatz}
+
+\icode{GRANT} vergibt Rechte, \icode{REVOKE} entzieht sie. Rechte sind u.\,a. \icode{ALL}, \icode{SELECT}, \icode{INSERT}, \icode{UPDATE}, \icode{DELETE}, \icode{DROP}. Es gibt drei Ebenen: global (\icode{*.*}), Datenbank (\icode{db.*}) und Tabelle (\icode{db.tabelle}).
+
+\begin{syntaxbox}[SQL]
+-- Nutzer anlegen und loeschen
+CREATE USER 'test'@'localhost' IDENTIFIED BY 'pw123';
+DROP USER   'test'@'localhost';
+
+-- Rechte vergeben und entziehen
+GRANT SELECT ON kurs_db.kunde TO 'test'@'localhost';
+GRANT ALL    ON kurs_db.*     TO 'test'@'localhost';
+REVOKE ALL   ON kurs_db.mitarbeiter FROM 'test'@'localhost';
+\end{syntaxbox}

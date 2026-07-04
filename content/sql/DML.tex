@@ -1,0 +1,36 @@
+\subsection{DML -- Data Manipulation Language}
+Die DML umfasst alle Befehle, die Daten \emph{innerhalb} bestehender Tabellen verändern: einfügen (\icode{INSERT}), ändern (\icode{UPDATE}), ersetzen (\icode{REPLACE}) und löschen (\icode{DELETE}).
+
+\subsubsection{INSERT}
+\begin{syntaxbox}[SQL]
+-- Mit Spaltenliste (empfohlen), mehrere Datensaetze auf einmal
+INSERT INTO Leistung (LNr, Bezeichnung, Kosten, AID) VALUES
+    (800, 'FamilienRecht',  67.00, NULL),
+    (801, 'ArbeitsRecht',  700.00, NULL);
+
+-- Ohne Spaltenliste: nur wenn ALLE Spalten in richtiger Reihenfolge angegeben
+INSERT INTO Leistung VALUES (804, 'Sonstiges', 99.00, NULL);
+\end{syntaxbox}
+
+\begin{infobox}[Hinweis zur Spaltenliste]
+Die runden Klammern nach dem Tabellennamen (die Spaltenliste) kann man weglassen, wenn man alle Spalten in der korrekten Reihenfolge angibt. Die Klammern bei \icode{VALUES (...)} bleiben immer.
+\end{infobox}
+
+\subsubsection{UPDATE, REPLACE und DELETE}
+\begin{syntaxbox}[SQL]
+-- Eine oder mehrere Spalten aendern
+UPDATE Leistung
+SET AID = 2, Kosten = 99.00
+WHERE LNr = 17;
+
+-- Bestehenden Datensatz komplett ersetzen
+REPLACE kurs_db.Abteilung VALUES (4, 'Rechnungswesen');
+
+-- Datensaetze mit Bedingung loeschen
+DELETE FROM Leistung
+WHERE LNr = 800;
+\end{syntaxbox}
+
+\begin{warnbox}[Achtung]
+\icode{UPDATE} und \icode{DELETE} ohne \icode{WHERE} verändern bzw. löschen \emph{alle} Zeilen der Tabelle. Vor dem Ausführen immer die \icode{WHERE}-Bedingung prüfen.
+\end{warnbox}

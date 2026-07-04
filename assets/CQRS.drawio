@@ -1,0 +1,42 @@
+<mxfile host="65bd71144e">
+    <diagram id="cqrs-pattern" name="Page-1">
+        <mxGraphModel dx="1330" dy="1035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="client" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Client / UI&lt;/font&gt;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="290" width="150" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="writemodel" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Write-Modell&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;Command-Handler:&lt;br&gt;validiert und ändert Zustand&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="110" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="readmodel" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;Read-Modell&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;Query-Handler:&lt;br&gt;liest nur, ändert nichts&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="460" width="210" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="writedb" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Schreib-Datenbank&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;normalisiert (3NF)&lt;/font&gt;&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="90" width="160" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="readdb" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Lese-Datenbank&lt;/font&gt;&lt;/b&gt;&lt;div&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;denormalisiert, fertige Views&lt;/font&gt;&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="440" width="160" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="ecmd" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;&lt;b&gt;Command&lt;/b&gt; (Schreiben)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="client" target="writemodel">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="115" y="150" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="equery" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;&lt;b&gt;Query&lt;/b&gt; (Lesen)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="readmodel" target="client">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ewrite" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="writemodel" target="writedb">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="eread" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="readdb" target="readmodel">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="esync" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;Events / Synchronisation&lt;br&gt;(eventual consistency)&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="writedb" target="readdb">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

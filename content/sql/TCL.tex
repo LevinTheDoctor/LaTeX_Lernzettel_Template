@@ -1,0 +1,32 @@
+\subsection{TCL -- Transaktionen}
+Eine \emph{Transaktion} ist eine logisch zusammenhängende Gruppe von SQL-Befehlen, die vollständig oder gar nicht ausgeführt wird -- z.\,B. eine Überweisung: abbuchen \emph{und} gutschreiben.
+
+\begin{syntaxbox}[SQL]
+START TRANSACTION;
+UPDATE konto SET saldo = saldo - 100 WHERE id_konto = 1;
+UPDATE konto SET saldo = saldo + 100 WHERE id_konto = 2;
+COMMIT;     -- dauerhaft speichern
+-- ROLLBACK; -- alternativ: alle Aenderungen verwerfen
+\end{syntaxbox}
+
+Transaktionen arbeiten zuverlässig nach dem \icode{ACID}-Prinzip:
+\begin{stdtable}{l X}{Eigenschaft & Bedeutung}
+  \icode{A}tomicity & Alles oder nichts -- eine Transaktion wird nie teilweise ausgeführt. \\
+  \icode{C}onsistency & Die Datenbank ist vor und nach der Transaktion konsistent. \\
+  \icode{I}solation & Gleichzeitige Transaktionen beeinflussen sich nicht. \\
+  \icode{D}urability & Nach dem \icode{COMMIT} sind die Änderungen dauerhaft gespeichert. \\
+\end{stdtable}
+
+\subsubsection{Locking}
+Beim \emph{Locking} werden Datenbankobjekte (Zelle, Zeile, Tabelle oder ganze Datenbank) temporär gesperrt; die Freigabe erfolgt meist nach dem Transaktionsende.
+\begin{itemize}
+  \item \textbf{Shared Lock (Read Lock):} Mehrere Transaktionen dürfen gleichzeitig lesen, keine darf schreiben.
+  \item \textbf{Exclusive Lock (Write Lock):} Nur eine Transaktion darf lesen und schreiben; alle anderen müssen warten.
+\end{itemize}
+Gegenseitiges Sperren kann zu einem \emph{Deadlock} führen.
+
+\subsubsection{Isolationsebenen}
+Isolationsebenen legen fest, wie stark gleichzeitige Transaktionen voneinander getrennt werden (von der schwächsten zur stärksten): \icode{READ UNCOMMITTED} $\rightarrow$ \icode{READ COMMITTED} $\rightarrow$ \icode{REPEATABLE READ} $\rightarrow$ \icode{SERIALIZABLE}. Höhere Isolation bedeutet weniger Nebeneffekte, aber geringere Parallelität.
+
+\subsubsection{Events}
+Ein \emph{Event} ist eine automatisch geplante SQL-Anweisung, die zu einer bestimmten Zeit oder regelmäßig ausgeführt wird -- z.\,B. um alte Daten zu löschen, Auswertungen vorzubereiten oder Logs zu bereinigen.

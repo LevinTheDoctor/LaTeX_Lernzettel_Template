@@ -25,12 +25,79 @@ Data Marts sind abteilungs- oder funktionsbezogene Datenbanken mit einer speziel
   \item Data Marts bilden daher eine Teilmenge der umfassenden Data-Warehouse-Datenbank.
   \item Data Marts werden auch Datenwürfel, Power Cube oder Info Cube genannt.
 \end{itemize}
-\subsection{Online Analytical Processing -- OLAP}
+\subsection{OLTP und OLAP}
+Das „Online“ bedeutet, dass auf Eingaben von Anwender*innen quasi (so gut wie möglich) in Echtzeit reagiert wird.
+Beide Begriffe hören sich ähnlich an, beschreiben aber zwei getrennte Welten: \icode{OLTP} beschäftigt sich damit, wie Business-Funktionen und Anwendungen ihre Daten in einer Anwendungsdatenbank speichern. Die Daten, die durch OLTP entstanden sind, befüllen das Data Warehouse, in dem mit \icode{OLAP} Auswertungen durchgeführt werden. Wichtig ist hier die Trennung zwischen den beiden Bereichen -- und dass man für die unterschiedlichen Prozesse eine unterschiedliche Datenmodellierung nutzt.
+
+\begin{merksatz}[Zwei getrennte Datenbanken]
+Die Data-Warehouse-Datenbank ist \textbf{nicht} die Anwendungsdatenbank, sondern eine eigene, zweite Datenbank mit eigenem Datenmodell: Die Anwendungsdatenbank (OLTP) ist normalisiert und schreiboptimiert, das Data Warehouse (OLAP) ist dimensional und denormalisiert modelliert (Star-Schema) und damit leseoptimiert.
+\end{merksatz}
+
+\subsubsection{Online Transaction Processing – OLTP}
+Online Transaction Processing beschäftigt sich mit der Verarbeitung von Transaktionen. Eine Transaktion wäre hier z.\,B. eine Online-Shop-Bestellung.
+Ziel: möglichst schnellen Zugriff auf Business-Objekte wie Artikel zu haben, um diese schnell verändern und aktualisieren zu können.
+OLTP beschäftigt sich also vor allem mit dem \textbf{Schreiben} von Daten -- die Anwendungsdatenbank ist dafür normalisiert (3NF), damit jede Änderung nur an einer Stelle passieren muss.
+
+\subsubsection{Online Analytical Processing – OLAP}
 Online Analytical Processing ist ein „top-down“-Ansatz, um sehr flexibel mehrdimensionale Datenanalysen durchzuführen und Hypothesen zu bilden.
+Ziel: Daten verarbeiten und auswerten. OLAP beschäftigt sich mit dem \textbf{Lesen} von Daten und läuft gegen die Data-Warehouse-Datenbank -- nicht gegen die Anwendungsdatenbank.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{assets/images/OLAP}
   \caption{Datenanalyse mit OLAP}
+\end{figure}
+
+\subsubsection{Dimensionen und Fakten}
+Die Grundidee der mehrdimensionalen Analyse: Man trennt die Daten in \textbf{Fakten} und \textbf{Dimensionen}.
+\begin{itemize}
+  \item \textbf{Fakten (Kennzahlen):} die Zahlen, die ausgewertet werden sollen -- z.\,B. Umsatz oder verkaufte Menge.
+  \item \textbf{Dimensionen:} die Blickwinkel, aus denen man eine Kennzahl betrachtet -- z.\,B. Zeit, Produkt, Kunde oder Region.
+  \item Stellt man sich die Dimensionen als Achsen vor, entsteht der \emph{Datenwürfel} (Cube): Jede Zelle des Würfels enthält eine Kennzahl am Schnittpunkt der Dimensionen.
+  \item Dimensionen haben Hierarchien (z.\,B. Tag $\rightarrow$ Monat $\rightarrow$ Quartal $\rightarrow$ Jahr), über die sich Kennzahlen verdichten oder verfeinern lassen.
+\end{itemize}
+\begin{beispiel}[Drei Dimensionen, eine Kennzahl]
+„Wie hoch war der \textbf{Umsatz} von Produkt \icode{Pizza Salami} in der Region \icode{Süd} im \icode{März 2026}?“ -- Die Kennzahl ist der Umsatz, betrachtet über die drei Dimensionen Produkt, Region und Zeit.
+\end{beispiel}
+
+\subsubsection{Star-Schema}
+Das Star-Schema ist das typische Datenmodell für die Data-Warehouse-Datenbank -- und genau hier zeigt sich, dass sie anders modelliert wird als die Anwendungsdatenbank:
+\begin{itemize}
+  \item In der Mitte steht die \textbf{Faktentabelle}: Sie enthält die Kennzahlen sowie Fremdschlüssel auf alle Dimensionstabellen.
+  \item Sternförmig darum liegen die \textbf{Dimensionstabellen}: Sie enthalten die beschreibenden Attribute einer Dimension (z.\,B. bei der Zeit: Tag, Monat, Quartal, Jahr).
+\end{itemize}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/images/StarSchema}
+  \caption{Star-Schema: Faktentabelle mit sternförmig angeordneten Dimensionstabellen}
+\end{figure}
+\begin{warnbox}[Bewusster Verstoß gegen die Normalisierung]
+Die Dimensionstabellen sind absichtlich \textbf{denormalisiert} (z.\,B. steht das Jahr redundant in jeder Zeile von \icode{Dim\_Zeit}). Die Redundanz wird in Kauf genommen, damit Auswertungen mit möglichst wenigen Joins auskommen und schnell lesbar sind. Da das Data Warehouse nur befüllt und gelesen, aber kaum geändert wird, sind die üblichen Update-Anomalien hier kein Problem.
+\end{warnbox}
+
+\begin{stdtable}{l X X}{Merkmal & OLTP & OLAP}
+  Zweck & Tagesgeschäft abwickeln & Analysen und Berichte \\
+  Zugriff & Schreiben und Ändern & Lesen \\
+  Datenbank & Anwendungsdatenbank & Data-Warehouse-Datenbank \\
+  Datenmodell & normalisiert (3NF) & Star-Schema (denormalisiert) \\
+  Datenmenge pro Zugriff & einzelne Datensätze & große, verdichtete Datenmengen \\
+  Nutzer & Anwendungen, Endnutzer & Management, Analyst*innen \\
+\end{stdtable}
+
+\subsection{Exkurs: CQRS}
+\begin{infobox}[Nicht klausurrelevant]
+Dieser Abschnitt ist \textbf{nicht klausurrelevant}. Er zeigt aber, dass die Idee der OLTP/OLAP-Trennung auch auf Anwendungsebene wieder auftaucht.
+\end{infobox}
+\emph{Command Query Responsibility Segregation} (\icode{CQRS}) ist ein Architekturmuster, das Schreiben und Lesen innerhalb einer Anwendung strikt trennt:
+\begin{itemize}
+  \item \textbf{Commands} (Schreiben) gehen an ein eigenes \textbf{Write-Modell}, das den Zustand validiert und ändert -- dahinter liegt typischerweise eine normalisierte Schreib-Datenbank.
+  \item \textbf{Queries} (Lesen) gehen an ein eigenes \textbf{Read-Modell}, das nur liest -- dahinter liegt eine denormalisierte Lese-Datenbank mit fertig aufbereiteten Views.
+  \item Die beiden Datenbanken werden über \emph{Events} synchronisiert. Das Read-Modell hinkt dem Write-Modell dabei minimal hinterher (\emph{eventual consistency}).
+\end{itemize}
+Wie bei OLTP und OLAP gilt: Zwei unterschiedliche Aufgaben (schnell schreiben vs. schnell lesen) bekommen zwei unterschiedlich modellierte Datenbanken.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{assets/images/CQRS}
+  \caption{CQRS: getrennte Wege für Commands (Schreiben) und Queries (Lesen)}
 \end{figure}
 \subsection{Data Mining}
 Data Mining bezeichnet das automatische Entdecken von Modellen und Mustern in großen Datenbeständen durch Anwendung bestimmter Data-Mining-Werkzeuge.

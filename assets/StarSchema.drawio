@@ -1,0 +1,40 @@
+<mxfile host="65bd71144e">
+    <diagram id="star-schema-dwh" name="Page-1">
+        <mxGraphModel dx="0" dy="414" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="fakt" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Fakt_Umsatz&lt;/font&gt;&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div align=&quot;left&quot; style=&quot;font-size: 13px;&quot;&gt;Zeit_ID (FK)&lt;br&gt;Produkt_ID (FK)&lt;br&gt;Kunde_ID (FK)&lt;br&gt;Region_ID (FK)&lt;br&gt;&lt;b&gt;Umsatz&lt;/b&gt;&lt;br&gt;&lt;b&gt;Menge&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="330" y="290" width="200" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="dimzeit" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Dim_Zeit&lt;/font&gt;&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div align=&quot;left&quot; style=&quot;font-size: 13px;&quot;&gt;Zeit_ID (PK)&lt;br&gt;Tag&lt;br&gt;Monat&lt;br&gt;Quartal&lt;br&gt;Jahr&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="60" width="180" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="dimprodukt" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Dim_Produkt&lt;/font&gt;&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div align=&quot;left&quot; style=&quot;font-size: 13px;&quot;&gt;Produkt_ID (PK)&lt;br&gt;Name&lt;br&gt;Kategorie&lt;br&gt;Preis&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="310" width="180" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="dimkunde" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Dim_Kunde&lt;/font&gt;&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div align=&quot;left&quot; style=&quot;font-size: 13px;&quot;&gt;Kunde_ID (PK)&lt;br&gt;Name&lt;br&gt;Segment&lt;br&gt;Branche&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="310" width="180" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="dimregion" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Dim_Region&lt;/font&gt;&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div align=&quot;left&quot; style=&quot;font-size: 13px;&quot;&gt;Region_ID (PK)&lt;br&gt;Stadt&lt;br&gt;Bundesland&lt;br&gt;Land&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="550" width="180" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="fakt" target="dimzeit" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="fakt" target="dimprodukt" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="fakt" target="dimkunde" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="fakt" target="dimregion" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="lbl" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;Faktentabelle (Kennzahlen)&amp;nbsp;in der Mitte,&lt;br&gt;Dimensionstabellen sternförmig außen&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="60" width="240" height="50" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

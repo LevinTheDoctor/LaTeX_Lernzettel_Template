@@ -1,0 +1,19 @@
+\subsection{Trigger, Funktionen und Prozeduren}
+\subsubsection{Trigger}
+Ein \emph{Trigger} fängt ein Ereignis ab (\icode{INSERT}, \icode{UPDATE} oder \icode{DELETE} an einer Tabelle) und führt automatisch einen Anweisungsblock aus („feuern"). Er wird nie vom Benutzer aufgerufen, sondern vom DBMS -- entweder \icode{BEFORE} oder \icode{AFTER} der Änderung. Typische Einsatzzwecke: Werte automatisch setzen, Plausibilität prüfen, Änderungen protokollieren und referenzielle Integrität überwachen.
+
+\subsubsection{Funktionen}
+Eine benutzerdefinierte Funktion ist eine \emph{Skalarfunktion}: Sie gibt genau einen Wert zurück. Der Rückgabetyp wird mit \icode{RETURNS} deklariert, der Wert mit \icode{RETURN} zurückgegeben. Nach \icode{DETERMINISTIC} folgt der eigentliche Funktionskörper.
+
+\begin{syntaxbox}[SQL]
+CREATE FUNCTION multipliziere(param1 FLOAT(8,2), param2 FLOAT(8,2))
+RETURNS FLOAT(8,2)
+READS SQL DATA
+DETERMINISTIC
+RETURN param1 * param2;
+
+SELECT multipliziere(Kosten, 1.19) FROM Leistung;   -- Aufruf
+\end{syntaxbox}
+
+\subsubsection{Prozeduren (Stored Procedures)}
+Eine \emph{Stored Procedure} ist ein benannter, in der Datenbank gespeicherter Anweisungsblock -- mit oder ohne Parameter, aufgerufen per \icode{CALL}. Nutzen: Businesslogik in die Datenbank auslagern, Wiederverwendbarkeit von mehreren Rechnern aus und Parameterübergabe.
